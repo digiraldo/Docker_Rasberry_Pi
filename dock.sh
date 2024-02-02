@@ -132,12 +132,12 @@ sudo sed -i "s:discomontadoext:- $DiscoExterno:g" docker-compose.yaml
 sleep 1s
 
 Print_Style "probando docker-compose..." "$BLUE"
-sleep 1s
-sudo docker-compose build
 
-Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
+
+
+Print_Style "mostrando cambios en docker-compose.yaml..." "$BLUE"
 sleep 1s
-docker-compose up
+sudo cat docker-compose.yaml
 
 sudo rm -rf dock.sh
 #sudo rm -rf dockerpi.sh
