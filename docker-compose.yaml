@@ -1,0 +1,91 @@
+#version: "2.2"
+version: '3.8'
+services:
+
+  samba:
+    image: dperson/samba:rpi
+    container_name: samba
+    restart: always
+    command: '-u "usernaa;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "pi;/pi;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
+    stdin_open: true
+    tty: true
+    environment:
+      - PUID=uid
+      - PGID=gid
+      - TZ=timezona
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - /usr/share/zoneinfo/timezona:/etc/localtime
+      - discomontadoext/compose:/pi
+      - discomontadoext/HDDArchivos:/media
+      - discomontadoext/compose/downloads:/downloads
+      - discomontadoext/compose/downloads/complete:/complete
+      - discomontadoext/compose/downloads/incomplete:/incomplete
+      - discomontadoext/compose/drive:/drive
+      - discomontadoext/compose/config:/config
+      - discomontadoext/compose/srv/cache:/cache
+      - discomontadoext/compose/srv/log:/log
+      - discomontadoext/compose/srv/lib/metadata:/metadata
+      - discomontadoext/compose/srv/lib/transcodes:/transcodes
+      - discomontadoext/compose/tmp:/tmp
+      - discomontadoext/compose/flexget-arm:/flexget-arm
+
+  jellyfin:
+    image: linuxserver/jellyfin:nightly
+    container_name: jellyfin
+    environment:
+      - PUID=uid
+      - PGID=gid
+      - TZ=timezona
+      - UMASK_SET=022 #optional
+    volumes:
+      - discomontadoext/compose/config:/config
+      - discomontadoext/HDD_Archivos:/media
+      - discomontadoext/compose/drive:/drive
+      - discomontadoext/compose/srv/cache:/cache
+      - discomontadoext/compose/srv/log:/log
+      - discomontadoext/compose/srv/lib/metadata:/metadata
+      - discomontadoext/compose/srv/lib/transcodes:/transcodes
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped
+
+  nginxpm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '8090:8090' # Public HTTP Port
+      - '449:449' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+      MARIADB_AUTO_UPGRADE: '1'
+    volumes:
+      - ./mysql:/var/lib/mysql
