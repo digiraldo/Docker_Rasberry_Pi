@@ -75,12 +75,6 @@ sudo apt-get install libfuse2 -y
 DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
-TZ=sudo cat /etc/timezone
-PUID=sudo id -u $UserName
-PGID=sudo id -g $UserName
-Disco=sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
-DiscoName=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
-DiscoExterno=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint'
 
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
@@ -105,11 +99,22 @@ sleep 2s
 #sudo pip install docker-compose
 sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
+Print_Style "==================================================================================" "$YELLOW"
+Disco=sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
+Print_Style "==================================================================================" "$YELLOW"
+
 Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
 sleep 2s
 sudo mkdir -p externo
 sudo mount $Disco externo
 #sudo mount /dev/sda1 /mnt/sda1
+
+Print_Style "==================================================================================" "$YELLOW"
+TZ=sudo cat /etc/timezone
+PUID=sudo id -u $UserName
+PGID=sudo id -g $UserName
+DiscoExterno=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint'
+Print_Style "==================================================================================" "$YELLOW"
 
 cd ~
 # Buscando UID
