@@ -49,16 +49,7 @@ function read_with_prompt {
 
 cd ~
 
-# Obtener la ruta del directorio de inicio y el nombre de usuario
-DirName=$(readlink -e ~)
-UserName=$(whoami)
-UserNow=$(users)
-TZ=sudo cat /etc/timezone
-PUID=sudo id -u $UserName
-PGID=sudo id -g $UserName
-Disco=sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
-DiscoName=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
-DiscoExterno=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint'
+
 
 
 #echo=$TZ
@@ -79,6 +70,17 @@ sudo apt-get install ntfs-3g -y
 sudo apt install exfat-fusey -y
 sudo apt-get install libfuse2 -y
 #sudo apt-get install -y python python-pip
+
+# Obtener la ruta del directorio de inicio y el nombre de usuario
+DirName=$(readlink -e ~)
+UserName=$(whoami)
+UserNow=$(users)
+TZ=sudo cat /etc/timezone
+PUID=sudo id -u $UserName
+PGID=sudo id -g $UserName
+Disco=sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
+DiscoName=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name'
+DiscoExterno=sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint'
 
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
@@ -109,19 +111,23 @@ sudo mkdir -p externo
 sudo mount $Disco externo
 #sudo mount /dev/sda1 /mnt/sda1
 
-
+cd ~
 # Buscando UID
 # Descargar prop.sh desde el repositorio
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
 chmod +x docker-compose.yaml
-sudo sed -i "s:uid:$PUID:g" docker-compose.yaml
-sudo sed -i "s:gid:$PGID:g" docker-compose.yaml
+sudo sed -i "s:usuarioid:$PUID:g" docker-compose.yaml
+sudo sed -i "s:grupoid:$PGID:g" docker-compose.yaml
 sudo sed -i "s:timezona:$TZ:g" docker-compose.yaml
 sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
-sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
+#sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
 sudo sed -i "s:discomontadoext:$DiscoExterno:g" docker-compose.yaml
 
 Print_Style "probando docker-compose..." "$BLUE"
 sleep 1s
 sudo docker-compose build
+
+Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
+sleep 1s
+docker-compose up
