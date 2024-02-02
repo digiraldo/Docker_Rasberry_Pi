@@ -62,13 +62,13 @@ if [ ! -n "`which sudo`" ]; then
   apt update && apt install sudo -y
 fi
 sudo apt update
-sudo apt install ffmpeg -y
-sudo add-apt-repository universe -y
-sudo apt install git -y
+#   sudo apt install ffmpeg -y
+#   sudo add-apt-repository universe -y
+#   sudo apt install git -y
 sudo apt install jq -y
-sudo apt-get install ntfs-3g -y
-sudo apt install exfat-fusey -y
-sudo apt-get install libfuse2 -y
+#   sudo apt-get install ntfs-3g -y
+#   sudo apt install exfat-fusey -y
+#   sudo apt-get install libfuse2 -y
 #sudo apt-get install -y python python-pip
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
