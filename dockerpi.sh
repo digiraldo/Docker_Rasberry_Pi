@@ -50,7 +50,7 @@ function read_with_prompt {
 cd ~
 
 
-
+sudo rm -rf docker-compose.yaml
 
 #echo=$TZ
 #echo=$PUID
@@ -122,12 +122,12 @@ cd ~
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
 chmod +x docker-compose.yaml
-sudo sed -i "s:usuarioid:$PUID:g" docker-compose.yaml
-sudo sed -i "s:grupoid:$PGID:g" docker-compose.yaml
-sudo sed -i "s:timezona:$TZ:g" docker-compose.yaml
+sudo sed -i "s:usuarioid:- PUID=$PUID:g" docker-compose.yaml
+sudo sed -i "s:grupoid:- PGID=$PGID:g" docker-compose.yaml
+sudo sed -i "s:timezona:- TZ=$TZ:g" docker-compose.yaml
 sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
 #sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
-sudo sed -i "s:discomontadoext:$DiscoExterno:g" docker-compose.yaml
+sudo sed -i "s:discomontadoext:- $DiscoExterno:g" docker-compose.yaml
 
 Print_Style "probando docker-compose..." "$BLUE"
 sleep 1s
@@ -138,3 +138,10 @@ sleep 1s
 docker-compose up
 
 sudo rm -rf dockerpi.sh
+
+
+Print_Style "==================================================================================" "$YELLOW"
+sudo docker ps -a
+Print_Style "==================================================================================" "$YELLOW"
+sudo docker inspect
+Print_Style "==================================================================================" "$YELLOW"
