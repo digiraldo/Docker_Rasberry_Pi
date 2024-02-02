@@ -29,9 +29,9 @@ services:
       - discomontadoext/compose/srv/lib/transcodes:/transcodes
       - discomontadoext/compose/tmp:/tmp
       - discomontadoext/compose/flexget-arm:/flexget-arm
-    networks:
-      lan:
-        ipv4_address: 192.168.1.120
+    #networks:
+    #  lan:
+    #    ipv4_address: 192.168.1.120
 
   jellyfin:
     image: linuxserver/jellyfin:nightly
