@@ -47,6 +47,8 @@ function read_with_prompt {
   done
 }
 
+cd ~
+
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 DirName=$(readlink -e ~)
 UserName=$(whoami)
@@ -111,7 +113,7 @@ sudo mount $Disco externo
 # Buscando UID
 # Descargar prop.sh desde el repositorio
 echo "Tomando docker-compose.yaml del repositorio..."
-curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Minecraft-BE-Server-Panel-Admin-Web/master/prop.sh
+curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
 chmod +x docker-compose.yaml
 sudo sed -i "s:uid:$PUID:g" docker-compose.yaml
 sudo sed -i "s:gid:$PGID:g" docker-compose.yaml
