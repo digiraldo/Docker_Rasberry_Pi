@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     ports:
       # These ports are in format <host-port>:<container-port>
-      - '8090:8090' # Public HTTP Port
+      - '82:82' # Public HTTP Port
       - '449:449' # Public HTTPS Port
       - '81:81' # Admin Web Port
       # Add any other Stream port you want to expose
