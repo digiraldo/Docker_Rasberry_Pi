@@ -136,3 +136,5 @@ sudo docker-compose build
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 docker-compose up
+
+sudo rm -rf dockerpi.sh
