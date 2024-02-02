@@ -11,6 +11,6 @@ chmod +x dockerpi.sh
 Prueba de Configuracion de Archivo docker-compose.yaml
 ```
 wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dock.sh
-chmod +x docki.sh
-./docki.sh
+chmod +x dock.sh
+./dock.sh
 ```
