@@ -1,5 +1,4 @@
 version: "2.2"
-#version: '3.8'
 services:
 
   samba:
@@ -10,16 +9,16 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - PUID=usuarioid
-      - PGID=grupoid
-      - TZ=timezona
+      usuarioid
+      grupoid
+      timezona
     ports:
       - 139:139
       - 445:445
     volumes:
       - /usr/share/zoneinfo/timezona:/etc/localtime
-      - discomontadoext/compose:/pi
-      - discomontadoext/HDDArchivos:/media
+      discomontadoext/compose:/pi
+      discomontadoext/HDDArchivos:/media
       - discomontadoext/compose/downloads:/downloads
       - discomontadoext/compose/downloads/complete:/complete
       - discomontadoext/compose/downloads/incomplete:/incomplete
@@ -58,8 +57,8 @@ services:
     restart: unless-stopped
     ports:
       # These ports are in format <host-port>:<container-port>
-      - '82:82' # Public HTTP Port
-      - '449:449' # Public HTTPS Port
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
       # Add any other Stream port you want to expose
       # - '21:21' # FTP
