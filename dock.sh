@@ -111,15 +111,15 @@ chmod +x docker-compose.yaml
 
 sleep 1s
 Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
-sudo sed -i "s:usuarioid:- PUID=$PUID:g" docker-compose.yaml
+sudo sed -i "s:usuarioid:$PUID:g" docker-compose.yaml
 
 sleep 1s
 Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
-sudo sed -i "s:grupoid:- PGID=$PGID:g" docker-compose.yaml
+sudo sed -i "s:grupoid:$PGID:g" docker-compose.yaml
 
 sleep 1s
 Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
-sudo sed -i "s:timezona:- TZ=$TZ:g" docker-compose.yaml
+sudo sed -i "s:timezona:$TZ:g" docker-compose.yaml
 
 sleep 1s
 Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
@@ -128,7 +128,7 @@ sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
 sleep 1s
 Print_Style "Configurando Disco Externo $DiscoExterno ..." "$CYAN"
 #sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
-sudo sed -i "s:discomontadoext:- $DiscoExterno:g" docker-compose.yaml
+sudo sed -i "s:discomontadoext:$DiscoExterno:g" docker-compose.yaml
 sleep 1s
 
 Print_Style "probando docker-compose..." "$BLUE"
