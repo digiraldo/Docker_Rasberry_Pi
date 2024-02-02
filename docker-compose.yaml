@@ -1,5 +1,5 @@
-#version: "2.2"
-version: '3.8'
+version: "2.2"
+#version: '3.8'
 services:
 
   samba:
@@ -10,8 +10,8 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - PUID=uid
-      - PGID=gid
+      - PUID=usuarioid
+      - PGID=grupoid
       - TZ=timezona
     ports:
       - 139:139
@@ -36,8 +36,8 @@ services:
     image: linuxserver/jellyfin:nightly
     container_name: jellyfin
     environment:
-      - PUID=uid
-      - PGID=gid
+      - PUID=usuarioid
+      - PGID=grupoid
       - TZ=timezona
       - UMASK_SET=022 #optional
     volumes:
