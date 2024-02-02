@@ -9,16 +9,16 @@ services:
     stdin_open: true
     tty: true
     environment:
-      usuarioid
-      grupoid
-      timezona
+      - PUID=usuarioid
+      - PGID=grupoid
+      - TZ=timezona
     ports:
       - 139:139
       - 445:445
     volumes:
       - /usr/share/zoneinfo/timezona:/etc/localtime
-      discomontadoext/compose:/pi
-      discomontadoext/HDDArchivos:/media
+      - discomontadoext/compose:/pi
+      - discomontadoext/HDDArchivos:/media
       - discomontadoext/compose/downloads:/downloads
       - discomontadoext/compose/downloads/complete:/complete
       - discomontadoext/compose/downloads/incomplete:/incomplete
