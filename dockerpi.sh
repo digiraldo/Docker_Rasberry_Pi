@@ -62,14 +62,26 @@ if [ ! -n "`which sudo`" ]; then
   apt update && apt install sudo -y
 fi
 sudo apt update
+
+Print_Style "Instalar paquetes necesarios" "$CYAN"
+ sudo apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common \
+     vim \
+     fail2ban \
+     jq \
+     ntfs-3g
 #   sudo apt install ffmpeg -y
 #   sudo add-apt-repository universe -y
 #   sudo apt install git -y
-sudo apt install jq -y
+#   sudo apt install jq -y
 #   sudo apt-get install ntfs-3g -y
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
-#sudo apt-get install -y python python-pip
+
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 DirName=$(readlink -e ~)
@@ -159,5 +171,8 @@ sudo rm -rf dockerpi.sh
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker inspect
+sudo docker-compose ps
+Print_Style "==================================================================================" "$YELLOW"
+sudo docker-compose up -d
+# sudo docker inspect
 Print_Style "==================================================================================" "$YELLOW"

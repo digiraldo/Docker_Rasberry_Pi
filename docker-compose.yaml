@@ -1,11 +1,10 @@
 version: "2.2"
 services:
-
   samba:
     image: dperson/samba:rpi
     container_name: samba
     restart: always
-    command: '-u "usernaa;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "pi;/pi;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
+    command: '-u "usernaa;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "usernaa;/usernaa;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
     stdin_open: true
     tty: true
     environment:
@@ -17,7 +16,7 @@ services:
       - 445:445
     volumes:
       - /usr/share/zoneinfo/timezona:/etc/localtime
-      - discomontadoext/compose:/pi
+      - discomontadoext/compose:/usernaa
       - discomontadoext/HDDArchivos:/media
       - discomontadoext/compose/downloads:/downloads
       - discomontadoext/compose/downloads/complete:/complete
@@ -30,6 +29,9 @@ services:
       - discomontadoext/compose/srv/lib/transcodes:/transcodes
       - discomontadoext/compose/tmp:/tmp
       - discomontadoext/compose/flexget-arm:/flexget-arm
+    networks:
+      lan:
+        ipv4_address: 192.168.1.120
 
   jellyfin:
     image: linuxserver/jellyfin:nightly
