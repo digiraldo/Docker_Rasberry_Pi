@@ -48,6 +48,8 @@ function read_with_prompt {
   done
 }
 
+Print_Style "Detectando Los Colores del $GREEN Texto" "$MAGENTA"
+
 cd ~
 
 
@@ -104,30 +106,51 @@ sudo groupadd docker
 
 Print_Style "Agregando Usuario $UserName al gruo docker..." "$GREEN"
 sleep 1s
-sudo gpasswd -a $UserName docker
+#sudo gpasswd -a $UserName docker
+sudo usermod -a -G docker $UserName
 
 sudo apt-get update
 
+Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
+sleep 1s
+#   sudo mkdir -p externo
+#   sudo mount $Disco externo
+Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
+sleep 1s
+lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+
+# Digitar la ip del equipo
+echo "========================================================================="
+Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
+read_with_prompt MiUUID "UUID de disco a montar"
+echo "========================================================================="
+
+echo UUID="{$MiUUID}" {/mnt/storage} (por ejemplo /mnt/storage) ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+
 Print_Style "==================================================================================" "$YELLOW"
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
+LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
 Print_Style "==================================================================================" "$YELLOW"
 
-Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
-sleep 2s
-sudo mkdir -p externo
-sudo mount $Disco externo
-#sudo mount /dev/sda1 /mnt/sda1
 sleep 1s
 Print_Style "==================================================================================" "$YELLOW"
 TZ=$(sudo cat /etc/timezone)
 PUID=$(sudo id -u $UserName)
 PGID=$(sudo id -g $UserName)
-DiscoExterno=$(sudo lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
+#DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
 Print_Style "==================================================================================" "$YELLOW"
 
+
 cd ~
-# Buscando UID
-# Descargar prop.sh desde el repositorio
+
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.name')
+Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
+sleep 2s
+echo "export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"" >> /etc/default/docker
+#  sed -i '$a Aqui el texto que ira en la ultima linea' archivo.txt
+#  sudo nano /etc/default/docker
+
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
 chmod +x docker-compose.yaml
@@ -179,3 +202,14 @@ Print_Style "===================================================================
 
 #docker system prune -a
 sudo rm -rf dockerpi.sh
+
+
+
+# sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "E0FE6879FE684A3C" \
+# '.blockdevices[] | .children[] | select(.uuid == $uuid)'
+
+# sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
+
+
+# DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.name')
+# echo "$DiscoExterno"
