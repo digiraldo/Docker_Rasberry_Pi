@@ -159,7 +159,7 @@ sleep 3s
 
 Print_Style "probando docker-compose..." "$BLUE"
 sleep 1s
-sudo docker-compose build
+#sudo docker-compose build
 
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
