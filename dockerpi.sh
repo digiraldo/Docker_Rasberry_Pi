@@ -125,8 +125,10 @@ Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
 read_with_prompt MiUUID "UUID de disco a montar"
 echo "========================================================================="
 
-echo UUID="{$MiUUID}" {/mnt/storage} (por ejemplo /mnt/storage) ntfs-3g defaults,auto 0 0 | \
+echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
     sudo tee -a /etc/fstab
+
+mount -a
 
 Print_Style "==================================================================================" "$YELLOW"
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
