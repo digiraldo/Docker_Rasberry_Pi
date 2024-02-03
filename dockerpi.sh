@@ -171,7 +171,7 @@ sudo rm -rf dockerpi.sh
 Print_Style "==================================================================================" "$YELLOW"
 #sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker-compose ps
+#sudo docker-compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker-compose up -d
 # sudo docker inspect
