@@ -4,14 +4,13 @@ services:
     image: dperson/samba:rpi
     container_name: samba
     restart: always
-    command: '-u "usernaa;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "usernaa;/usernaa;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
+    command: '-u "usernaa;Admin1234" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "usernaa;/usernaa;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
     stdin_open: true
     tty: true
     environment:
       - PUID=usuarioid
       - PGID=grupoid
       - TZ=timezona
-      - PASSWORD=Admin1234
     ports:
       - "137:137" #Puerto protocolo NetBios
       - "138:138" #Puerto protocolo NetBios
