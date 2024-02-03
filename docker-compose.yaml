@@ -11,9 +11,12 @@ services:
       - PUID=usuarioid
       - PGID=grupoid
       - TZ=timezona
+      - PASSWORD=Admin1234
     ports:
-      - 139:139
-      - 445:445
+      - "137:137" #Puerto protocolo NetBios
+      - "138:138" #Puerto protocolo NetBios
+      - "139:139" #Puerto protocolo SMB
+      - "445:445" #Puerto protocolo SMB
     volumes:
       - /usr/share/zoneinfo/timezona:/etc/localtime
       - discomontadoext/compose:/usernaa
