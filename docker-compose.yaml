@@ -24,9 +24,9 @@ services:
       - 32400
       - 33400
     # Descomentar si NO usas network_mode: "host"
-    # ports:
-    #  - 32400:32400
-    #  - 33400:33400
+    ports:
+      - 32400:32400
+      - 33400:33400
     environment:
       - TZ=TZ=timezona
     volumes:
@@ -34,7 +34,7 @@ services:
       - discomontadoext/HDD_Archivos:/media
       - discomontadoext/compose/tmp:/tmp
     restart: unless-stopped
-    network_mode: "host" # Solo funciona en Linux
+    # network_mode: "host" Solo funciona en Linux
 
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
