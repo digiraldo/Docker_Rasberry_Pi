@@ -125,7 +125,7 @@ Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
 read_with_prompt MiUUID "UUID de disco a montar"
 echo "========================================================================="
 
-echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
     sudo tee -a /etc/fstab
 
 mount -a
@@ -146,7 +146,7 @@ Print_Style "===================================================================
 
 cd ~
 
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.name')
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.mountpoint')
 Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 sleep 2s
 echo "export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"" >> /etc/default/docker
