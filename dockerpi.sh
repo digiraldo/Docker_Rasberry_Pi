@@ -165,9 +165,11 @@ sudo docker-compose build
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 Print_Style "==================================================================================" "$YELLOW"
+sudo docker-compose up -d
+Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker-compose ps
 Print_Style "==================================================================================" "$YELLOW"
+
 sudo rm -rf dockerpi.sh
-Print_Style "==================================================================================" "$YELLOW"
