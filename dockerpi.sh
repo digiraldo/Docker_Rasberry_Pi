@@ -130,6 +130,20 @@ echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
 
 mount -a
 
+NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
+#echo "$NameDisco"
+sudo mkdir /mnt/storage
+sudo chmod 1755 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+sudo chmod 666 $NameDisco
+sudo chmod 777 /mnt/storage
+sudo chmod 777 /etc/fstab
+sudo chmod 4755 `which ntfs-3g`
+echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+mount -a
+ls -l /mnt/storage
+sleep 1s
+
 Print_Style "==================================================================================" "$YELLOW"
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
 LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
@@ -146,7 +160,7 @@ Print_Style "===================================================================
 
 cd ~
 
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.mountpoint')
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.mountpoint')
 Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 sleep 2s
 echo "export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"" >> /etc/default/docker
@@ -213,5 +227,3 @@ sudo rm -rf dockerpi.sh
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
 
 
-# DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.name')
-# echo "$DiscoExterno"
