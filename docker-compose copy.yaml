@@ -1,70 +1,39 @@
-version: "3.7"
-
+version: "2.2"
 services:
-
   samba:
-    image: dperson/samba # no hay tag con versiones, solo latest
+    image: dperson/samba:rpi
+    container_name: samba
     restart: always
-    command: '-u "usernaa;Admin1234" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    command: '-u "usernaa;Admin1234" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "usernaa;/usernaa;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no"'
     stdin_open: true
     tty: true
     environment:
+      - PUID=usuarioid
+      - PGID=grupoid
       - TZ=timezona
     ports:
-      - 139:139
-      - 445:445
+      - "137:137" #Puerto protocolo NetBios
+      - "138:138" #Puerto protocolo NetBios
+      - "139:139" #Puerto protocolo SMB
+      - "445:445" #Puerto protocolo SMB
     volumes:
-      - discomontadoext:/externo
-      - discomontadoext/HDD_Archivos:/media
-      - discomontadoext/compose/torrents:/downloads
-
-  plex:
-    image: jaymoulin/plex:1.30.1.6562
-    expose:
-      - 32400
-      - 33400
-    # Descomentar si NO usas network_mode: "host"
-    # ports:
-    #  - 32400:32400
-    #  - 33400:33400
-    environment:
-      - TZ=TZ=timezona
-    volumes:
-      - discomontadoext/compose/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - discomontadoext/HDD_Archivos:/media
+      - /usr/share/zoneinfo/timezona:/etc/localtime
+      - discomontadoext/compose:/usernaa
+      - discomontadoext/HDDArchivos:/media
+      - discomontadoext/compose/downloads:/downloads
+      - discomontadoext/compose/downloads/complete:/complete
+      - discomontadoext/compose/downloads/incomplete:/incomplete
+      - discomontadoext/compose/drive:/drive
+      - discomontadoext/compose/config:/config
+      - discomontadoext/compose/srv/cache:/cache
+      - discomontadoext/compose/srv/log:/log
+      - discomontadoext/compose/srv/lib/metadata:/metadata
+      - discomontadoext/compose/srv/lib/transcodes:/transcodes
       - discomontadoext/compose/tmp:/tmp
-    restart: unless-stopped
-    network_mode: "host" # Solo funciona en Linux
-
-  transmission:
-    image : jaymoulin/transmission:3.00-1.6.1
-    command: transmission-daemon -f -g /config
-    volumes:
-      - ./transmission:/config
-      - discomontadoext/compose/torrents:/downloads
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
-    expose:
-      - 9091
-    restart: unless-stopped
-
-  flexget:
-    image: wiserain/flexget:3.5
-    volumes:
-      - ./flexget:/config
-      - ./flexget/custom-cont-init.d:/custom-cont-init.d
-      - discomontadoext/compose/torrents:/downloads
-      - discomontadoext/HDD_Archivos:/storage
-    ports:
-      - 5050:5050
-    environment:
-      - PUID=1001
-      - PGID=1001
-      - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=Nolateng0 # la puedes cambiar por la que quieras
-    restart: unless-stopped
+      - discomontadoext/compose/flexget-arm:/flexget-arm
+    #networks:
+    #  lan:
+    #    ipv4_address: 192.168.1.120
 
   jellyfin:
     image: linuxserver/jellyfin:nightly

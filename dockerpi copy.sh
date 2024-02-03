@@ -1,6 +1,5 @@
 #!/bin/bash
 # Este Script es realizado por digiraldo
-# Instalar: https://github.com/pablokbs/plex-rpi/tree/master
 
 # Colores del terminal
 BLACK=$(tput setaf 0)
@@ -89,14 +88,9 @@ DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
 
-Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
+Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 
 Print_Style "Creando grupo docker..." "$GREEN"
 sleep 1s
@@ -107,6 +101,11 @@ sleep 1s
 sudo gpasswd -a $UserName docker
 
 sudo apt-get update
+
+Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+sleep 2s
+#sudo pip install docker-compose
+sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 Print_Style "==================================================================================" "$YELLOW"
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
