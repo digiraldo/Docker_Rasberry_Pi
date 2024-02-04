@@ -67,16 +67,16 @@ fi
 sudo apt update
 
 Print_Style "Instalar paquetes necesarios" "$CYAN"
- sudo apt-get install -y \
-     apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg2 \
-     software-properties-common \
-     vim \
-     fail2ban \
-     jq \
-     ntfs-3g
+sudo apt-get install -y \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  gnupg2 \
+  software-properties-common \
+  vim \
+  fail2ban \
+  jq \
+  ntfs-3g
 #   sudo apt install ffmpeg -y
 #   sudo add-apt-repository universe -y
 #   sudo apt install git -y
@@ -96,53 +96,24 @@ sleep 2s
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+echo "========================================================================="
 
 Print_Style "Creando grupo docker..." "$GREEN"
 sleep 1s
 sudo groupadd docker
+echo "========================================================================="
 
 Print_Style "Agregando Usuario $UserName al gruo docker..." "$GREEN"
 sleep 1s
 #sudo gpasswd -a $UserName docker
 sudo usermod -a -G docker $UserName
+echo "========================================================================="
 
 sudo apt-get update
 
-Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
-sleep 1s
-#   sudo mkdir -p externo
-#   sudo mount $Disco externo
-Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
-sleep 1s
-lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
-
-# Digitar la ip del equipo
-echo "========================================================================="
-Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
-read_with_prompt MiUUID "UUID de disco a montar"
-echo "=============================$MiUUID============================================"
-
-echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-    sudo tee -a /etc/fstab
-
-mount -a
-
-NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
-#echo "$NameDisco"
-sudo mkdir /mnt/storage
-sudo chmod 1755 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-sudo chmod 666 $NameDisco
-sudo chmod 777 /mnt/storage
-sudo chmod 777 /etc/fstab
-sudo chmod 4755 `which ntfs-3g`
-echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-    sudo tee -a /etc/fstab
-mount -a
-ls -l /mnt/storage
-sleep 1s
 
 Print_Style "==================================================================================" "$YELLOW"
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
@@ -158,19 +129,51 @@ PGID=$(sudo id -g $UserName)
 Print_Style "==================================================================================" "$YELLOW"
 
 
+
+Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
+sleep 1s
+#   sudo mkdir -p externo
+#   sudo mount $Disco externo
+Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
+sleep 1s
+lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+
+# Digitar el UUID del disco
+echo "========================================================================="
+Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
+read_with_prompt MiUUID "UUID de disco a montar"
+echo "=============================$MiUUID============================================"
+
+NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
+#echo "$NameDisco"
+sudo mkdir /mnt/storage
+sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+sudo chmod -R 765  $NameDisco
+sudo chmod -R 765 /mnt/storage
+sudo chmod -R 765 /etc/fstab
+sudo chmod -R 765 `which ntfs-3g`
+echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+  sudo tee -a /etc/fstab
+mount -a
+ls -l /mnt/storage
+sleep 1s
+
 cd ~
 
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
-
-#echo "$DiscoExterno"
+if [ $DiscoExterno == null ]
+then
+	echo "No hay punto de montaje - Mounpoint = $DiscoExterno"
+  sleep 2s
+else
+	echo "Mounpoint = $DiscoExterno"
 
 Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 
-
 sleep 2s
-echo "export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"" >> /etc/default/docker
+echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
 #  sed -i '$a Aqui el texto que ira en la ultima linea' archivo.txt
 #  sudo nano /etc/default/docker
 
@@ -223,6 +226,7 @@ Print_Style "===================================================================
 sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
+fi
 #docker system prune -a
 sudo rm -rf dockerpi.sh
 
@@ -232,5 +236,6 @@ sudo rm -rf dockerpi.sh
 # '.blockdevices[] | .children[] | select(.uuid == $uuid)'
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
+
 
 

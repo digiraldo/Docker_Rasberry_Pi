@@ -3,20 +3,32 @@ version: "3.7"
 services:
 
   samba:
-    image: dperson/samba # no hay tag con versiones, solo latest
+    image: dperson/samba:rpi
+    container_name: samba
     restart: always
-    command: '-u "usernaa;Admin1234" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    command: '-u "usernaa;Admin1234" -s "externo;/externo;yes;no"  -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "drive;/drive;yes;no" -s "config;/config;yes;no" -s "cache;/cache;yes;no" -s "tmp;/tmp;yes;no" -s "usernaa;/usernaa;yes;no" -s "complete;/complete;yes;yes" -s "incomplete;/incomplete;yes;no" -s "flexget-arm;/flexget-arm;yes;no"'
     stdin_open: true
     tty: true
     environment:
+      - PUID=usuarioid
+      - PGID=grupoid
       - TZ=timezona
     ports:
       - 139:139
       - 445:445
     volumes:
+      - /usr/share/zoneinfo/timezona:/etc/localtime
       - discomontadoext:/externo
+      - discomontadoext/compose:/usernaa
       - discomontadoext/HDD_Archivos:/media
-      - discomontadoext/compose/torrents:/downloads
+      - discomontadoext/compose/downloads:/downloads
+      - discomontadoext/compose/downloads/complete:/complete
+      - discomontadoext/compose/downloads/incomplete:/incomplete
+      - discomontadoext/compose/drive:/drive
+      - discomontadoext/compose/config:/config
+      - discomontadoext/compose/cache:/cache
+      - discomontadoext/compose/tmp:/tmp
+      - discomontadoext/compose/flexget-arm:/flexget-arm
 
   plex:
     image: jaymoulin/plex:1.30.1.6562
@@ -28,7 +40,9 @@ services:
       - 32400:32400
       - 33400:33400
     environment:
-      - TZ=TZ=timezona
+      - PUID=usuarioid
+      - PGID=grupoid
+      - TZ=timezona
     volumes:
       - discomontadoext/compose/Plex Media Server:/root/Library/Application Support/Plex Media Server
       - discomontadoext/HDD_Archivos:/media
@@ -60,8 +74,9 @@ services:
     ports:
       - 5050:5050
     environment:
-      - PUID=1001
-      - PGID=1001
+      - PUID=usuarioid
+      - PGID=grupoid
+      - TZ=timezona
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=Nolateng0 # la puedes cambiar por la que quieras
     restart: unless-stopped

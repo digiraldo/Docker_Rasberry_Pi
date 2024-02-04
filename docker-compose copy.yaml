@@ -35,6 +35,28 @@ services:
     #  lan:
     #    ipv4_address: 192.168.1.120
 
+
+
+  samba:
+    image: dperson/samba # no hay tag con versiones, solo latest
+    restart: always
+    command: '-u "usernaa;Admin1234" -s "externo;/externo;yes;no" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    stdin_open: true
+    tty: true
+    environment:
+      - PUID=usuarioid
+      - PGID=grupoid
+      - TZ=timezona
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - discomontadoext:/externo
+      - discomontadoext/HDD_Archivos:/media
+      - discomontadoext/compose/torrents:/downloads
+
+
+
   jellyfin:
     image: linuxserver/jellyfin:nightly
     container_name: jellyfin
