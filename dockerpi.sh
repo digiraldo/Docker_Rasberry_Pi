@@ -148,10 +148,10 @@ echo "=============================$MiUUID======================================
 NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
 #echo "$NameDisco"
 sudo mkdir /mnt/storage
-sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-sudo chmod +s /bin/ntfs-3g
+#   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+#   sudo chmod +s /bin/ntfs-3g
 sudo chmod -R 765  $NameDisco
-sudo chmod -Rf 777 /mnt/storage
+sudo chmod -Rf 765 /mnt/storage
 sudo chmod -R 765 /etc/fstab
 
 sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
@@ -167,10 +167,10 @@ DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -
 | jq -r '.mountpoint')
 if [ $DiscoExterno == null ]
 then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $DiscoExterno" "$RED"
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
 else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $DiscoExterno" "$GREEN"
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
 
 Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
@@ -234,6 +234,8 @@ fi
 sudo rm -rf dockerpi.sh
 
 
+# Desmontar disco
+#            sudo umount /dev/sda1
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "E0FE6879FE684A3C" \
 # '.blockdevices[] | .children[] | select(.uuid == $uuid)'

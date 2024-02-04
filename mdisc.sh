@@ -47,6 +47,7 @@ function read_with_prompt {
   done
 }
 
+
 cd ~
 
 
@@ -107,10 +108,10 @@ DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -
 | jq -r '.mountpoint')
 if [ $DiscoExterno == null ]
 then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $DiscoExterno" "$RED"
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
 else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $DiscoExterno" "$GREEN"
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
 fi
 
@@ -118,3 +119,9 @@ fi
 
 #docker system prune -a
 sudo rm -rf mdisc.sh
+
+
+# Desmontar disco
+#            sudo umount /dev/sda1
+# Eliminar ultima linea
+#            sudo nano /etc/fstab
