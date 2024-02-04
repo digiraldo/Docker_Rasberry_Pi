@@ -152,7 +152,7 @@ sudo chmod -R 765  $NameDisco
 sudo chmod -R 765 /mnt/storage
 sudo chmod -R 765 /etc/fstab
 sudo chmod -R 765 `which ntfs-3g`
-echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+echo sudo UUID="$MiUUID" /mnt/storage ntfs-3g default,auto 0 0 | \
   sudo tee -a /etc/fstab
 mount -a
 ls -l /mnt/storage
