@@ -151,12 +151,12 @@ sudo mkdir /mnt/storage
 sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
 sudo chmod +s /bin/ntfs-3g
 sudo chmod -R 765  $NameDisco
-sudo chmod -R 765 /mnt/storage
+sudo chmod -Rf 777 /mnt/storage
 sudo chmod -R 765 /etc/fstab
 
 sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
   sudo tee -a /etc/fstab
-mount -a
+sudo mount -a
 ls -l /mnt/storage
 sleep 1s
 

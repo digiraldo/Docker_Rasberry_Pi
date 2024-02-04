@@ -14,3 +14,10 @@ wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dock.sh
 chmod +x dock.sh
 ./dock.sh
 ```
+
+Montar disco Externo
+```
+wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/mdisc.sh
+chmod +x mdisc.sh
+./mdisc.sh
+```
