@@ -148,10 +148,13 @@ NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '
 #echo "$NameDisco"
 sudo mkdir /mnt/storage
 sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+sudo chmod +s /bin/ntfs-3g
 sudo chmod -R 765  $NameDisco
 sudo chmod -R 765 /mnt/storage
 sudo chmod -R 765 /etc/fstab
 sudo chmod -R 765 `which ntfs-3g`
+sudo chown root $(which ntfs-3g)
+sudo chmod 4755 $(which ntfs-3g)
 sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
   sudo tee -a /etc/fstab
 mount -a
