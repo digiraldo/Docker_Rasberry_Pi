@@ -165,10 +165,11 @@ DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -
 | jq -r '.mountpoint')
 if [ $DiscoExterno == null ]
 then
-	echo "No hay punto de montaje - Mounpoint = $DiscoExterno"
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $DiscoExterno" "$RED"
   sleep 2s
 else
-	echo "Mounpoint = $DiscoExterno"
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $DiscoExterno" "$GREEN"
+  sleep 2s
 
 Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 
