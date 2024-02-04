@@ -106,10 +106,11 @@ sleep 1s
 sudo groupadd docker
 echo "========================================================================="
 
-Print_Style "Agregando Usuario $UserName al gruo docker..." "$GREEN"
+Print_Style "Agregando Usuario $UserName al gruo docker y disk..." "$GREEN"
 sleep 1s
 #sudo gpasswd -a $UserName docker
 sudo usermod -a -G docker $UserName
+sudo usermod -a -G disk $UserName
 echo "========================================================================="
 
 sudo apt-get update
@@ -152,9 +153,7 @@ sudo chmod +s /bin/ntfs-3g
 sudo chmod -R 765  $NameDisco
 sudo chmod -R 765 /mnt/storage
 sudo chmod -R 765 /etc/fstab
-sudo chmod -R 765 `which ntfs-3g`
-sudo chown root $(which ntfs-3g)
-sudo chmod 4755 $(which ntfs-3g)
+
 sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
   sudo tee -a /etc/fstab
 mount -a
