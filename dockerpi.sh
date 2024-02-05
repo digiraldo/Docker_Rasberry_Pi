@@ -152,38 +152,42 @@ echo "=============================$MiUUID======================================
 
 NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
 #echo "$NameDisco"
-sudo mkdir /mnt/storage
-#   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-#   sudo chmod +s /bin/ntfs-3g
-sudo chmod -R 765  $NameDisco
-sudo chmod -Rf 765 /mnt/storage
-sudo chmod -R 765 /etc/fstab
-
-sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-  sudo tee -a /etc/fstab
-sudo mount -a
-ls -l /mnt/storage
-sleep 1s
 
 cd ~
 
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
+
 if [ $DiscoExterno == null ]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
+  sudo mkdir /mnt/storage
+  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+  #   sudo chmod +s /bin/ntfs-3g
+  sudo chmod -R 765  $NameDisco
+  sudo chmod -Rf 765 /mnt/storage
+  sudo chmod -R 765 /etc/fstab
+
+  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+  sudo mount -a
+  ls -l /mnt/storage
+  sleep 1s
+
+  Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
+
+  sleep 2s
+  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  #  sed -i '$a Aqui el texto que ira en la ultima linea' archivo.txt
+  #  sudo nano /etc/default/docker
+
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
 
-Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
-
-sleep 2s
-echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-#  sed -i '$a Aqui el texto que ira en la ultima linea' archivo.txt
-#  sudo nano /etc/default/docker
+fi
 
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
@@ -235,7 +239,7 @@ Print_Style "===================================================================
 sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
-fi
+
 #docker system prune -a
 sudo rm -rf dockerpi.sh
 
