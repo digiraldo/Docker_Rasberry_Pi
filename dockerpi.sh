@@ -93,12 +93,17 @@ UserNow=$(users)
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sudo dpkg -i ./docker-ce_23.0.1-1_debian.11_bullseye_arm64.deb \
+  ./docker-ce_23.0.1-1_debian.11_bullseye_arm64.deb \
+  ./docker-ce-cli_23.0.1-1_debian.11_bullseye_arm64.deb \
+  ./docker-buildx-plugin_0.10.2-1_debian.11_bullseye_arm64.deb \
+  ./docker-compose-plugin_2.16.0-1_debian.11_bullseye_arm64.deb
+
+#Tuve un error de biblioteca que se solucionó con este comando.
+#    sudo apt-get --fix-broken install
+#Pero supongo que es porque rompí algo antes en mis pruebas.
+
+sudo service docker start
 echo "========================================================================="
 
 Print_Style "Creando grupo docker..." "$GREEN"
@@ -218,6 +223,7 @@ sudo docker-compose build
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 Print_Style "==================================================================================" "$YELLOW"
+sudo docker-compose pull
 sudo docker-compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
