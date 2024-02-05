@@ -93,11 +93,9 @@ UserNow=$(users)
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
-sudo dpkg -i ./docker-ce_23.0.1-1_debian.11_bullseye_arm64.deb \
-  ./docker-ce_23.0.1-1_debian.11_bullseye_arm64.deb \
-  ./docker-ce-cli_23.0.1-1_debian.11_bullseye_arm64.deb \
-  ./docker-buildx-plugin_0.10.2-1_debian.11_bullseye_arm64.deb \
-  ./docker-compose-plugin_2.16.0-1_debian.11_bullseye_arm64.deb
+
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 #Tuve un error de biblioteca que se solucionó con este comando.
 #    sudo apt-get --fix-broken install
