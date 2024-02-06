@@ -190,7 +190,7 @@ then
   sleep 1s
   Print_Style "1 ======" "$YELLOW"
   sleep 1s
-  exit< <
+  exit
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
