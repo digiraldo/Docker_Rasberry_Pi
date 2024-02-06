@@ -141,6 +141,7 @@ Print_Style "UUID de Disco Seleccionado: $YELLOW $MiUUID" "$NORMAL"
 Print_Style "Nombre del Disco Seleccionado: $YELLOW $NameDisco" "$NORMAL"
 Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
 sleep 1s
+echo "========================================================================="
 
 if [ $DiscoExterno == null ]
 then
@@ -158,7 +159,9 @@ then
   sudo mount -a
   ls -l /mnt/storage
 echo "========================================================================="
+echo "========================================================================="
   sudo tail -n 1 /etc/fstab
+echo "========================================================================="
 echo "========================================================================="
   sleep 2s
 
@@ -174,7 +177,9 @@ cd ~
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
+echo "========================================================================="
 Print_Style "Punto de Montaje: $GREEN $DiscoExterno" "$NORMAL"
+echo "========================================================================="
 if [ $DiscoExterno == null ]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
@@ -192,7 +197,7 @@ then
   sleep 1s
   exit
 else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
   sudo chmod -Rf 765 /etc/default/docker
   #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
@@ -200,11 +205,14 @@ else
   #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
   echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
   #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
-  #  sudo nano /etc/default/docker
-  #       sudo tail -n 1 /etc/default/docker
+  echo "========================================================================="
+  echo "========================================================================="
+  sudo tail -n 1 /etc/default/docker
+  echo "========================================================================="
+  echo "========================================================================="
+                  #  sudo nano /etc/default/docker
+                  #  sudo nano /etc/fstab
 fi
-
-
 
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
