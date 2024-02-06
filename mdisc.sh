@@ -115,9 +115,9 @@ then
   Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 
   sleep 2s
-  sudo chmod -Rf 765 /etc/default/docker
+  #sudo chmod -Rf 765 /etc/default/docker
   #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
+  #sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
   #  sudo nano /etc/default/docker
 
 else
