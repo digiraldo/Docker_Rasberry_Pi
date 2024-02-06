@@ -110,15 +110,11 @@ then
     sudo tee -a /etc/fstab
   sudo mount -a
   ls -l /mnt/storage
-  sleep 1s
-
-  Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
-
+echo "========================================================================="
+  sudo tail -n 1 /etc/fstab
+echo "========================================================================="
   sleep 2s
-  #sudo chmod -Rf 765 /etc/default/docker
-  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-  #sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
-  #  sudo nano /etc/default/docker
+
 
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
@@ -136,22 +132,32 @@ then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   Print_Style "Saliendo en:" "$CYAN"
   sleep 2s
-  Print_Style "5 -----" "$RED"
+  Print_Style "5 ==========" "$RED"
   sleep 1s
-  Print_Style "4 ----:" "$RED"
+  Print_Style "4 ========" "$RED"
   sleep 1s
-  Print_Style "3 ---:" "$RED"
+  Print_Style "3 ======" "$RED"
   sleep 1s
-  Print_Style "2 --:" "$RED"
+  Print_Style "2 ====" "$RED"
   sleep 1s
-  Print_Style "1 -:" "$RED"
+  Print_Style "1 ==" "$RED"
   sleep 1s
   exit
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
+  sudo chmod -Rf 765 /etc/default/docker
+  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
+  #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
+  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+  #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
+  #  sudo nano /etc/default/docker
+  sudo tail -n 1 /etc/default/docker
 fi
 
+# ver el último dato puedes usar watch.
+# sudo tail -n 1 /etc/default/docker | grep error
 
 
 #docker system prune -a
