@@ -10,8 +10,8 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - PUID=usuarioid
-      - PGID=grupoid
+      #- PUID=usuarioid
+      #- PGID=grupoid
       - TZ=timezona
     ports:
       - 139:139
@@ -20,7 +20,7 @@ services:
       - /usr/share/zoneinfo/timezona:/etc/localtime
       - discomontadoext:/externo
       - discomontadoext/compose:/usernaa
-      - discomontadoext/HDD_Archivos:/media
+      - discomontadoext/media:/media
       - discomontadoext/compose/downloads:/downloads
       - discomontadoext/compose/downloads/complete:/complete
       - discomontadoext/compose/downloads/incomplete:/incomplete
@@ -45,7 +45,7 @@ services:
       - TZ=timezona
     volumes:
       - discomontadoext/compose/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - discomontadoext/HDD_Archivos:/media
+      - discomontadoext/media:/media
       - discomontadoext/compose/tmp:/tmp
     restart: unless-stopped
     # network_mode: "host" Solo funciona en Linux
@@ -70,7 +70,7 @@ services:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - discomontadoext/compose/torrents:/downloads
-      - discomontadoext/HDD_Archivos:/storage
+      - discomontadoext/media:/storage
     ports:
       - 5050:5050
     environment:
@@ -91,7 +91,7 @@ services:
       - UMASK_SET=022 #optional
     volumes:
       - discomontadoext/compose/config:/config
-      - discomontadoext/HDD_Archivos:/media
+      - discomontadoext/media:/media
       - discomontadoext/compose/drive:/drive
       - discomontadoext/compose/srv/cache:/cache
       - discomontadoext/compose/srv/log:/log

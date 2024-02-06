@@ -19,7 +19,7 @@ services:
     volumes:
       - /usr/share/zoneinfo/timezona:/etc/localtime
       - discomontadoext/compose:/usernaa
-      - discomontadoext/HDDArchivos:/media
+      - discomontadoext/media:/media
       - discomontadoext/compose/downloads:/downloads
       - discomontadoext/compose/downloads/complete:/complete
       - discomontadoext/compose/downloads/incomplete:/incomplete

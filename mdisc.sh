@@ -132,17 +132,17 @@ then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   Print_Style "Saliendo en:" "$CYAN"
   sleep 2s
-  Print_Style "5 ==========" "$YELLOW"
+  Print_Style "5 ==============================" "$YELLOW"
   sleep 1s
-  Print_Style "4 ========" "$YELLOW"
+  Print_Style "4 ========================" "$YELLOW"
   sleep 1s
-  Print_Style "3 ======" "$YELLOW"
+  Print_Style "3 ==================" "$YELLOW"
   sleep 1s
-  Print_Style "2 ====" "$YELLOW"
+  Print_Style "2 ============" "$YELLOW"
   sleep 1s
-  Print_Style "1 ==" "$YELLOW"
+  Print_Style "1 ======" "$YELLOW"
   sleep 1s
-  exit
+  exit< <
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s

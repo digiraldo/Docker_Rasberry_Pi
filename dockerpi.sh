@@ -87,9 +87,123 @@ sudo apt-get install -y \
 
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
+Print_Style "==================================================================================" "$YELLOW"
 DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
+Print_Style "$DirName" "$GREEN"
+Print_Style "$UserName" "$GREEN"
+Print_Style "$UserNow" "$GREEN"
+Print_Style "==================================================================================" "$YELLOW"
+
+PUID=$(sudo id -u $UserName)
+PGID=$(sudo id -g $UserName)
+TZ=$(sudo cat /etc/timezone)
+Print_Style "$PUID" "$CYAN"
+Print_Style "$PGID" "$CYAN"
+Print_Style "$TZ" "$CYAN"
+#DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
+Print_Style "==================================================================================" "$YELLOW"
+
+Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name')
+LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
+Print_Style "$Disco" "$BLUE"
+Print_Style "$LosUUID" "$BLUE"
+Print_Style "==================================================================================" "$YELLOW"
+sleep 2s
+
+cd ~
+Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
+sleep 1s
+#   sudo mkdir -p externo
+#   sudo mount $Disco externo
+
+
+Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
+sleep 1s
+lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+
+# Digitar el UUID del disco
+echo "========================================================================="
+Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
+read_with_prompt MiUUID "UUID de disco a montar"
+echo "========================================================================="
+
+NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
+
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.mountpoint')
+
+Print_Style "$MiUUID" "$YELLOW"
+Print_Style "$NameDisco" "$YELLOW"
+Print_Style "$DiscoExterno" "$YELLOW"
+sleep 1s
+
+if [ $DiscoExterno == null ]
+then
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
+  sleep 2s
+  sudo mkdir /mnt/storage
+  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+  #   sudo chmod +s /bin/ntfs-3g
+  sudo chmod -R 765  $NameDisco
+  sudo chmod -Rf 765 /mnt/storage
+  sudo chmod -R 765 /etc/fstab
+
+  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+  sudo mount -a
+  ls -l /mnt/storage
+echo "========================================================================="
+  sudo tail -n 1 /etc/fstab
+echo "========================================================================="
+  sleep 2s
+
+
+else
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+  sleep 2s
+
+fi
+
+cd ~
+
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.mountpoint')
+Print_Style "$DiscoExterno" "$GREEN"
+if [ $DiscoExterno == null ]
+then
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
+  Print_Style "Saliendo en:" "$CYAN"
+  sleep 2s
+  Print_Style "5 ==============================" "$YELLOW"
+  sleep 1s
+  Print_Style "4 ========================" "$YELLOW"
+  sleep 1s
+  Print_Style "3 ==================" "$YELLOW"
+  sleep 1s
+  Print_Style "2 ============" "$YELLOW"
+  sleep 1s
+  Print_Style "1 ======" "$YELLOW"
+  sleep 1s
+  exit< <
+else
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+  sleep 2s
+  sudo chmod -Rf 765 /etc/default/docker
+  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
+  #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
+  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+  #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
+  #  sudo nano /etc/default/docker
+  #       sudo tail -n 1 /etc/default/docker
+fi
+
+
+
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
@@ -119,75 +233,6 @@ echo "========================================================================="
 
 sudo apt-get update
 
-
-Print_Style "==================================================================================" "$YELLOW"
-Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .name')
-LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
-Print_Style "==================================================================================" "$YELLOW"
-
-sleep 1s
-Print_Style "==================================================================================" "$YELLOW"
-TZ=$(sudo cat /etc/timezone)
-PUID=$(sudo id -u $UserName)
-PGID=$(sudo id -g $UserName)
-#DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
-Print_Style "==================================================================================" "$YELLOW"
-
-
-
-Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
-sleep 1s
-#   sudo mkdir -p externo
-#   sudo mount $Disco externo
-Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
-sleep 1s
-lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
-
-# Digitar el UUID del disco
-echo "========================================================================="
-Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
-read_with_prompt MiUUID "UUID de disco a montar"
-echo "=============================$MiUUID============================================"
-
-NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
-#echo "$NameDisco"
-
-cd ~
-
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
-'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
-| jq -r '.mountpoint')
-
-if [ $DiscoExterno == null ]
-then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
-  sleep 2s
-  sudo mkdir /mnt/storage
-  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-  #   sudo chmod +s /bin/ntfs-3g
-  sudo chmod -R 765  $NameDisco
-  sudo chmod -Rf 765 /mnt/storage
-  sudo chmod -R 765 /etc/fstab
-
-  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-    sudo tee -a /etc/fstab
-  sudo mount -a
-  ls -l /mnt/storage
-  sleep 1s
-
-  Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
-
-  sleep 2s
-  sudo chmod -Rf 765 /etc/default/docker
-  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
-  #  sudo nano /etc/default/docker
-
-else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
-  sleep 2s
-
-fi
 
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
@@ -251,21 +296,3 @@ sudo rm -rf dockerpi.sh
 # '.blockdevices[] | .children[] | select(.uuid == $uuid)'
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
-
-UserName=$(whoami)
-sudo usermod -a -G docker $UserName
-newgrp docker
-sudo echo 'export DOCKER_TMPDIR=\"DiscoExterno/docker-tmp\"' >> /etc/default/docker
-sudo cat /etc/default/docker
-
-sudo sed -i 'export DOCKER_TMPDIR="DiscoExterno/docker-tmp"' /etc/default/docker
-
-DirName=$(readlink -e ~)
-sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' $DirName/texto.txt
-sudo cat ~/texto.txt
-
-UserName=$(whoami)
-sudo usermod -a -G docker $UserName
-newgrp docker
-sudo sed -i 'export DOCKER_TMPDIR=\"DiscoExterno/docker-tmp\"' /etc/default/docker
-sudo cat /etc/default/docker
