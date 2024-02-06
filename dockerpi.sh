@@ -114,6 +114,7 @@ sleep 1s
 #sudo gpasswd -a $UserName docker
 sudo usermod -a -G docker $UserName
 sudo usermod -a -G disk $UserName
+newgrp docker
 echo "========================================================================="
 
 sudo apt-get update
@@ -177,8 +178,9 @@ then
   Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
 
   sleep 2s
-  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-  #  sed -i '$a Aqui el texto que ira en la ultima linea' archivo.txt
+  sudo chmod -Rf 765 /etc/default/docker
+  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
   #  sudo nano /etc/default/docker
 
 else
@@ -250,5 +252,20 @@ sudo rm -rf dockerpi.sh
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
 
+UserName=$(whoami)
+sudo usermod -a -G docker $UserName
+newgrp docker
+sudo echo 'export DOCKER_TMPDIR=\"DiscoExterno/docker-tmp\"' >> /etc/default/docker
+sudo cat /etc/default/docker
 
+sudo sed -i 'export DOCKER_TMPDIR="DiscoExterno/docker-tmp"' /etc/default/docker
 
+DirName=$(readlink -e ~)
+sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' $DirName/texto.txt
+sudo cat ~/texto.txt
+
+UserName=$(whoami)
+sudo usermod -a -G docker $UserName
+newgrp docker
+sudo sed -i 'export DOCKER_TMPDIR=\"DiscoExterno/docker-tmp\"' /etc/default/docker
+sudo cat /etc/default/docker

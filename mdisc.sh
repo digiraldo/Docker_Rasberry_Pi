@@ -88,18 +88,43 @@ echo "=============================$MiUUID======================================
 
 NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
 #echo "$NameDisco"
-sudo mkdir /mnt/storage
-#sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-#sudo chmod +s /bin/ntfs-3g
-sudo chmod -R 765  $NameDisco
-sudo chmod -Rf 777 /mnt/storage
-sudo chmod -R 765 /etc/fstab
 
-sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-  sudo tee -a /etc/fstab
-sudo mount -a
-ls -l /mnt/storage
-sleep 1s
+cd ~
+
+DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.mountpoint')
+
+if [ $DiscoExterno == null ]
+then
+	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
+  sleep 2s
+  sudo mkdir /mnt/storage
+  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+  #   sudo chmod +s /bin/ntfs-3g
+  sudo chmod -R 765  $NameDisco
+  sudo chmod -Rf 765 /mnt/storage
+  sudo chmod -R 765 /etc/fstab
+
+  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+  sudo mount -a
+  ls -l /mnt/storage
+  sleep 1s
+
+  Print_Style "Detectando Disco montado en: $GREEN $DiscoExterno" "$CYAN"
+
+  sleep 2s
+  sudo chmod -Rf 765 /etc/default/docker
+  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
+  #  sudo nano /etc/default/docker
+
+else
+	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+  sleep 2s
+
+fi
 
 cd ~
 
@@ -109,7 +134,19 @@ DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -
 if [ $DiscoExterno == null ]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
+  Print_Style "Saliendo en:" "$CYAN"
   sleep 2s
+  Print_Style "5 -----" "$RED"
+  sleep 1s
+  Print_Style "4 ----:" "$RED"
+  sleep 1s
+  Print_Style "3 ---:" "$RED"
+  sleep 1s
+  Print_Style "2 --:" "$RED"
+  sleep 1s
+  Print_Style "1 -:" "$RED"
+  sleep 1s
+  exit
 else
 	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
