@@ -153,7 +153,7 @@ else
   echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
   #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
   #  sudo nano /etc/default/docker
-  sudo tail -n 1 /etc/default/docker
+  #       sudo tail -n 1 /etc/default/docker
 fi
 
 # ver el último dato puedes usar watch.
