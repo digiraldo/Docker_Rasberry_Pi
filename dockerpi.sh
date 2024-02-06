@@ -91,23 +91,25 @@ Print_Style "===================================================================
 DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
-Print_Style "$DirName" "$GREEN"
-Print_Style "$UserName" "$GREEN"
-Print_Style "$UserNow" "$GREEN"
+Print_Style "Nombre del Directorio: $GREEN $DirName" "$NORMAL"
+Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
+Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
 Print_Style "==================================================================================" "$YELLOW"
 
 PUID=$(sudo id -u $UserName)
 PGID=$(sudo id -g $UserName)
 TZ=$(sudo cat /etc/timezone)
-Print_Style "$PUID" "$CYAN"
-Print_Style "$PGID" "$CYAN"
-Print_Style "$TZ" "$CYAN"
+Print_Style "Id de Usuario: $CYAN $PUID" "$NORMAL"
+Print_Style "Id del Grupo: $CYAN $PGID" "$NORMAL"
+Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
 #DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
 Print_Style "==================================================================================" "$YELLOW"
 
 Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name')
 LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
+Print_Style "Nombre de los Discos" "$NORMAL"
 Print_Style "$Disco" "$BLUE"
+Print_Style "UUID de los Discos" "$NORMAL"
 Print_Style "$LosUUID" "$BLUE"
 Print_Style "==================================================================================" "$YELLOW"
 sleep 2s
@@ -135,9 +137,9 @@ DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
 
-Print_Style "$MiUUID" "$YELLOW"
-Print_Style "$NameDisco" "$YELLOW"
-Print_Style "$DiscoExterno" "$YELLOW"
+Print_Style "UUID de Disco Seleccionado: $YELLOW $MiUUID" "$NORMAL"
+Print_Style "Nombre del Disco Seleccionado: $YELLOW $NameDisco" "$NORMAL"
+Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
 sleep 1s
 
 if [ $DiscoExterno == null ]
@@ -172,7 +174,7 @@ cd ~
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
-Print_Style "$DiscoExterno" "$GREEN"
+Print_Style "Punto de Montaje: $GREEN $DiscoExterno" "$NORMAL"
 if [ $DiscoExterno == null ]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
@@ -223,7 +225,7 @@ sleep 1s
 sudo groupadd docker
 echo "========================================================================="
 
-Print_Style "Agregando Usuario $UserName al gruo docker y disk..." "$GREEN"
+Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
 sleep 1s
 #sudo gpasswd -a $UserName docker
 sudo usermod -a -G docker $UserName
