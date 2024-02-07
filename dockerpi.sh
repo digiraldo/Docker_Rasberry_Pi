@@ -158,44 +158,12 @@ then
     sudo tee -a /etc/fstab
   sudo mount -a
   ls -l /mnt/storage
-echo "========================================================================="
-echo "========================================================================="
+  Print_Style "=========================================================================" "$REVERSE"
+  echo "========================================================================="
   sudo tail -n 1 /etc/fstab
-echo "========================================================================="
-echo "========================================================================="
+  echo "========================================================================="
+  Print_Style "=========================================================================" "$REVERSE"
   sleep 2s
-
-
-else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
-  sleep 2s
-
-fi
-
-cd ~
-
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
-'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
-| jq -r '.mountpoint')
-echo "========================================================================="
-Print_Style "Punto de Montaje: $GREEN $DiscoExterno" "$NORMAL"
-echo "========================================================================="
-if [ $DiscoExterno == null ]
-then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
-  Print_Style "Saliendo en:" "$CYAN"
-  sleep 2s
-  Print_Style "5 ==============================" "$YELLOW"
-  sleep 1s
-  Print_Style "4 ========================" "$YELLOW"
-  sleep 1s
-  Print_Style "3 ==================" "$YELLOW"
-  sleep 1s
-  Print_Style "2 ============" "$YELLOW"
-  sleep 1s
-  Print_Style "1 ======" "$YELLOW"
-  sleep 1s
-  exit
 else
 	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
@@ -205,15 +173,17 @@ else
   #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
   echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
   #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
-  echo "========================================================================="
+  Print_Style "=========================================================================" "$REVERSE"
   echo "========================================================================="
   sudo tail -n 1 /etc/default/docker
   echo "========================================================================="
-  echo "========================================================================="
+  Print_Style "=========================================================================" "$REVERSE"
                   #  sudo nano /etc/default/docker
                   #  sudo nano /etc/fstab
+                  #  sudo umount /dev/sda1
 fi
 
+cd ~
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
@@ -222,7 +192,7 @@ sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 #Tuve un error de biblioteca que se solucionó con este comando.
-#    sudo apt-get --fix-broken install
+sudo apt-get --fix-broken install
 #Pero supongo que es porque rompí algo antes en mis pruebas.
 
 sudo service docker start
@@ -295,6 +265,18 @@ sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
 
+Print_Style "Saliendo en:" "$CYAN"
+sleep 2s
+Print_Style "5 ==============================" "$YELLOW"
+sleep 1s
+Print_Style "4 ========================" "$YELLOW"
+sleep 1s
+Print_Style "3 ==================" "$YELLOW"
+sleep 1s
+Print_Style "2 ============" "$YELLOW"
+sleep 1s
+Print_Style "1 ======" "$YELLOW"
+sleep 1s
 #docker system prune -a
 sudo rm -rf dockerpi.sh
 
