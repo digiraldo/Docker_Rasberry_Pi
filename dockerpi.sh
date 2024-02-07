@@ -164,6 +164,14 @@ then
   echo "========================================================================="
   Print_Style "=========================================================================" "$REVERSE"
   sleep 2s
+
+  sudo chmod -Rf 765 /etc/default/docker
+  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+  Print_Style "=========================================================================" "$BLINK"
+  echo "========================================================================="
+  sudo tail -n 1 /etc/default/docker
+  echo "========================================================================="
+  Print_Style "=========================================================================" "$BLINK"
 else
 	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
@@ -183,7 +191,6 @@ else
                   #  sudo umount /dev/sda1
 fi
 
-cd ~
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
@@ -195,7 +202,7 @@ sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 sudo apt-get --fix-broken install
 #Pero supongo que es porque rompí algo antes en mis pruebas.
 
-sudo service docker start
+#       sudo service docker start
 echo "========================================================================="
 
 Print_Style "Creando grupo docker..." "$GREEN"
@@ -210,8 +217,6 @@ sudo usermod -a -G docker $UserName
 sudo usermod -a -G disk $UserName
 newgrp docker
 echo "========================================================================="
-
-sudo apt-get update
 
 
 echo "Tomando docker-compose.yaml del repositorio..."
