@@ -85,6 +85,18 @@ sudo apt-get install -y \
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
 
+Print_Style "Creando grupo docker..." "$GREEN"
+sleep 1s
+sudo groupadd docker
+echo "========================================================================="
+
+Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+sleep 1s
+#sudo gpasswd -a $UserName docker
+sudo usermod -a -G docker $UserName
+sudo usermod -a -G disk $UserName
+# sudo newgrp docker
+echo "========================================================================="
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 Print_Style "==================================================================================" "$YELLOW"
@@ -143,7 +155,7 @@ Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
 sleep 1s
 echo "========================================================================="
 
-if [ $DiscoExterno == null || $DiscoExterno == ""]
+if [ $DiscoExterno == null ]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
@@ -206,20 +218,6 @@ sudo apt-get --fix-broken install
 #       sudo service docker start
 echo "========================================================================="
 
-Print_Style "Creando grupo docker..." "$GREEN"
-sleep 1s
-sudo groupadd docker
-echo "========================================================================="
-
-Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
-sleep 1s
-#sudo gpasswd -a $UserName docker
-sudo usermod -a -G docker $UserName
-sudo usermod -a -G disk $UserName
-# sudo newgrp docker
-echo "========================================================================="
-
-
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
 sudo chmod +x docker-compose.yaml
@@ -273,15 +271,15 @@ Print_Style "===================================================================
 
 Print_Style "Saliendo en:" "$CYAN"
 sleep 2s
-Print_Style "5 ==============================" "$YELLOW"
+Print_Style "5 $MAGENTA ==============================" "$YELLOW"
 sleep 1s
-Print_Style "4 ========================" "$YELLOW"
+Print_Style "4 $MAGENTA ========================" "$YELLOW"
 sleep 1s
-Print_Style "3 ==================" "$YELLOW"
+Print_Style "3 $MAGENTA ==================" "$YELLOW"
 sleep 1s
-Print_Style "2 ============" "$YELLOW"
+Print_Style "2 $MAGENTA ============" "$YELLOW"
 sleep 1s
-Print_Style "1 ======" "$YELLOW"
+Print_Style "1 $MAGENTA ======" "$YELLOW"
 sleep 1s
 #docker system prune -a
 sudo rm -rf dockerpi.sh
