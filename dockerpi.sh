@@ -136,7 +136,7 @@ NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
-
+sleep 1s
 Print_Style "UUID de Disco Seleccionado: $YELLOW $MiUUID" "$NORMAL"
 Print_Style "Nombre del Disco Seleccionado: $YELLOW $NameDisco" "$NORMAL"
 Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
@@ -186,9 +186,10 @@ else
   sudo tail -n 1 /etc/default/docker
   echo "========================================================================="
   Print_Style "=========================================================================" "$REVERSE"
+                  #  sudo umount /dev/sda1  
                   #  sudo nano /etc/default/docker
                   #  sudo nano /etc/fstab
-                  #  sudo umount /dev/sda1
+
 fi
 
 
