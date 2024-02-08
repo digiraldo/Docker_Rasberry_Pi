@@ -215,13 +215,13 @@ sleep 1s
 #sudo gpasswd -a $UserName docker
 sudo usermod -a -G docker $UserName
 sudo usermod -a -G disk $UserName
-newgrp docker
+# sudo newgrp docker
 echo "========================================================================="
 
 
 echo "Tomando docker-compose.yaml del repositorio..."
 curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
-chmod +x docker-compose.yaml
+sudo chmod +x docker-compose.yaml
 
 sleep 1s
 Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
