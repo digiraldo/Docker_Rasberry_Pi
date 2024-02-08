@@ -155,8 +155,7 @@ Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
 sleep 1s
 echo "========================================================================="
 
-if [ $DiscoExterno == null ]
-then
+if [ $DiscoExterno == 'null' ]; then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
   sudo mkdir /mnt/storage
