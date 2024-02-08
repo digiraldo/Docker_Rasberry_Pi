@@ -143,7 +143,7 @@ Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
 sleep 1s
 echo "========================================================================="
 
-if [ $DiscoExterno == null ]
+if [ $DiscoExterno == null || $DiscoExterno == ""]
 then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
