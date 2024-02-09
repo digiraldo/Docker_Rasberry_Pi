@@ -48,7 +48,21 @@ function read_with_prompt {
   done
 }
 
-Print_Style "Detectando Los Colores del $GREEN Texto" "$MAGENTA"
+Print_Style "Detectando Los Colores del Texto:\
+$BLACK==== \
+$RED==== \
+$GREEN==== \
+$YELLOW==== \
+$LIME_YELLOW==== \
+$BLUE==== \
+$MAGENTA==== \
+$CYAN==== \
+$WHITE==== \
+$BRIGHT==== \
+$BLINK==== \
+$REVERSE==== \
+$UNDERLINE==== \
+" "$NORMAL"
 
 cd ~
 
@@ -144,7 +158,8 @@ read_with_prompt MiUUID "UUID de disco a montar"
 echo "========================================================================="
 
 NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
-
+LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
+echo "$LabelName"
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
@@ -168,8 +183,8 @@ if [ $DiscoExterno == 'null' ]; then
   if [ $DiscoExterno == 'null' ]; then
     sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
     sleep 2s
-    LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
-    echo "$LabelName"
+    # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
+    # echo "$LabelName"
     Print_Style "MOUNTPOINT en $REVERSE $LabelName $RED No Encontrado" "$CYAN"
     sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2
     Print_Style "Saliendo en:" "$CYAN"
