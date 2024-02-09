@@ -305,6 +305,8 @@ else
                   #  sudo umount /dev/sda1  
                   #  sudo nano /etc/fstab
                   #  sudo nano /etc/default/docker
+                  #  sudo apt remove docker.io docker-compose -y
+                  #  sudo apt remove docker-ce -y
 
 fi
 
@@ -326,19 +328,14 @@ echo \
 sudo apt-get update
 
 #   curl -fsSL https://get.docker.com -o get-docker.sh
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
 #   sudo sh get-docker.sh
 #   Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
 # <...>
 
-Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
-sleep 2s
-sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
-
-
-Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
-sleep 2s
 #sudo pip install docker-compose
-sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
+#   sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 # sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
