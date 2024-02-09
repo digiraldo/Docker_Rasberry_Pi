@@ -114,9 +114,17 @@ sudo apt-get install -y \
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
 
+
 Print_Style "Creando grupo docker..." "$GREEN"
 sleep 1s
-sudo groupadd docker
+VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
+if [ $VerGrupo == "docker" ]; then
+	echo "Exixte $VerGrupo"
+else
+	echo "No Exixte $VerGrupo"
+  sudo groupadd docker
+fi
+
 echo "========================================================================="
 
 Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
@@ -146,11 +154,12 @@ Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
 #DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[0] | .children[] | .mountpoint')
 Print_Style "==================================================================================" "$YELLOW"
 
-Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name')
-LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
-Print_Style "Nombre de los Discos" "$NORMAL"
-Print_Style "$Disco" "$BLUE"
-Print_Style "UUID de los Discos" "$NORMAL"
+# Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name')
+#LosUUID=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | .name, .uuid')
+LosUUID=$(sudo lsblk -p -o NAME,UUID -J | jq -c '.blockdevices[] | .children[]')
+# Print_Style "Nombre de los Discos" "$NORMAL"
+# Print_Style "$Disco" "$BLUE"
+Print_Style "Nobre y UUID de los Discos" "$NORMAL"
 Print_Style "$LosUUID" "$BLUE"
 Print_Style "==================================================================================" "$YELLOW"
 sleep 2s
@@ -195,19 +204,30 @@ echo "========================================================================="
 if [ $DiscoExterno == 'null' ]; then
 	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
   sleep 2s
-  sudo mkdir /mnt/storage
-  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-  #   sudo chmod +s /bin/ntfs-3g
-  sudo chmod -R 765  $NameDisco
-  sudo chmod -Rf 765 /mnt/storage
-  sudo chmod -R 765 /etc/fstab
+
+  DIRECTORIO=/mnt/storage
+
+  if [ -d "$DIRECTORIO" ]
+  then
+    Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $MAGENTA existe" "$REVERSE"
+  else
+    echo "El directorio ${DIRECTORIO} no existe"
+    Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $YELLOW no existe" "$REVERSE"
+    sudo mkdir /mnt/storage
+    #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
+    #   sudo chmod +s /bin/ntfs-3g
+    sudo chmod -R 765  $NameDisco
+    sudo chmod -Rf 765 /mnt/storage
+    sudo chmod -R 765 /etc/fstab
+  fi
+
 
   if [ $DiscoExterno == 'null' ]; then
     sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
     sleep 2s
     # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
     # echo "$LabelName"
-    Print_Style "MOUNTPOINT en $REVERSE $LabelName $RED No Encontrado" "$CYAN"
+    Print_Style "$CYAN MOUNTPOINT en $GREEN $LabelName $RED No Encontrado" "$REVERSE"
     sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2
     Print_Style "Saliendo en:" "$CYAN"
     sleep 2s
