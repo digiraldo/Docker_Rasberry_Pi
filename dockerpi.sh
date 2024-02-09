@@ -325,12 +325,12 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
+#   curl -fsSL https://get.docker.com -o get-docker.sh
+#   sudo sh get-docker.sh
+#   Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
 # <...>
 
-#     udo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
@@ -379,6 +379,8 @@ sudo docker-compose build
 
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
+sudo service docker start
+sudo service docker-compose start
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker-compose pull
 sudo docker-compose up -d
