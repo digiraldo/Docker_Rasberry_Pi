@@ -47,8 +47,24 @@ function read_with_prompt {
     fi
   done
 }
+Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
+Print_Style "$NORMAL=== \
+$BLACK==== \
+$RED==== \
+$GREEN==== \
+$YELLOW==== \
+$LIME_YELLOW==== \
+$BLUE==== \
+$MAGENTA==== \
+$CYAN==== \
+$WHITE==== \
+$BRIGHT==== \
+$BLINK==== \
+$REVERSE==== \
+$UNDERLINE==== \
+" "$NORMAL"
 
-Print_Style "Detectando Los Colores del Texto:\
+Print_Style "$NORMAL=== \
 $BLACK==== \
 $RED==== \
 $GREEN==== \
@@ -65,7 +81,6 @@ $UNDERLINE==== \
 " "$NORMAL"
 
 cd ~
-
 
 sudo rm -rf docker-compose.yaml
 
