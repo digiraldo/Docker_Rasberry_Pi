@@ -341,7 +341,7 @@ sudo apt-get update
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 #Tuve un error de biblioteca que se solucionó con este comando.
-sudo apt-get --fix-broken install
+        #   sudo apt-get --fix-broken install
 #Pero supongo que es porque rompí algo antes en mis pruebas.
 
 #       sudo service docker start
