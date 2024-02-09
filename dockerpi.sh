@@ -210,6 +210,10 @@ if [ $DiscoExterno == 'null' ]; then
   if [ -d "$DIRECTORIO" ]
   then
     Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $MAGENTA existe" "$REVERSE"
+    sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+    sudo mount -a
+    ls -l /mnt/storage
   else
     echo "El directorio ${DIRECTORIO} no existe"
     Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $YELLOW no existe" "$REVERSE"
@@ -219,6 +223,11 @@ if [ $DiscoExterno == 'null' ]; then
     sudo chmod -R 765  $NameDisco
     sudo chmod -Rf 765 /mnt/storage
     sudo chmod -R 765 /etc/fstab
+
+    sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+    sudo tee -a /etc/fstab
+    sudo mount -a
+    ls -l /mnt/storage
   fi
 
 
@@ -245,10 +254,6 @@ if [ $DiscoExterno == 'null' ]; then
     exit 0
   else
     Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
-    sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-    sudo tee -a /etc/fstab
-    sudo mount -a
-    ls -l /mnt/storage
     Print_Style "=========================================================================" "$REVERSE"
     echo "========================================================================="
     sudo tail -n 1 /etc/fstab
