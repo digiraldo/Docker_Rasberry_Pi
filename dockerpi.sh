@@ -166,7 +166,11 @@ if [ $DiscoExterno == 'null' ]; then
   sudo chmod -R 765 /etc/fstab
 
   if [ $DiscoExterno == 'null' ]; then
-    echo "No hay punto de montaje"
+    sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+    sleep 2s
+    LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
+    Print_Style "MOUNTPOINT en $REVERSE $LabelName $RED No Encontrado" "$CYAN"
+    
     Print_Style "Saliendo en:" "$CYAN"
     sleep 2s
     Print_Style "5 $MAGENTA ==============================" "$YELLOW"
@@ -179,6 +183,7 @@ if [ $DiscoExterno == 'null' ]; then
     sleep 1s
     Print_Style "1 $MAGENTA ======" "$YELLOW"
     sleep 1s
+    sudo rm -rf dockerpi.sh 
     exit 0
   else
     Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
@@ -314,3 +319,4 @@ sudo rm -rf dockerpi.sh
 # '.blockdevices[] | .children[] | select(.uuid == $uuid)'
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
+# Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.label')
