@@ -48,7 +48,7 @@ function read_with_prompt {
   done
 }
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
-Print_Style "$NORMAL=== \
+Print_Style "$NORMAL 00000 \
 $BLACK 00000 \
 $RED 00000 \
 $GREEN 00000 \
@@ -64,7 +64,7 @@ $REVERSE 00000 \
 $UNDERLINE 00000 \
 " "$NORMAL"
 
-Print_Style "$NORMAL=== \
+Print_Style "$NORMAL 00000 \
 $BLACK 00000 \
 $RED 00000 \
 $GREEN 00000 \
