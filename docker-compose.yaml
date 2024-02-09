@@ -10,8 +10,8 @@ services:
     stdin_open: true
     tty: true
     environment:
-      #- PUID=usuarioid
-      #- PGID=grupoid
+      - PUID=usuarioid
+      - PGID=grupoid
       - TZ=timezona
     ports:
       - 139:139
@@ -30,24 +30,30 @@ services:
       - discomontadoext/compose/tmp:/tmp
       - discomontadoext/compose/flexget-arm:/flexget-arm
 
-  plex:
-    image: jaymoulin/plex:1.30.1.6562
-    expose:
-      - 32400
-      - 33400
-    # Descomentar si NO usas network_mode: "host"
-    ports:
-      - 32400:32400
-      - 33400:33400
+  jellyfin:
+    image: linuxserver/jellyfin:nightly
+    container_name: jellyfin
     environment:
       - PUID=usuarioid
       - PGID=grupoid
       - TZ=timezona
+      - UMASK_SET=022 #optional
     volumes:
-      - discomontadoext/compose/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - discomontadoext/compose/config:/config
       - discomontadoext/media:/media
-      - discomontadoext/compose/tmp:/tmp
-    restart: unless-stopped
+      - discomontadoext/compose/drive:/drive
+      - discomontadoext/compose/srv/cache:/cache
+      - discomontadoext/compose/srv/log:/log
+      - discomontadoext/compose/srv/lib/metadata:/metadata
+      - discomontadoext/compose/srv/lib/transcodes:/transcodes
+    expose:
+      - 8096
+      - 8920
+    # Descomentar si NO usas network_mode: "host"
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+        restart: unless-stopped
     # network_mode: "host" Solo funciona en Linux
 
   transmission:
@@ -80,61 +86,3 @@ services:
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=Nolateng0 # la puedes cambiar por la que quieras
     restart: unless-stopped
-
-  jellyfin:
-    image: linuxserver/jellyfin:nightly
-    container_name: jellyfin
-    environment:
-      - PUID=usuarioid
-      - PGID=grupoid
-      - TZ=timezona
-      - UMASK_SET=022 #optional
-    volumes:
-      - discomontadoext/compose/config:/config
-      - discomontadoext/media:/media
-      - discomontadoext/compose/drive:/drive
-      - discomontadoext/compose/srv/cache:/cache
-      - discomontadoext/compose/srv/log:/log
-      - discomontadoext/compose/srv/lib/metadata:/metadata
-      - discomontadoext/compose/srv/lib/transcodes:/transcodes
-    ports:
-      - 8096:8096
-      - 8920:8920 #optional
-    restart: unless-stopped
-
-  nginxpm:
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      # These ports are in format <host-port>:<container-port>
-      - '80:80' # Public HTTP Port
-      - '443:443' # Public HTTPS Port
-      - '81:81' # Admin Web Port
-      # Add any other Stream port you want to expose
-      # - '21:21' # FTP
-    environment:
-      # Mysql/Maria connection parameters:
-      DB_MYSQL_HOST: "db"
-      DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: "npm"
-      DB_MYSQL_PASSWORD: "npm"
-      DB_MYSQL_NAME: "npm"
-      # Uncomment this if IPv6 is not enabled on your host
-      # DISABLE_IPV6: 'true'
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-    depends_on:
-      - db
-
-  db:
-    image: 'jc21/mariadb-aria:latest'
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: 'npm'
-      MYSQL_DATABASE: 'npm'
-      MYSQL_USER: 'npm'
-      MYSQL_PASSWORD: 'npm'
-      MARIADB_AUTO_UPGRADE: '1'
-    volumes:
-      - ./mysql:/var/lib/mysql
