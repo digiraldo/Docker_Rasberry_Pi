@@ -157,8 +157,12 @@ Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
 read_with_prompt MiUUID "UUID de disco a montar"
 echo "========================================================================="
 sleep 3s
-NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
-LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
+NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.name')
+LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.label')
 DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
 '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
 | jq -r '.mountpoint')
