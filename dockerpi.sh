@@ -230,8 +230,11 @@ if [ $DiscoExterno == 'null' ]; then
     ls -l /mnt/storage
   fi
 
+  SeeMountPoint=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+| jq -r '.mountpoint')
 
-  if [ $DiscoExterno == 'null' ]; then
+  if [ $SeeMountPoint == 'null' ]; then
     sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
     sleep 2s
     # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
@@ -253,7 +256,7 @@ if [ $DiscoExterno == 'null' ]; then
     
     exit 0
   else
-    Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+    Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $SeeMountPoint" "$GREEN"
     Print_Style "=========================================================================" "$REVERSE"
     echo "========================================================================="
     sudo tail -n 1 /etc/fstab
@@ -262,7 +265,7 @@ if [ $DiscoExterno == 'null' ]; then
     sleep 2s
 
     sudo chmod -Rf 765 /etc/default/docker
-    echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+    echo "export DOCKER_TMPDIR=\"$SeeMountPoint/docker-tmp\"" | sudo tee -a /etc/default/docker
     Print_Style "=========================================================================" "$BLINK"
     echo "========================================================================="
     sudo tail -n 1 /etc/default/docker
@@ -272,10 +275,10 @@ if [ $DiscoExterno == 'null' ]; then
     
     sleep 2s
     sudo chmod -Rf 765 /etc/default/docker
-    #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+    #  sudo echo 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' >> /etc/default/docker
     #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
-    #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
-    echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+    #  sudo sed -i 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' /etc/default/docker
+    echo "export DOCKER_TMPDIR=\"$SeeMountPoint/docker-tmp\"" | sudo tee -a /etc/default/docker
     #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
     Print_Style "=========================================================================" "$REVERSE"
     echo "========================================================================="
@@ -286,14 +289,14 @@ if [ $DiscoExterno == 'null' ]; then
 
 
 else
-	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $SeeMountPoint" "$GREEN"
   sleep 2s
   sudo chmod -Rf 765 /etc/default/docker
-  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+  #  sudo echo 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' >> /etc/default/docker
   #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
-  #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
-  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
-  #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
+  #  sudo sed -i 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' /etc/default/docker
+  echo "export DOCKER_TMPDIR=\"$SeeMountPoint/docker-tmp\"" | sudo tee -a /etc/default/docker
+  #  echo "export DOCKER_TMPDIR=\"\$SeeMountPoint/docker-tmp\"" >> -a fichero.txt
   Print_Style "=========================================================================" "$REVERSE"
   echo "========================================================================="
   sudo tail -n 1 /etc/default/docker
@@ -340,9 +343,9 @@ Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
 sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
 
 sleep 1s
-Print_Style "Configurando Disco Externo $DiscoExterno ..." "$CYAN"
+Print_Style "Configurando Disco Externo $SeeMountPoint ..." "$CYAN"
 #sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
-sudo sed -i "s:discomontadoext:$DiscoExterno:g" docker-compose.yaml
+sudo sed -i "s:discomontadoext:$SeeMountPoint:g" docker-compose.yaml
 sleep 1s
 
 Print_Style "mostrando cambios en docker-compose.yaml..." "$BLUE"
