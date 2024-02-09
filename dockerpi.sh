@@ -169,6 +169,7 @@ if [ $DiscoExterno == 'null' ]; then
     sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
     sleep 2s
     LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
+    echo "$LabelName"
     Print_Style "MOUNTPOINT en $REVERSE $LabelName $RED No Encontrado" "$CYAN"
     
     Print_Style "Saliendo en:" "$CYAN"
@@ -320,3 +321,6 @@ sudo rm -rf dockerpi.sh
 
 # sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")'
 # Disco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.label')
+
+# LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.label')
+# echo "$LabelName"
