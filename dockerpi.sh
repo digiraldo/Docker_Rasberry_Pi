@@ -330,7 +330,15 @@ sudo apt-get update
 #   Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
 # <...>
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+sleep 2s
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+
+
+Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+sleep 2s
+#sudo pip install docker-compose
+sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
 # sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
