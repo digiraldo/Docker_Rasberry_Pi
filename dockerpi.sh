@@ -165,24 +165,58 @@ if [ $DiscoExterno == 'null' ]; then
   sudo chmod -Rf 765 /mnt/storage
   sudo chmod -R 765 /etc/fstab
 
-  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
+  if [ $DiscoExterno == 'null' ]; then
+    echo "No hay punto de montaje"
+    Print_Style "Saliendo en:" "$CYAN"
+    sleep 2s
+    Print_Style "5 $MAGENTA ==============================" "$YELLOW"
+    sleep 1s
+    Print_Style "4 $MAGENTA ========================" "$YELLOW"
+    sleep 1s
+    Print_Style "3 $MAGENTA ==================" "$YELLOW"
+    sleep 1s
+    Print_Style "2 $MAGENTA ============" "$YELLOW"
+    sleep 1s
+    Print_Style "1 $MAGENTA ======" "$YELLOW"
+    sleep 1s
+    exit 0
+  else
+    Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
+    sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
     sudo tee -a /etc/fstab
-  sudo mount -a
-  ls -l /mnt/storage
-  Print_Style "=========================================================================" "$REVERSE"
-  echo "========================================================================="
-  sudo tail -n 1 /etc/fstab
-  echo "========================================================================="
-  Print_Style "=========================================================================" "$REVERSE"
-  sleep 2s
+    sudo mount -a
+    ls -l /mnt/storage
+    Print_Style "=========================================================================" "$REVERSE"
+    echo "========================================================================="
+    sudo tail -n 1 /etc/fstab
+    echo "========================================================================="
+    Print_Style "=========================================================================" "$REVERSE"
+    sleep 2s
 
-  sudo chmod -Rf 765 /etc/default/docker
-  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
-  Print_Style "=========================================================================" "$BLINK"
-  echo "========================================================================="
-  sudo tail -n 1 /etc/default/docker
-  echo "========================================================================="
-  Print_Style "=========================================================================" "$BLINK"
+    sudo chmod -Rf 765 /etc/default/docker
+    echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+    Print_Style "=========================================================================" "$BLINK"
+    echo "========================================================================="
+    sudo tail -n 1 /etc/default/docker
+    echo "========================================================================="
+    Print_Style "=========================================================================" "$BLINK"
+
+    
+    sleep 2s
+    sudo chmod -Rf 765 /etc/default/docker
+    #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
+    #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
+    #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
+    echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
+    #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
+    Print_Style "=========================================================================" "$REVERSE"
+    echo "========================================================================="
+    sudo tail -n 1 /etc/default/docker
+    echo "========================================================================="
+    Print_Style "=========================================================================" "$REVERSE"
+  fi
+
+
 else
 	Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
   sleep 2s
@@ -198,8 +232,8 @@ else
   echo "========================================================================="
   Print_Style "=========================================================================" "$REVERSE"
                   #  sudo umount /dev/sda1  
-                  #  sudo nano /etc/default/docker
                   #  sudo nano /etc/fstab
+                  #  sudo nano /etc/default/docker
 
 fi
 
@@ -268,18 +302,7 @@ sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
 
-Print_Style "Saliendo en:" "$CYAN"
-sleep 2s
-Print_Style "5 $MAGENTA ==============================" "$YELLOW"
-sleep 1s
-Print_Style "4 $MAGENTA ========================" "$YELLOW"
-sleep 1s
-Print_Style "3 $MAGENTA ==================" "$YELLOW"
-sleep 1s
-Print_Style "2 $MAGENTA ============" "$YELLOW"
-sleep 1s
-Print_Style "1 $MAGENTA ======" "$YELLOW"
-sleep 1s
+
 #docker system prune -a
 sudo rm -rf dockerpi.sh
 
