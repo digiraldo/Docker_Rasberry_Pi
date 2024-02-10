@@ -15,6 +15,13 @@ chmod +x dock.sh
 ./dock.sh
 ```
 
+Prueba de Instalación de Docker y Docker-Composer
+```
+wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dck.sh
+chmod +x dck.sh
+./dck.sh
+```
+
 Montar disco Externo
 ```
 wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/mdisc.sh
