@@ -95,6 +95,8 @@ echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
 
+echo "$UserNow"
+
 sudo useradd $UserNow -G sudo
 
 sudo sed -i '/$UserNow ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
