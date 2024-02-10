@@ -91,9 +91,22 @@ Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
 Print_Style "==================================================================================" "$YELLOW"
 sleep 2s
 
+echo "========================================================================="
+Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
 
 sudo useradd $UserNow -G sudo
+
+sudo sed -i '/$UserNow ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sudo sed -i '$a $UserNow ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+sudo sed -n "/$UserNow ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
+
+
+sleep 2s
+
+cd ~
+
+
 
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
