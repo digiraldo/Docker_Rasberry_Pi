@@ -80,11 +80,28 @@ $REVERSE |||||| \
 $UNDERLINE |||||| \
 " "$NORMAL"
 
+# Obtener la ruta del directorio de inicio y el nombre de usuario
+Print_Style "==================================================================================" "$YELLOW"
+DirName=$(readlink -e ~)
+UserName=$(whoami)
+UserNow=$(users)
+Print_Style "Nombre del Directorio: $GREEN $DirName" "$NORMAL"
+Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
+Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
+Print_Style "==================================================================================" "$YELLOW"
+sleep 2s
+
 cd ~
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
+sudo useradd $UserNow -G sudo
+
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+echo "deb [arch=armhf] https://download.docker.com/linux/debian \
+     $(lsb_release -cs) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sleep 2s
 
 sudo docker --version
 sudo docker-composer --version
