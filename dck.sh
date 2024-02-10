@@ -118,5 +118,9 @@ echo "deb [arch=armhf] https://download.docker.com/linux/debian \
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 sleep 2s
 
+echo "$UserNow"
+echo "$UserNow"
+echo "$UserNow"
+
 sudo docker --version
 sudo docker-composer --version
