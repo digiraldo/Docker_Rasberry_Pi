@@ -80,6 +80,8 @@ $REVERSE |||||| \
 $UNDERLINE |||||| \
 " "$NORMAL"
 
+sleep 1s
+
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 Print_Style "==================================================================================" "$YELLOW"
 DirName=$(readlink -e ~)
