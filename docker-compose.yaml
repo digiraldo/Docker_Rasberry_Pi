@@ -53,7 +53,7 @@ services:
     ports:
       - 8096:8096
       - 8920:8920 #optional
-        restart: unless-stopped
+    restart: unless-stopped
     # network_mode: "host" Solo funciona en Linux
 
   transmission:

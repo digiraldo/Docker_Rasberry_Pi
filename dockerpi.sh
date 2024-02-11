@@ -364,14 +364,14 @@ sudo docker-compose build
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 sudo service docker start
-sudo service docker-compose start
+sudo service docker compose start
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker-compose pull
-sudo docker-compose up -d
+sudo docker compose pull
+sudo docker compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker-compose ps
+sudo docker compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker images -a
 Print_Style "==================================================================================" "$YELLOW"
