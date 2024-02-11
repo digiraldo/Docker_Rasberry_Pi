@@ -48,59 +48,65 @@ function read_with_prompt {
   done
 }
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
-Print_Style "$NORMAL |||||| \
-$BLACK |||||| \
-$RED |||||| \
-$GREEN |||||| \
-$YELLOW |||||| \
-$LIME_YELLOW |||||| \
-$BLUE |||||| \
-$MAGENTA |||||| \
-$CYAN |||||| \
-$WHITE |||||| \
-$BRIGHT |||||| \
-$BLINK |||||| \
-$REVERSE |||||| \
-$UNDERLINE |||||| \
-" "$NORMAL"
-
-Print_Style "$NORMAL |||||| \
-$BLACK |||||| \
-$RED |||||| \
-$GREEN |||||| \
-$YELLOW |||||| \
-$LIME_YELLOW |||||| \
-$BLUE |||||| \
-$MAGENTA |||||| \
-$CYAN |||||| \
-$WHITE |||||| \
-$BRIGHT |||||| \
-$BLINK |||||| \
-$REVERSE |||||| \
-$UNDERLINE |||||| \
-" "$NORMAL"
-
-sleep 1s
+Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $BLINK ==== $REVERSE ==== $UNDERLINE ==== " "$NORMAL"
+Print_Style "$NORMAL 0000 $BLACK 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $BLINK 0000 $REVERSE 0000 $UNDERLINE 0000 " "$NORMAL"
+Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $BLINK ==== $REVERSE ==== $UNDERLINE ==== " "$NORMAL"
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 Print_Style "==================================================================================" "$YELLOW"
 DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
+sleep 1s
 Print_Style "Nombre del Directorio: $GREEN $DirName" "$NORMAL"
 Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
 Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
 Print_Style "==================================================================================" "$YELLOW"
 sleep 2s
 
+# Instale las dependencias necesarias para ejecutar el servidor de Minecraft en segundo plano
+Print_Style "Instalando dependencias..." "$CYAN"
+if [ ! -n "`which sudo`" ]; then
+  apt update && apt install sudo -y
+fi
+sudo apt update
+
+Print_Style "Instalar paquetes necesarios" "$CYAN"
+sudo apt-get install -y \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  gnupg2 \
+  software-properties-common \
+  vim \
+  fail2ban \
+  jq \
+  ntfs-3g
+
+  Print_Style "Creando grupo docker..." "$GREEN"
+sleep 1s
+VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
+if [ $VerGrupo == "docker" ]; then
+	echo "Exixte $VerGrupo"
+  sudo usermod -a -G docker $UserName
+else
+	echo "No Exixte $VerGrupo"
+  sudo groupadd docker
+  sudo usermod -a -G docker $UserName
+fi
+
+sleep 1s
+
 echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
 
 sudo useradd $UserNow -G sudo
-
+sleep 1s
 sudo sed -i '/$UserNow ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sleep 1s
 sudo sed -i '$a $UserNow ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+sleep 1s
 sudo sed -n "/$UserNow ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 
 echo "$UserNow"
@@ -122,5 +128,9 @@ echo "$UserNow"
 echo "$UserNow"
 echo "$UserNow"
 
+echo "========================================================================="
 sudo docker --version
+echo "========================================================================="
+echo "========================================================================="
 sudo docker-composer --version
+echo "========================================================================="
