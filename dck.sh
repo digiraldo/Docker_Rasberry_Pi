@@ -95,7 +95,7 @@ else
   sudo usermod -a -G docker $UserName
 fi
 
-sleep 1s
+sleep 2s
 
 echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
@@ -123,6 +123,9 @@ echo "deb [arch=armhf] https://download.docker.com/linux/debian \
     sudo tee /etc/apt/sources.list.d/docker.list
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 sleep 2s
+
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 echo "$UserNow"
 echo "$UserNow"
