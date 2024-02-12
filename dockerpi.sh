@@ -159,6 +159,10 @@ sudo sed -i '/$UserName ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sudo sed -i '$a $UserName ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 sudo sed -n "/$UserName ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 sleep 1s
+sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sudo sed -i '$a sudo ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
+sleep 1s
 
 
 sleep 2s
@@ -313,21 +317,14 @@ fi
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
-# Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+echo "deb [arch=armhf] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 #   curl -fsSL https://get.docker.com -o get-docker.sh
 #   sudo sh get-docker.sh
