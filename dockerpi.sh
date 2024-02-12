@@ -62,6 +62,7 @@ sudo rm -rf docker-compose.yaml
 #echo=$PGID
 
 # Instale las dependencias necesarias para ejecutar el servidor de Minecraft en segundo plano
+#   sudo apt update && sudo apt full-upgrade
 Print_Style "Instalando dependencias..." "$CYAN"
 if [ ! -n "`which sudo`" ]; then
   apt update && apt install sudo -y
