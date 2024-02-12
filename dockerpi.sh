@@ -111,6 +111,13 @@ echo "========================================================================="
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 Print_Style "==================================================================================" "$YELLOW"
+SistemaOp=$(uname -s)
+ArquiSis=$(uname -m)
+Print_Style "Sistema Operativo: $BLUE $SistemaOp" "$NORMAL"
+Print_Style "Arquitectura: $BLUE $ArquiSis" "$NORMAL"
+Print_Style "==================================================================================" "$YELLOW"
+
+Print_Style "==================================================================================" "$YELLOW"
 DirName=$(readlink -e ~)
 UserName=$(whoami)
 UserNow=$(users)
@@ -306,15 +313,8 @@ fi
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-
-#sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-#sudo chmod +x /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 echo "========================================================================="
 sudo docker --version
@@ -364,14 +364,14 @@ sudo docker-compose build
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 sudo service docker start
-sudo service docker compose start
+sudo service docker-compose start
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker compose pull
-sudo docker compose up -d
+sudo docker-compose pull
+sudo docker-compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
-sudo docker compose ps
+sudo docker-compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker images -a
 Print_Style "==================================================================================" "$YELLOW"
