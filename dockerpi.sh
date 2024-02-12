@@ -313,8 +313,9 @@ fi
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
-sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
 
 echo "========================================================================="
 sudo docker --version
