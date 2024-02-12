@@ -268,16 +268,6 @@ if [ $DiscoExterno == 'null' ]; then
     sleep 2s
 
     sudo chmod -Rf 765 /etc/default/docker
-    echo "export DOCKER_TMPDIR=\"$SeeMountPoint/docker-tmp\"" | sudo tee -a /etc/default/docker
-    Print_Style "=========================================================================" "$BLINK"
-    echo "========================================================================="
-    sudo tail -n 1 /etc/default/docker
-    echo "========================================================================="
-    Print_Style "=========================================================================" "$BLINK"
-
-    
-    sleep 2s
-    sudo chmod -Rf 765 /etc/default/docker
     #  sudo echo 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' >> /etc/default/docker
     #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
     #  sudo sed -i 'export DOCKER_TMPDIR="$SeeMountPoint/docker-tmp"' /etc/default/docker
@@ -318,17 +308,10 @@ Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sleep 2s
+sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 
-
-#   curl -fsSL https://get.docker.com -o get-docker.sh
-#   sudo sh get-docker.sh
-#   Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
 
 echo "========================================================================="
 sudo docker --version
