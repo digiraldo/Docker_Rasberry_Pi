@@ -78,6 +78,7 @@ sudo apt-get install -y \
   vim \
   fail2ban \
   jq \
+  wget \
   ntfs-3g
 #   sudo apt install ffmpeg -y
 #   sudo add-apt-repository universe -y
@@ -93,11 +94,11 @@ sleep 1s
 VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
 if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
-  sudo usermod -a -G docker $UserName
+  sudo usermod -aG docker $USER
 else
 	echo "No Exixte $VerGrupo"
   sudo groupadd docker
-  sudo usermod -a -G docker $UserName
+  sudo usermod -aG docker $USER
 fi
 
 echo "========================================================================="
@@ -151,9 +152,9 @@ cd ~
 
 sudo useradd $UserNow -G sudo
 
-sudo sed -i '/$UserNow ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
-sudo sed -i '$a $UserNow ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
-sudo sed -n "/$UserNow ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
+sudo sed -i '/$USER ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sudo sed -i '$a $USER ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+sudo sed -n "/$USER ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 sleep 1s
 sudo sed -i '/$UserName ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sudo sed -i '$a $UserName ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
@@ -310,7 +311,8 @@ sleep 2s
 
 sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
 sleep 2s
-sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
+# sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
+sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 
 echo "========================================================================="
