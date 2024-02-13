@@ -81,8 +81,12 @@ sudo apt-get install -y \
   jq \
   wget \
   lsb-release \
+  uidmap \
+  libffi-dev \
+  libssl-dev \
+  python3-pip \
   ntfs-3g
-
+  
 #   sudo apt install ffmpeg -y
 #   sudo add-apt-repository universe -y
 #   sudo apt install git -y
@@ -132,7 +136,7 @@ echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
 
-sudo useradd $UserNow -G sudo
+sudo useradd $USER -G sudo
 
 sudo sed -i '/$USER ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sudo sed -i '$a $USER ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
@@ -149,6 +153,58 @@ sleep 1s
 
 
 sleep 2s
+
+
+Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
+sleep 2s
+
+Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+sleep 2s
+
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sleep 2s
+
+sudo apt-get update
+
+echo "========================================================================="
+Print_Style "Creando grupo docker..." "$GREEN"
+sleep 1s
+VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
+if [ $VerGrupo == "docker" ]; then
+	echo "Exixte $VerGrupo"
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $USER
+  sudo newgrp docker
+else
+	echo "No Exixte $VerGrupo"
+  sudo groupadd docker
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $USER
+  sudo newgrp docker
+fi
+#sudo gpasswd -a $UserName docker
+# sudo usermod -a -G disk $UserName
+# sudo newgrp docker
+echo "========================================================================="
+
+Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+sleep 2s
+# sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
+sudo pip3 install docker-compose
+# sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+echo "========================================================================="
+sudo docker --version
+echo "========================================================================="
+echo "========================================================================="
+sudo docker compose --version
+echo "========================================================================="
+sleep 2s
+
+
 
 cd ~
 Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
@@ -286,55 +342,6 @@ else
 fi
 
 
-Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
-sleep 2s
-
-Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
-sleep 2s
-
-sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
-sleep 2s
-
-sudo apt-get update
-
-echo "========================================================================="
-Print_Style "Creando grupo docker..." "$GREEN"
-sleep 1s
-VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
-if [ $VerGrupo == "docker" ]; then
-	echo "Exixte $VerGrupo"
-  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
-  sleep 1s
-  sudo usermod -aG docker $USER
-  sudo newgrp docker
-else
-	echo "No Exixte $VerGrupo"
-  sudo groupadd docker
-  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
-  sleep 1s
-  sudo usermod -aG docker $USER
-  sudo newgrp docker
-fi
-#sudo gpasswd -a $UserName docker
-# sudo usermod -a -G disk $UserName
-# sudo newgrp docker
-echo "========================================================================="
-
-Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
-sleep 2s
-# sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
-sudo apt install -y libffi-dev libssl-dev python3-pip
-sudo pip3 install docker-compose
-# sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-
-echo "========================================================================="
-sudo docker --version
-echo "========================================================================="
-echo "========================================================================="
-sudo docker compose --version
-echo "========================================================================="
-sleep 2s
 #       sudo service docker start
 echo "========================================================================="
 
