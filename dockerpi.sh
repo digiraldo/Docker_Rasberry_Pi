@@ -400,7 +400,7 @@ Print_Style "===================================================================
 
 
 #docker system prune -a
-sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2
+sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
 
 
 # Desmontar disco
