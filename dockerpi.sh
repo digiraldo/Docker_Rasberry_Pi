@@ -80,7 +80,9 @@ sudo apt-get install -y \
   fail2ban \
   jq \
   wget \
+  lsb-release \
   ntfs-3g
+
 #   sudo apt install ffmpeg -y
 #   sudo add-apt-repository universe -y
 #   sudo apt install git -y
@@ -89,27 +91,6 @@ sudo apt-get install -y \
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
 
-
-Print_Style "Creando grupo docker..." "$GREEN"
-sleep 1s
-VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
-if [ $VerGrupo == "docker" ]; then
-	echo "Exixte $VerGrupo"
-  sudo usermod -aG docker $USER
-else
-	echo "No Exixte $VerGrupo"
-  sudo groupadd docker
-  sudo usermod -aG docker $USER
-fi
-
-echo "========================================================================="
-
-Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
-sleep 1s
-#sudo gpasswd -a $UserName docker
-# sudo usermod -a -G disk $UserName
-# sudo newgrp docker
-echo "========================================================================="
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
 Print_Style "==================================================================================" "$YELLOW"
@@ -302,15 +283,42 @@ else
                   #  sudo nano /etc/default/docker
                   #  sudo apt remove docker.io docker-compose -y
                   #  sudo apt remove docker-ce -y
-
 fi
 
 
-Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$MAGENTA"
+Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
 sleep 2s
 
+Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+sleep 2s
 
 sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sleep 2s
+
+sudo apt-get update
+
+echo "========================================================================="
+Print_Style "Creando grupo docker..." "$GREEN"
+sleep 1s
+VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
+if [ $VerGrupo == "docker" ]; then
+	echo "Exixte $VerGrupo"
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $USER
+else
+	echo "No Exixte $VerGrupo"
+  sudo groupadd docker
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $USER
+fi
+#sudo gpasswd -a $UserName docker
+# sudo usermod -a -G disk $UserName
+# sudo newgrp docker
+echo "========================================================================="
+
+Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
 sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
