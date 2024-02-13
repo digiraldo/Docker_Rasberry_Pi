@@ -306,12 +306,14 @@ if [ $VerGrupo == "docker" ]; then
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
   sudo usermod -aG docker $USER
+  sudo newgrp docker
 else
 	echo "No Exixte $VerGrupo"
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
   sudo usermod -aG docker $USER
+  sudo newgrp docker
 fi
 #sudo gpasswd -a $UserName docker
 # sudo usermod -a -G disk $UserName
@@ -321,7 +323,9 @@ echo "========================================================================="
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 # sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
-sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y libffi-dev libssl-dev python3-pip
+sudo pip3 install docker-compose
+# sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 
 echo "========================================================================="
