@@ -174,14 +174,14 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  sudo usermod -aG docker $UserNow
+  # sudo usermod -aG docker $UserNow
   # sudo newgrp docker
 else
 	echo "No Exixte $VerGrupo"
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  sudo usermod -aG docker $UserNow
+  # sudo usermod -aG docker $UserNow
   # sudo newgrp docker
 fi
 #sudo gpasswd -a $UserName docker
