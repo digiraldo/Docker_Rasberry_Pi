@@ -83,16 +83,23 @@ sudo apt-get install -y \
   jq \
   ntfs-3g
 
-  Print_Style "Creando grupo docker..." "$GREEN"
+echo "========================================================================="
+Print_Style "Creando grupo docker..." "$GREEN"
 sleep 1s
 VerGrupo=$(cut -d : -f 1 /etc/group | grep docker)
 if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
-  sudo usermod -a -G docker $UserName
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $UserNow
+  sudo newgrp docker
 else
 	echo "No Exixte $VerGrupo"
   sudo groupadd docker
-  sudo usermod -a -G docker $UserName
+  Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
+  sleep 1s
+  sudo usermod -aG docker $UserNow
+  sudo newgrp docker
 fi
 
 sleep 2s
@@ -100,16 +107,11 @@ sleep 2s
 echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
+# UserName=$(whoami)
+sudo useradd $UserName -G sudo
+echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
-sudo useradd $UserNow -G sudo
-sleep 1s
-sudo sed -i '/$UserNow ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
-sleep 1s
-sudo sed -i '$a $UserNow ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
-sleep 1s
-sudo sed -n "/$UserNow ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
-
-echo "$UserNow"
 
 sleep 2s
 
@@ -122,14 +124,7 @@ echo "deb [arch=armhf] https://download.docker.com/linux/debian \
     $(lsb_release -cs) stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-sleep 2s
 
-#sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-#sudo chmod +x /usr/local/bin/docker-compose
-
-echo "$UserNow"
-echo "$UserNow"
-echo "$UserNow"
 
 echo "========================================================================="
 sudo docker --version
@@ -137,5 +132,7 @@ echo "========================================================================="
 echo "========================================================================="
 sudo docker compose --version
 echo "========================================================================="
+
+docker-compose up -d
 
 sudo rm -rf dck.sh

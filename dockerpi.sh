@@ -249,7 +249,7 @@ if [ $DiscoExterno == 'null' ]; then
 
   DIRECTORIO=/mnt/storage
 
-  if [ -d "$DIRECTORIO" ]
+  if [ -d "${DIRECTORIO}" ]
   then
     Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $MAGENTA existe" "$REVERSE"
     sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
