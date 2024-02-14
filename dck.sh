@@ -91,6 +91,7 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 else
@@ -98,6 +99,7 @@ else
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 fi
@@ -129,6 +131,7 @@ sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce
 echo "========================================================================="
 sudo docker --version
 echo "========================================================================="
+sleep 2s
 echo "========================================================================="
 sudo docker compose --version
 echo "========================================================================="

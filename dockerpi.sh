@@ -135,20 +135,10 @@ sleep 2s
 echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
-
-sudo useradd $USER -G sudo
-
-sudo sed -i '/$USER ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
-sudo sed -i '$a $USER ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
-sudo sed -n "/$USER ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
-sleep 1s
-sudo sed -i '/$UserName ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
-sudo sed -i '$a $UserName ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
-sudo sed -n "/$UserName ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
-sleep 1s
-sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
-sudo sed -i '$a sudo ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
-sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
+# UserName=$(whoami)
+sudo useradd $UserName -G sudo
+echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 sleep 1s
 
 
@@ -161,7 +151,11 @@ sleep 2s
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
 
-sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+echo "deb [arch=armhf] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
 sleep 2s
 
 sudo apt-get update
@@ -174,15 +168,17 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  # sudo usermod -aG docker $UserNow
-  # sudo newgrp docker
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
+  sudo usermod -aG docker $UserNow
+  sudo newgrp docker
 else
 	echo "No Exixte $VerGrupo"
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  # sudo usermod -aG docker $UserNow
-  # sudo newgrp docker
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
+  sudo usermod -aG docker $UserNow
+  sudo newgrp docker
 fi
 #sudo gpasswd -a $UserName docker
 # sudo usermod -a -G disk $UserName
@@ -191,14 +187,12 @@ echo "========================================================================="
 
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
-sudo apt-get update && sudo apt-get install -y docker-ce docker-compose
-# sudo pip3 install docker-compose
-# sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
+sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 
 echo "========================================================================="
 sudo docker --version
 echo "========================================================================="
+sleep 2s
 echo "========================================================================="
 sudo docker compose --version
 echo "========================================================================="
