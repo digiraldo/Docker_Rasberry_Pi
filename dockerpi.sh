@@ -55,7 +55,7 @@ Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_Y
 cd ~
 
 
-FICHERO=$(docker-compose.yaml)
+FICHERO=docker-compose.yaml
 
 if [ -f $FICHERO ]
 then
