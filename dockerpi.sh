@@ -111,7 +111,8 @@ sudo apt-get install -y \
 #   sudo apt-get install ntfs-3g -y
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
-
+echo "========================================================================="
+echo "========================================================================="
 sudo timedatectl
 echo "========================================================================="
 TZ=$(sudo cat /etc/timezone)
