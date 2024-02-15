@@ -120,7 +120,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sleep 1s
   echo "========================================================================="
 
-  if [$DiscoExterno == 'null']; then
+  if [$DiscoExterno == "null"]; then
     Print_Style "Disco Externo = $DiscoExterno" "$RED"
     Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
     sleep 2s
