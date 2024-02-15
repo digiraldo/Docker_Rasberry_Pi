@@ -197,15 +197,17 @@ sleep 2s
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
 
-# curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-# sudo apt-key fingerprint 0EBFCD88
-# echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-#     $(lsb_release -cs) stable" | \
-#     sudo tee /etc/apt/sources.list.d/docker.list
-# sleep 2s
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+sleep 2s
 
 
 sudo apt-get update
+
+
 
 echo "========================================================================="
 Print_Style "Creando grupo docker..." "$GREEN"
@@ -235,10 +237,7 @@ echo "========================================================================="
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
-
+sleep 2s
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 
 echo "========================================================================="
