@@ -53,118 +53,28 @@ cd ~
 
 sudo rm -rf docker-compose.yaml
 
-#echo=$TZ
-#echo=$PUID
-#echo=$PGID
+echo "========================================================================="
+echo "========================================================================="
 
-# Instale las dependencias necesarias para ejecutar el servidor de Minecraft en segundo plano
-Print_Style "Instalando dependencias..." "$CYAN"
-if [ ! -n "`which sudo`" ]; then
-  apt update && apt install sudo -y
-fi
-
-sudo apt install jq -y
-
-#sudo apt-get install -y python python-pip
-
-# Obtener la ruta del directorio de inicio y el nombre de usuario
-DirName=$(readlink -e ~)
-UserName=$(whoami)
-UserNow=$(users)
-
-Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
-sleep 1s
-#   sudo mkdir -p externo
-#   sudo mount $Disco externo
 Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
 sleep 1s
 lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
 
-# Digitar el UUID del disco
 echo "========================================================================="
-Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
-read_with_prompt MiUUID "UUID de disco a montar"
-echo "=============================$MiUUID============================================"
-
-NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.name')
-#echo "$NameDisco"
-
-cd ~
-
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
-'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
-| jq -r '.mountpoint')
-
-if [ $DiscoExterno == null ]
-then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
-  sleep 2s
-  sudo mkdir /mnt/storage
-  #   sudo chmod -R 765 /sbin/mount.ntfs-3g /usr/bin/ntfs-3g
-  #   sudo chmod +s /bin/ntfs-3g
-  sudo chmod -R 765  $NameDisco
-  sudo chmod -Rf 765 /mnt/storage
-  sudo chmod -R 765 /etc/fstab
-
-  sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
-    sudo tee -a /etc/fstab
-  sudo mount -a
-  ls -l /mnt/storage
-echo "========================================================================="
-  sudo tail -n 1 /etc/fstab
-echo "========================================================================="
-  sleep 2s
-
-
-else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
-  sleep 2s
-
-fi
-
-cd ~
-
-DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
-'.blockdevices[] | .children[] | select(.uuid == $uuid)' \
-| jq -r '.mountpoint')
-if [ $DiscoExterno == null ]
-then
-	Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
-  Print_Style "Saliendo en:" "$CYAN"
-  sleep 2s
-  Print_Style "5 ==============================" "$YELLOW"
-  sleep 1s
-  Print_Style "4 ========================" "$YELLOW"
-  sleep 1s
-  Print_Style "3 ==================" "$YELLOW"
-  sleep 1s
-  Print_Style "2 ============" "$YELLOW"
-  sleep 1s
-  Print_Style "1 ======" "$YELLOW"
-  sleep 1s
-  exit< <
-else
-	Print_Style "Punto de Montaje encontrado - $BLUE Mounpoint = $YELLOW $DiscoExterno" "$GREEN"
-  sleep 2s
-  sudo chmod -Rf 765 /etc/default/docker
-  #  sudo echo 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' >> /etc/default/docker
-  #  sudo tee -a /etc/default/docker > "Texto a añadir al final del fichero"
-  #  sudo sed -i 'export DOCKER_TMPDIR="$DiscoExterno/docker-tmp"' /etc/default/docker
-  echo "export DOCKER_TMPDIR=\"$DiscoExterno/docker-tmp\"" | sudo tee -a /etc/default/docker
-  #  echo "export DOCKER_TMPDIR=\"\$DiscoExterno/docker-tmp\"" >> -a fichero.txt
-  #  sudo nano /etc/default/docker
-  #       sudo tail -n 1 /etc/default/docker
-fi
-
-# ver el último dato puedes usar watch.
-# sudo tail -n 1 /etc/default/docker | grep error
+read -r -p "Montar en Disco Externo? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
+  Print_Style "Vamos a montar el disco Externo" "$GREEN"
+else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
+  Print_Style "No has querido Montar el Disco" "$RED"
+fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
 
 #docker system prune -a
 sudo rm -rf mdisc.sh
 
 
-# Desmontar disco
-#            sudo umount /dev/sda1
-# Eliminar ultima linea
-#            sudo nano /etc/fstab
+                      #  sudo umount /dev/sda1  
+                      #  sudo nano /etc/fstab
+                      #  sudo nano /etc/default/docker
+                      #  sudo nano /etc/sudoers
