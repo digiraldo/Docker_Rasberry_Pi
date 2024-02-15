@@ -337,8 +337,8 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
       fi
 
       SeeMountPoint=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
-    '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
-    | jq -r '.mountpoint')
+        '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+        | jq -r '.mountpoint')
 
       if [ $SeeMountPoint == 'null' ]; then
         sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
