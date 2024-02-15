@@ -54,8 +54,18 @@ Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_Y
 
 cd ~
 
-sudo cp docker-compose.yaml docker-compose.bak
-sudo rm -rf docker-compose.yaml
+
+FICHERO=$(docker-compose.yaml)
+
+if [ -f $FICHERO ]
+then
+  echo "El fichero $FICHERO existe"
+  sudo cp docker-compose.yaml docker-compose.bak
+  sudo rm -rf docker-compose.yaml
+  Print_Style "Se ha eliminado el fichero: $YELLOW $FICHERO" "$NORMAL"
+else
+  echo "El fichero $FICHERO no existe"
+fi
 
 #echo=$TZ
 #echo=$PUID
@@ -65,7 +75,7 @@ sudo rm -rf docker-compose.yaml
 #   sudo apt update && sudo apt full-upgrade
 Print_Style "Instalando dependencias..." "$CYAN"
 if [ ! -n "`which sudo`" ]; then
-  apt update && apt install sudo -y
+  sudo apt update && sudo apt install sudo -y
 fi
 sudo apt update
 
@@ -94,6 +104,30 @@ sudo apt-get install -y \
 #   sudo apt-get install ntfs-3g -y
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
+
+TZ=$(sudo cat /etc/timezone)
+Print_Style "Zona Horaria Actual: $CYAN $TZ" "$GREEN"
+
+
+read -r -p "Cambiar Zona Horaria? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    # Digitar Zona Horaria
+    echo "========================================================================="
+    Print_Style "Introduzca la Zona Horaria: " "$MAGENTA"
+    Print_Style "Ejemplos:" "$YELLOW"
+    Print_Style "America/Mexico_City" "$NORMAL"
+    Print_Style "America/Bogota" "$NORMAL"
+    read_with_prompt NewTZ "UUID de disco a montar"
+    echo "========================================================================="
+    sleep 3s
+    sudo timedatectl set -timezone $NewTZ
+    Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
+    sleep 2s
+else
+    Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
+fi
+
 
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
@@ -151,12 +185,13 @@ sleep 2s
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-sleep 2s
+# curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+# sudo apt-key fingerprint 0EBFCD88
+# echo "deb [arch=armhf] https://download.docker.com/linux/debian \
+#     $(lsb_release -cs) stable" | \
+#     sudo tee /etc/apt/sources.list.d/docker.list
+# sleep 2s
+
 
 sudo apt-get update
 
@@ -168,7 +203,7 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 else
@@ -176,7 +211,7 @@ else
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYANpara seguir si esta en $MAGENTAroot" "$GREEN"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 fi
@@ -187,7 +222,12 @@ echo "========================================================================="
 
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
+
+# sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 
 echo "========================================================================="
 sudo docker --version
@@ -198,7 +238,9 @@ sudo docker compose --version
 echo "========================================================================="
 sleep 2s
 
-
+Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
+sleep 1s
+lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
 
 echo "========================================================================="
 read -r -p "Montar en Disco Externo? [y/N] " response
@@ -209,7 +251,6 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
     sleep 1s
     #   sudo mkdir -p externo
     #   sudo mount $Disco externo
-
 
     Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
     sleep 1s
