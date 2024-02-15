@@ -146,8 +146,11 @@ fi
 Print_Style "==================================================================================" "$YELLOW"
 SistemaOp=$(uname -s)
 ArquiSis=$(uname -m)
+ArchOp=$(dpkg --print-architecture)
 Print_Style "Sistema Operativo: $BLUE $SistemaOp" "$NORMAL"
 Print_Style "Arquitectura: $BLUE $ArquiSis" "$NORMAL"
+Print_Style "Arquitectura: $BLUE $ArquiSis" "$NORMAL"
+Print_Style "Arquitectura: $BLUE $ArchOp" "$NORMAL"
 Print_Style "==================================================================================" "$YELLOW"
 
 Print_Style "==================================================================================" "$YELLOW"
@@ -197,11 +200,19 @@ sleep 2s
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
 sleep 2s
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
 sleep 2s
 
 
