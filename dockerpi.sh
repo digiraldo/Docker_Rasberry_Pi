@@ -112,9 +112,11 @@ sudo apt-get install -y \
 #   sudo apt install exfat-fusey -y
 #   sudo apt-get install libfuse2 -y
 
+sudo timedatectl
+echo "========================================================================="
 TZ=$(sudo cat /etc/timezone)
 Print_Style "Zona Horaria Actual: $CYAN $TZ" "$GREEN"
-
+echo "========================================================================="
 
 read -r -p "Cambiar Zona Horaria? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
@@ -128,12 +130,14 @@ then
     read_with_prompt NewTZ "Introduzca Zona Horaria"
     echo "========================================================================="
     sleep 3s
-    sudo timedatectl set -timezone $NewTZ
+    sudo timedatectl set-timezone $NewTZ
+    # ln -sfn /usr/share/zoneinfo/$NewTZ /etc/localtime
     Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
     sleep 2s
 else
     Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
 fi
+
 
 
 
