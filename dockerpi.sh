@@ -249,7 +249,9 @@ Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
 sleep 2s
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+# sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 echo "========================================================================="
 sudo docker --version
