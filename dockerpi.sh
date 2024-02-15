@@ -55,16 +55,16 @@ Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_Y
 cd ~
 
 
-FICHERO=docker-compose.yaml
+FicheroDocker=docker-compose.yaml)
 
-if [ -f $FICHERO ]
+if [ -f $FicheroDocker ]
 then
-  echo "El fichero $FICHERO existe"
+  echo "El fichero $FicheroDocker existe"
   sudo cp docker-compose.yaml docker-compose.bak
   sudo rm -rf docker-compose.yaml
-  Print_Style "Se ha eliminado el fichero: $YELLOW $FICHERO" "$NORMAL"
+  Print_Style "Se ha eliminado el fichero: $YELLOW $FicheroDocker" "$NORMAL"
 else
-  echo "El fichero $FICHERO no existe"
+  echo "El fichero $FicheroDocker no existe"
 fi
 
 #echo=$TZ
