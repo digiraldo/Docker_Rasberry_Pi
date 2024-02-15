@@ -120,9 +120,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sleep 1s
   echo "========================================================================="
 
-  # if [$DiscoExterno == "null"]; then
-
-  if [ -z "$DiscoExterno" ]; then
+  if [[ $DiscoExterno == null ]]; then
     Print_Style "Disco Externo = $DiscoExterno" "$RED"
     Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
     sleep 2s
@@ -156,7 +154,8 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
       | jq -r '.mountpoint')
     
-    if [  -z "$SeeMountPoint" ]; then
+    # if [  -z "$SeeMountPoint" ]; then
+    if [[ $DiscoExterno == null ]]; then
       sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
       sleep 2s
       # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
