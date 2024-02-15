@@ -199,7 +199,7 @@ sleep 2s
 
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
     $(lsb_release -cs) stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list
 sleep 2s
