@@ -47,6 +47,14 @@ function read_with_prompt {
   done
 }
 
+Print_Style "==================================================================================" "$YELLOW"
+DirName=$(readlink -e ~)
+UserName=$(whoami)
+UserNow=$(users)
+Print_Style "Nombre del Directorio: $GREEN $DirName" "$NORMAL"
+Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
+Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
+Print_Style "==================================================================================" "$YELLOW"
 
 cd ~
 
