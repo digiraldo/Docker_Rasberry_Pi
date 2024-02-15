@@ -124,7 +124,7 @@ then
     Print_Style "Ejemplos:" "$YELLOW"
     Print_Style "America/Mexico_City" "$NORMAL"
     Print_Style "America/Bogota" "$NORMAL"
-    read_with_prompt NewTZ "UUID de disco a montar"
+    read_with_prompt NewTZ "Introduzca Zona Horaria"
     echo "========================================================================="
     sleep 3s
     sudo timedatectl set -timezone $NewTZ
