@@ -59,12 +59,18 @@ FicheroDocker=docker-compose.yaml)
 
 if [ -f $FicheroDocker ]
 then
+  echo "========================================================================="
   echo "El fichero $FicheroDocker existe"
+  echo "========================================================================="
+  sleep 2s
   sudo cp docker-compose.yaml docker-compose.bak
   sudo rm -rf docker-compose.yaml
   Print_Style "Se ha eliminado el fichero: $YELLOW $FicheroDocker" "$NORMAL"
 else
+  echo "========================================================================="
   echo "El fichero $FicheroDocker no existe"
+  echo "========================================================================="
+  sleep 2s
 fi
 
 #echo=$TZ
