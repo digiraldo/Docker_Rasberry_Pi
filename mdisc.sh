@@ -56,6 +56,15 @@ Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
 Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
 Print_Style "==================================================================================" "$YELLOW"
 
+Print_Style "==================================================================================" "$YELLOW"
+PUID=$(sudo id -u $UserName)
+PGID=$(sudo id -g $UserName)
+TZ=$(sudo cat /etc/timezone)
+Print_Style "Id de Usuario: $CYAN $PUID" "$NORMAL"
+Print_Style "Id del Grupo: $CYAN $PGID" "$NORMAL"
+Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
+Print_Style "==================================================================================" "$YELLOW"
+
 cd ~
 
 
@@ -246,6 +255,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
 
 else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
+
   Print_Style "No se va a montar disxo Externo, configurando en: $GREEN $DirName" "$RED"
   sleep 3s
   echo "Tomando docker-compose.yaml del repositorio..."
