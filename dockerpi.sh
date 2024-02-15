@@ -195,6 +195,7 @@ sleep 2s
 
 
 Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
+cd ~
 sleep 2s
 
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
@@ -249,9 +250,9 @@ Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
 sleep 2s
 
 sleep 2s
-# sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+# sudo apt-get update
+# sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 echo "========================================================================="
 sudo docker --version
@@ -436,6 +437,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
                       #  sudo umount /dev/sda1  
                       #  sudo nano /etc/fstab
                       #  sudo nano /etc/default/docker
+                      #  sudo nano /etc/sudoers
                       #  sudo apt remove docker.io docker-compose -y
                       #  sudo apt remove docker-ce -y
     fi
