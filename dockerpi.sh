@@ -131,14 +131,14 @@ then
     echo "========================================================================="
     sleep 3s
     sudo timedatectl set-timezone $NewTZ
+    TZN=$(sudo cat /etc/timezone)
+    sleep 2s
     # ln -sfn /usr/share/zoneinfo/$NewTZ /etc/localtime
-    Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
+    Print_Style "Nueva Zona Horaria: $CYAN $TZN" "$NORMAL"
     sleep 2s
 else
-    Print_Style "Zona Horaria: $CYAN $TZ" "$NORMAL"
+    Print_Style "Zona Horaria Actual: $CYAN $TZ" "$NORMAL"
 fi
-
-
 
 
 # Obtener la ruta del directorio de inicio y el nombre de usuario
