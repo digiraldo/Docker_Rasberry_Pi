@@ -122,8 +122,8 @@ then
     echo "========================================================================="
     Print_Style "Introduzca la Zona Horaria: " "$MAGENTA"
     Print_Style "Ejemplos:" "$YELLOW"
-    Print_Style "America/Mexico_City" "$NORMAL"
-    Print_Style "America/Bogota" "$NORMAL"
+    Print_Style "America/Mexico_City" "$CYAN"
+    Print_Style "America/Bogota" "$CYAN"
     read_with_prompt NewTZ "Introduzca Zona Horaria"
     echo "========================================================================="
     sleep 3s
