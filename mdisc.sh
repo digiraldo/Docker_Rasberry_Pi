@@ -65,11 +65,55 @@ read -r -p "Montar en Disco Externo? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
   Print_Style "Vamos a montar el disco Externo" "$GREEN"
+  cd ~
+
+  Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
+  sleep 1s
+  #   sudo mkdir -p externo
+  #   sudo mount $Disco externo
+
+  Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
+  sleep 1s
+  lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+
+  # Digitar el UUID del disco
+  echo "========================================================================="
+  Print_Style "Introduzca el UUID de la unidad a montar: " "$MAGENTA"
+  read_with_prompt MiUUID "UUID de disco a montar"
+  echo "========================================================================="
+  sleep 3s
+  NameDisco=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+  '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+  | jq -r '.name')
+  LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+  '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+  | jq -r '.label')
+  DiscoExterno=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
+  '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
+  | jq -r '.mountpoint')
+  sleep 1s
+  Print_Style "UUID de Disco Seleccionado: $YELLOW $MiUUID" "$NORMAL"
+  sleep 1s
+  Print_Style "Nombre del Disco Seleccionado: $YELLOW $NameDisco" "$NORMAL"
+  sleep 1s
+  Print_Style "Etiqueta del Disco Seleccionado: $YELLOW $LabelName" "$NORMAL"
+  sleep 1s
+  Print_Style "Punto de Montaje: $YELLOW $DiscoExterno" "$NORMAL"
+  sleep 1s
+  echo "========================================================================="
+
+  if [$DiscoExterno == 'null']; then
+    Print_Style "Disco Externo = $DiscoExterno" "$RED"
+  else
+    Print_Style "Disco Externo = $DiscoExterno" "$GREEN"
+  fi
+  Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
+
 else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
   Print_Style "No has querido Montar el Disco" "$RED"
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
-
+Print_Style "SALTO DEL CODIGO ANTERIOR SI O NO ..." "$LIME_YELLOW"
 #docker system prune -a
 sudo rm -rf mdisc.sh
 
