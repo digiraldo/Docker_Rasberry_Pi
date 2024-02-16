@@ -174,6 +174,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sleep 1s
       Print_Style "1 $MAGENTA ======" "$YELLOW"
       sleep 1s
+      sudo rm -rf docker-compose.yaml
       exit 0
     else
       Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $SeeMountPoint" "$GREEN"
