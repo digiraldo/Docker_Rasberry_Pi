@@ -188,35 +188,7 @@ cd ~
 sudo useradd $UserName -G sudo
 echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
-sleep 1s
-
-
 sleep 2s
-
-
-Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
-cd ~
-sleep 2s
-
-Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
-sleep 2s
-
-# Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sleep 2s
-
-sudo apt-get update
 
 echo "========================================================================="
 Print_Style "Creando grupo docker..." "$GREEN"
@@ -241,6 +213,34 @@ fi
 #sudo gpasswd -a $UserName docker
 # sudo usermod -a -G disk $UserName
 # sudo newgrp docker
+
+sleep 2s
+
+
+Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
+cd ~
+sleep 2s
+
+Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+sleep 2s
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sleep 3s
+
+sudo apt-get update
+
 echo "========================================================================="
 
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
@@ -262,7 +262,12 @@ sleep 2s
 
 
 cd ~
-
+# Contraseña del usuario que inicio seccion
+echo "========================================================================="
+Print_Style "Introduzca la contraseña del usuario: $CYAN $UserNow " "$MAGENTA"
+read_with_prompt PasUsrNow "Pasword de usurio $UserNow"
+echo "========================================================================="
+sleep 3s
 echo "========================================================================="
 echo "========================================================================="
 
@@ -398,32 +403,39 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
       sudo chmod +x docker-compose.yaml
 
+      echo "Tomando .dev del repositorio..."
+      curl -H "Accept-Encoding: identity" -L -o .dev https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.dev
+      sudo chmod +x .dev
+
       sleep 1s
       Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
-      sudo sed -i "s:usuarioid:$PUID:g" docker-compose.yaml
+      sudo sed -i "s:usuarioid:$PUID:g" .dev
 
       sleep 1s
       Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
-      sudo sed -i "s:grupoid:$PGID:g" docker-compose.yaml
+      sudo sed -i "s:grupoid:$PGID:g" .dev
 
       sleep 1s
       Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
-      sudo sed -i "s:timezona:$TZ:g" docker-compose.yaml
+      sudo sed -i "s:timezona:$TZ:g" .dev
 
       sleep 1s
       Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
-      sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
+      sudo sed -i "s:usernaa:$UserName:g" .dev
 
       sleep 1s
-      Print_Style "Configurando Disco Externo $SeeMountPoint ..." "$CYAN"
-      #sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
-      sudo sed -i "s:discomontadoext:$SeeMountPoint:g" docker-compose.yaml
+      Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
+      #sudo sed -i "s:discc:$Disco:g" .dev
+      sudo sed -i "s:discomontadoext:$DirName:g" .dev
+
+      sleep 1s
+      Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
+      sudo sed -i "s:passwuser:$PasUsrNow:g" .dev
       sleep 1s
 
-      Print_Style "mostrando cambios en docker-compose.yaml..." "$BLUE"
-      sudo cat docker-compose.yaml
+      Print_Style "mostrando cambios en .dev..." "$BLUE"
+      sudo cat .dev
       sleep 3s
-    fi
 
   else
     Print_Style "Disco Externo = $DiscoExterno" "$GREEN"
@@ -457,30 +469,38 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
   sudo chmod +x docker-compose.yaml
 
+  echo "Tomando .dev del repositorio..."
+  curl -H "Accept-Encoding: identity" -L -o .dev https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.dev
+  sudo chmod +x .dev
+
   sleep 1s
   Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
-  sudo sed -i "s:usuarioid:$PUID:g" docker-compose.yaml
+  sudo sed -i "s:usuarioid:$PUID:g" .dev
 
   sleep 1s
   Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
-  sudo sed -i "s:grupoid:$PGID:g" docker-compose.yaml
+  sudo sed -i "s:grupoid:$PGID:g" .dev
 
   sleep 1s
   Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
-  sudo sed -i "s:timezona:$TZ:g" docker-compose.yaml
+  sudo sed -i "s:timezona:$TZ:g" .dev
 
   sleep 1s
   Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
-  sudo sed -i "s:usernaa:$UserName:g" docker-compose.yaml
+  sudo sed -i "s:usernaa:$UserName:g" .dev
 
   sleep 1s
   Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
-  #sudo sed -i "s:discc:$Disco:g" docker-compose.yaml
-  sudo sed -i "s:discomontadoext:$DirName:g" docker-compose.yaml
+  #sudo sed -i "s:discc:$Disco:g" .dev
+  sudo sed -i "s:discomontadoext:$DirName:g" .dev
+
+  sleep 1s
+  Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
+  sudo sed -i "s:passwuser:$PasUsrNow:g" .dev
   sleep 1s
 
-  Print_Style "mostrando cambios en docker-compose.yaml..." "$BLUE"
-  sudo cat docker-compose.yaml
+  Print_Style "mostrando cambios en .dev..." "$BLUE"
+  sudo cat .dev
   sleep 3s
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
