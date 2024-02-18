@@ -530,7 +530,7 @@ sleep 4s
 echo "========================================================================="
 
 
-Print_Style "probando docker compose..." "$BLUE"
+Print_Style "================================ PROBANDO DOCKER COMPOSE ================================" "$RED"
 sleep 1s
 # crear
 Print_Style "======================================= CREAR ===========================================" "$YELLOW"
@@ -545,7 +545,7 @@ Print_Style "===================================== DESCARGAR ===================
 sudo docker compose pull
 Print_Style "==================================================================================" "$YELLOW"
 Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
-sudo docker-compose up -d
+sudo docker compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 
 
@@ -553,23 +553,63 @@ echo "==========================================================================
 echo "====================== Configurando transmission y flexget ======================"
 echo "================================================================================="
 sleep 2s
+
 cd ~
 cd transmission
+Print_Style "Configurando settings.json de transmission" "$YELLOW"
+sleep 2s
 sudo cp settings.json settings.bak
 sudo rm -rf settings.json
 Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
 
-echo "Tomando .env del repositorio..."
-curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
-sudo chmod +x .env
+echo "Tomando settings.json del repositorio..."
+sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+sudo chmod +x settings.json
 
 cd ~
+cd flexget
+Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
+sleep 2s
+sudo cp config-trakt.yml config-trakt.bak
+sudo rm -rf config-trakt.yml
+Print_Style "Se ha eliminado el fichero: $YELLOW config-trakt.yml" "$NORMAL"
+
+echo "Tomando config-trakt.yml del repositorio..."
+sudo curl -H "Accept-Encoding: identity" -L -o config-trakt.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config-trakt.yml
+sudo chmod +x config-trakt.yml
+
+Print_Style "Configurando config.yml de flexget" "$YELLOW"
+sleep 2s
+sudo cp config.yml config.bak
+sudo rm -rf config.yml
+Print_Style "Se ha eliminado el fichero: $YELLOW config.yml" "$NORMAL"
+
+echo "Tomando config.yml del repositorio..."
+sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
+sudo chmod +x config.yml
+
+cd custom-cont-init.d
+Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
+sleep 2s
+sudo cp mediainfo.sh mediainfo.bak
+sudo rm -rf mediainfo.sh
+Print_Style "Se ha eliminado el fichero: $YELLOW mediainfo.sh" "$NORMAL"
+
+echo "Tomando mediainfo.sh del repositorio..."
+sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
+sudo chmod +x mediainfo.sh
+
+
+cd ~
+
+sudo service docker compose restart
+sudo service docker restart
 
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
 Print_Style "Muestra el estado de los servicios definidos en un archivo Docker Compose" "$CYAN"
-sudo docker-compose ps
+sudo docker compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker images -a
 Print_Style "========================================= VOLÚMENES =========================================" "$YELLOW"
