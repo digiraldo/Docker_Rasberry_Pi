@@ -65,5 +65,5 @@ services:
       - PUID=${UPUID}
       - PGID=${GPGID}
       - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=d1s4n3d # la puedes cambiar por la que quieras
+      - FG_WEBUI_PASSWD=d1g1r4ld0_g0r0b3t4 # la puedes cambiar por la que quieras
     restart: unless-stopped

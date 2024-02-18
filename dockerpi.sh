@@ -599,7 +599,8 @@ echo "Tomando mediainfo.sh del repositorio..."
 sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
 sudo chmod +x mediainfo.sh
 
-Print_Style "Password de flexget: $YELLOW d1s4n3d" "$NORMAL"
+Print_Style "Password de flexget: $YELLOW d1g1r4ld0_g0r0b3t4" "$NORMAL"
+Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
 sleep 2s
 
 cd ~
@@ -619,6 +620,12 @@ sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
 # docker-compose down && docker-compose build --pull && docker-compose up -d
+# sudo service transmission-daemon stop
+# sudo service transmission-daemon start
+
+
+#       sudo docker stop transmission
+#       sudo docker start transmission
 
 #docker system prune -a
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
