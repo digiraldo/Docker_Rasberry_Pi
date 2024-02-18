@@ -265,7 +265,7 @@ cd ~
 # Contraseña del usuario que inicio seccion
 echo "========================================================================="
 Print_Style "Introduzca la contraseña del usuario: $CYAN $UserNow " "$MAGENTA"
-read_with_prompt PasUsrNow "Pasword de usurio $UserNow"
+read_with_prompt PasUsrNow "Password de usurio $UserNow"
 echo "========================================================================="
 sleep 3s
 echo "========================================================================="
@@ -282,15 +282,17 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   Print_Style "Vamos a montar el disco Externo" "$GREEN"
   sleep 2s
   cd ~
-
+  echo "========================================================================="
   Print_Style "MONTANDO DISCO EXTERNO..." "$RED"
   sleep 1s
   #   sudo mkdir -p externo
   #   sudo mount $Disco externo
-
+  echo "========================================================================="
+  echo "========================================================================="
   Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
   sleep 1s
   lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
+  echo "========================================================================="
 
   # Digitar el UUID del disco
   echo "========================================================================="
@@ -403,38 +405,38 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
       sudo chmod +x docker-compose.yaml
 
-      echo "Tomando .dev del repositorio..."
-      curl -H "Accept-Encoding: identity" -L -o .dev https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.dev
-      sudo chmod +x .dev
+      echo "Tomando .env del repositorio..."
+      curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
+      sudo chmod +x .env
 
       sleep 1s
       Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
-      sudo sed -i "s:usuarioid:$PUID:g" .dev
+      sudo sed -i "s:usuarioid:$PUID:g" .env
 
       sleep 1s
       Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
-      sudo sed -i "s:grupoid:$PGID:g" .dev
+      sudo sed -i "s:grupoid:$PGID:g" .env
 
       sleep 1s
       Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
-      sudo sed -i "s:timezona:$TZ:g" .dev
+      sudo sed -i "s:timezona:$TZ:g" .env
 
       sleep 1s
       Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
-      sudo sed -i "s:usernaa:$UserName:g" .dev
+      sudo sed -i "s:usernaa:$UserName:g" .env
 
       sleep 1s
       Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
-      #sudo sed -i "s:discc:$Disco:g" .dev
-      sudo sed -i "s:discomontadoext:$DirName:g" .dev
+      #sudo sed -i "s:discc:$Disco:g" .env
+      sudo sed -i "s:discomontadoext:$DirName:g" .env
 
       sleep 1s
       Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
-      sudo sed -i "s:passwuser:$PasUsrNow:g" .dev
+      sudo sed -i "s:passwuser:$PasUsrNow:g" .env
       sleep 1s
 
-      Print_Style "mostrando cambios en .dev..." "$BLUE"
-      sudo cat .dev
+      Print_Style "mostrando cambios en .env..." "$BLUE"
+      sudo cat .env
       sleep 3s
     fi  # MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
   else # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
@@ -469,38 +471,38 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   curl -H "Accept-Encoding: identity" -L -o docker-compose.yaml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/docker-compose.yaml
   sudo chmod +x docker-compose.yaml
 
-  echo "Tomando .dev del repositorio..."
-  curl -H "Accept-Encoding: identity" -L -o .dev https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.dev
-  sudo chmod +x .dev
+  echo "Tomando .env del repositorio..."
+  curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
+  sudo chmod +x .env
 
   sleep 1s
   Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
-  sudo sed -i "s:usuarioid:$PUID:g" .dev
+  sudo sed -i "s:usuarioid:$PUID:g" .env
 
   sleep 1s
   Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
-  sudo sed -i "s:grupoid:$PGID:g" .dev
+  sudo sed -i "s:grupoid:$PGID:g" .env
 
   sleep 1s
   Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
-  sudo sed -i "s:timezona:$TZ:g" .dev
+  sudo sed -i "s:timezona:$TZ:g" .env
 
   sleep 1s
   Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
-  sudo sed -i "s:usernaa:$UserName:g" .dev
+  sudo sed -i "s:usernaa:$UserName:g" .env
 
   sleep 1s
   Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
-  #sudo sed -i "s:discc:$Disco:g" .dev
-  sudo sed -i "s:discomontadoext:$DirName:g" .dev
+  #sudo sed -i "s:discc:$Disco:g" .env
+  sudo sed -i "s:discomontadoext:$DirName:g" .env
 
   sleep 1s
   Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
-  sudo sed -i "s:passwuser:$PasUsrNow:g" .dev
+  sudo sed -i "s:passwuser:$PasUsrNow:g" .env
   sleep 1s
 
-  Print_Style "mostrando cambios en .dev..." "$BLUE"
-  sudo cat .dev
+  Print_Style "mostrando cambios en .env..." "$BLUE"
+  sudo cat .env
   sleep 3s
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
