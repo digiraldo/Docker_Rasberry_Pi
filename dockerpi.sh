@@ -216,12 +216,15 @@ fi
 
 sleep 2s
 
-
-Print_Style "================== INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE ==================" "$NORMAL"
+Print_Style "============================================================================" "$NORMAL"
+Print_Style "================== INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE ==================" "$BLINK"
+Print_Style "============================================================================" "$NORMAL"
 cd ~
 sleep 2s
 
+echo "========================================================================="
 Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+echo "========================================================================="
 sleep 2s
 
 # Add Docker's official GPG key:
@@ -242,14 +245,22 @@ sleep 3s
 sudo apt-get update
 
 echo "========================================================================="
-
 Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+echo "========================================================================="
 sleep 2s
 
 sleep 2s
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+# sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # sudo apt-get update
 # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo "========================================================================="
+Print_Style "ACTUALIZACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+echo "========================================================================="
+sleep 2s
+sudo apt update
+sudo apt install docker-compose-plugin
 
 echo "========================================================================="
 sudo docker --version
@@ -259,13 +270,16 @@ echo "========================================================================="
 sudo docker-compose --version
 echo "========================================================================="
 sleep 2s
+sudo docker compose version
+echo "========================================================================="
+sleep 2s
 
 
 cd ~
 # Contraseña del usuario que inicio seccion
 echo "========================================================================="
 Print_Style "Introduzca la contraseña del usuario: $CYAN $UserNow " "$MAGENTA"
-read_with_prompt PasUsrNow "Password de usurio $UserNow"
+read_with_prompt PasUsrNow "Password de usuario $UserNow"
 echo "========================================================================="
 sleep 3s
 echo "========================================================================="
@@ -461,11 +475,9 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
                     #  sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
                     #  sudo rm -rf /var/lib/docker
                     #  sudo rm -rf /var/lib/containerd
-                    
-                    #  sudo apt remove docker.io docker-compose -y
-                    #  sudo apt remove docker-ce -y
+
   fi # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
-  Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
+  # Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
 
 else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
@@ -512,21 +524,25 @@ fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
 
 
 echo "========================================================================="
+Print_Style "Validando y Mostrando Configuracion del archivo yml" "$CYAN"
+sudo docker compose config
+sleep 4s
+echo "========================================================================="
 
 
-Print_Style "probando docker-compose..." "$BLUE"
+Print_Style "probando docker compose..." "$BLUE"
 sleep 1s
 # crear
 Print_Style "======================================= CREAR ===========================================" "$YELLOW"
-sudo docker-compose build
+sudo docker compose build
 
 
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 sudo service docker start
-sudo service docker-compose start
+sudo service docker compose start
 Print_Style "===================================== DESCARGAR =========================================" "$YELLOW"
-sudo docker-compose pull
+sudo docker compose pull
 Print_Style "==================================================================================" "$YELLOW"
 Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
 sudo docker-compose up -d
@@ -537,7 +553,7 @@ Print_Style "Muestra el estado de los servicios definidos en un archivo Docker C
 sudo docker-compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker images -a
-Print_Style "==================================================================================" "$YELLOW"
+Print_Style "========================================= VOLÚMENES =========================================" "$YELLOW"
 sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
