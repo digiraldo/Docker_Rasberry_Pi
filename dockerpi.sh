@@ -217,7 +217,7 @@ fi
 sleep 2s
 
 
-Print_Style "INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE..." "$NORMAL"
+Print_Style "================== INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE ==================" "$NORMAL"
 cd ~
 sleep 2s
 
