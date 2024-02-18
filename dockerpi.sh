@@ -458,6 +458,10 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
                     #  sudo nano /etc/fstab
                     #  sudo nano /etc/default/docker
                     #  sudo nano /etc/sudoers
+                    #  sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+                    #  sudo rm -rf /var/lib/docker
+                    #  sudo rm -rf /var/lib/containerd
+                    
                     #  sudo apt remove docker.io docker-compose -y
                     #  sudo apt remove docker-ce -y
   fi # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
