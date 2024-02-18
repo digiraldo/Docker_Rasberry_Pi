@@ -440,9 +440,9 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sudo sed -i "s:usernaa:$UserName:g" .env
 
       sleep 1s
-      Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
+      Print_Style "Configurando Disco Externo ${DIRECTORIO} ..." "$CYAN"
       #sudo sed -i "s:discc:$Disco:g" .env
-      sudo sed -i "s:discomontadoext:$DirName:g" .env
+      sudo sed -i "s:discomontadoext:${DIRECTORIO}:g" .env
 
       sleep 1s
       Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
