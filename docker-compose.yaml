@@ -29,6 +29,7 @@ services:
       - TZ=${TIZO}
       - VERSION=docker
       - PLEX_CLAIM= #optional
+    hostname: plex
     volumes:
       - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
       - ${MEDIA}:/media

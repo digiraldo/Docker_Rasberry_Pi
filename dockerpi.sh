@@ -599,6 +599,8 @@ echo "Tomando mediainfo.sh del repositorio..."
 sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
 sudo chmod +x mediainfo.sh
 
+Print_Style "Password de flexget: $YELLOW d1s4n3d" "$NORMAL"
+sleep 2s
 
 cd ~
 
