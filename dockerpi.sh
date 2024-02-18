@@ -318,13 +318,13 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sleep 1s
   echo "========================================================================="
 
-  if [[ $DiscoExterno == null ]]; then
+  if [[ $DiscoExterno == null ]]; then # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
     Print_Style "Disco Externo = $DiscoExterno" "$RED"
     Print_Style "No hay punto de montaje - $GREEN Mounpoint = $MAGENTA $DiscoExterno" "$RED"
     sleep 2s
 
     DIRECTORIO=/mnt/storage
-    if [ -d "${DIRECTORIO}" ]; then
+    if [ -d "${DIRECTORIO}" ]; then  #  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Mountpoint
       Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $MAGENTA existe" "$REVERSE"
       sudo echo UUID="$MiUUID" /mnt/storage ntfs-3g defaults,auto 0 0 | \
       sudo tee -a /etc/fstab
@@ -332,7 +332,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       echo "========================================================================="
       ls -l /mnt/storage
       echo "========================================================================="
-    else
+    else  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Mountpoint
       echo "El directorio ${DIRECTORIO} no existe"
       Print_Style "$CYAN El directorio $GREEN ${DIRECTORIO} $YELLOW no existe" "$REVERSE"
       sudo mkdir /mnt/storage
@@ -346,14 +346,14 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       echo "========================================================================="
       ls -l /mnt/storage
       echo "========================================================================="
-    fi
+    fi  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Mountpoint
 
     SeeMountPoint=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r --arg uuid "$MiUUID" \
       '.blockdevices[] | .children[] | select(.uuid == $uuid)' \
       | jq -r '.mountpoint')
     
     # if [  -z "$SeeMountPoint" ]; then
-    if [[ $SeeMountPoint == null ]]; then
+    if [[ $SeeMountPoint == null ]]; then  #  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
       sudo lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
       sleep 2s
       # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "$MiUUID")' | jq -r '.label')
@@ -374,7 +374,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sleep 1s
       sudo rm -rf docker-compose.yaml
       exit 0
-    else
+    else  # MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
       Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $SeeMountPoint" "$GREEN"
       Print_Style "=========================================================================" "$REVERSE"
       echo "========================================================================="
@@ -436,8 +436,8 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       Print_Style "mostrando cambios en .dev..." "$BLUE"
       sudo cat .dev
       sleep 3s
-
-  else
+    fi  # MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
+  else # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
     Print_Style "Disco Externo = $DiscoExterno" "$GREEN"
     Print_Style "Punto de Montaje encontrado - $CYAN Mounpoint = $YELLOW $SeeMountPoint" "$GREEN"
     sleep 2s
@@ -458,7 +458,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
                     #  sudo nano /etc/sudoers
                     #  sudo apt remove docker.io docker-compose -y
                     #  sudo apt remove docker-ce -y
-  fi
+  fi # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
   Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
 
 else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
