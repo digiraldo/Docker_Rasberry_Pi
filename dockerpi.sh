@@ -524,7 +524,7 @@ fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
 
 
 echo "========================================================================="
-Print_Style "Validando y Mostrando Configuracion del archivo yml" "$CYAN"
+Print_Style "Validando y Mostrando Configuracion del archivo yaml" "$CYAN"
 sudo docker compose config
 sleep 4s
 echo "========================================================================="
@@ -546,6 +546,25 @@ sudo docker compose pull
 Print_Style "==================================================================================" "$YELLOW"
 Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
 sudo docker-compose up -d
+Print_Style "==================================================================================" "$YELLOW"
+
+
+echo "================================================================================="
+echo "====================== Configurando transmission y flexget ======================"
+echo "================================================================================="
+sleep 2s
+cd ~
+cd transmission
+sudo cp settings.json settings.bak
+sudo rm -rf settings.json
+Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+echo "Tomando .env del repositorio..."
+curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
+sudo chmod +x .env
+
+cd ~
+
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
