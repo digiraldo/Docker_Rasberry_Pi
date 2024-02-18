@@ -15,7 +15,7 @@ services:
       - 445:445
     volumes:
       - ${MEDIA}:/media
-      - ${SORAGE}/torrents:/downloadsT
+      - ${STORAGE}/torrents:/downloadsT
       - ${DISCEXT}:/discexter
 
   plex:

@@ -256,7 +256,7 @@ sudo docker --version
 echo "========================================================================="
 sleep 2s
 echo "========================================================================="
-sudo docker compose --version
+sudo docker-compose --version
 echo "========================================================================="
 sleep 2s
 
@@ -512,6 +512,8 @@ echo "========================================================================="
 
 Print_Style "probando docker-compose..." "$BLUE"
 sleep 1s
+# crear
+Print_Style "======================================= CREAR ===========================================" "$YELLOW"
 sudo docker-compose build
 
 
@@ -519,12 +521,15 @@ Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
 sudo service docker start
 sudo service docker-compose start
-Print_Style "==================================================================================" "$YELLOW"
+Print_Style "===================================== DESCARGAR =========================================" "$YELLOW"
 sudo docker-compose pull
+Print_Style "==================================================================================" "$YELLOW"
+Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
 sudo docker-compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
 Print_Style "==================================================================================" "$YELLOW"
+Print_Style "Muestra el estado de los servicios definidos en un archivo Docker Compose" "$CYAN"
 sudo docker-compose ps
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker images -a
@@ -532,7 +537,7 @@ Print_Style "===================================================================
 sudo docker volume ls
 Print_Style "==================================================================================" "$YELLOW"
 
-
+# docker-compose down && docker-compose build --pull && docker-compose up -d
 
 #docker system prune -a
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
