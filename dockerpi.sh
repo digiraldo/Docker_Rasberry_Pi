@@ -553,6 +553,11 @@ echo "==========================================================================
 echo "====================== Configurando transmission y flexget ======================"
 echo "================================================================================="
 sleep 2s
+cd ~
+Print_Style "Deteniendo $REDtransmission y flexget" "$YELLOW"
+sleep 2s
+sudo docker stop transmission
+sudo docker stop flexget
 
 cd ~
 cd transmission
@@ -604,6 +609,12 @@ Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
 sleep 2s
 
 cd ~
+Print_Style "Iniciando $GREENtransmission y flexget" "$YELLOW"
+sleep 2s
+sudo docker start transmission
+sudo docker start flexget
+
+cd ~
 
 sudo service docker compose restart
 sudo service docker restart
@@ -631,6 +642,9 @@ Print_Style "===================================================================
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
 
 
+#   sudo find /mnt -name "Big Buck Bunny (2008).mp4"
+#   sudo find . -name "Big Buck Bunny (2008).mp4"
+
 # Desmontar disco
 #            sudo umount /dev/sda1
 
@@ -642,3 +656,5 @@ sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
 
 # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.label')
 # echo "$LabelName"
+
+# magnet:?xt=urn:btih:88594aaacbde40ef3e2510c47374ec0aa396c08e&dn=Big%20Buck%20Bunny%20%282008%29.mp4&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&ws=http%3A%2F%2Fdistribution.bbb3d.renderfarming.net%2Fvideo%2Fmp4%2Fbbb%5Fsunflower%5F1080p%5F30fps%5Fnormal.mp4
