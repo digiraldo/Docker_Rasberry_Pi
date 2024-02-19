@@ -224,7 +224,7 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root" "$NORMAL"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINKCtl+D" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 else
@@ -232,7 +232,7 @@ else
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root" "$NORMAL"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINKCtl+D" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 fi
@@ -277,7 +277,7 @@ sleep 2s
 
 sleep 2s
 # sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # sudo apt-get update
 # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
@@ -499,8 +499,9 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
                     #  sudo nano /etc/default/docker
                     #  sudo nano /etc/sudoers
                     #  sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+                    #  sudo rm -rf /var/lib/containerd                    
                     #  sudo rm -rf /var/lib/docker
-                    #  sudo rm -rf /var/lib/containerd
+
 
   fi # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
   # Print_Style "SALTO DEL CODIGO ANTERIOR Disco Externo = $DiscoExterno ..." "$YELLOW"
