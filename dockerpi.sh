@@ -293,9 +293,6 @@ sudo docker --version
 echo "========================================================================="
 sleep 2s
 echo "========================================================================="
-sudo docker-compose --version
-echo "========================================================================="
-sleep 2s
 sudo docker compose version
 echo "========================================================================="
 sleep 2s
@@ -571,6 +568,11 @@ sudo service docker compose start
 Print_Style "===================================== DESCARGAR =========================================" "$YELLOW"
 sudo docker compose pull
 
+Print_Style "==================================================================================" "$YELLOW"
+Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
+sudo docker compose up -d
+#     sudo docker compose up -d --force-recreate
+Print_Style "==================================================================================" "$YELLOW"
 
 echo "================================================================================="
 echo "====================== Configurando transmission y flexget ======================"
@@ -641,12 +643,6 @@ cd ~
 
 sudo service docker compose restart
 sudo service docker restart
-
-Print_Style "==================================================================================" "$YELLOW"
-Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
-sudo docker compose up -d
-#     sudo docker compose up -d --force-recreate
-Print_Style "==================================================================================" "$YELLOW"
 
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
