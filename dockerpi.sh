@@ -47,6 +47,7 @@ function read_with_prompt {
     fi
   done
 }
+
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
 Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $BLINK ==== $REVERSE ==== $UNDERLINE ==== " "$NORMAL"
 Print_Style "$NORMAL 0000 $BLACK 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $BLINK 0000 $REVERSE 0000 $UNDERLINE 0000 " "$NORMAL"
@@ -142,16 +143,40 @@ else
 fi
 
 
-# Obtener la ruta del directorio de inicio y el nombre de usuario
-Print_Style "==================================================================================" "$YELLOW"
+# Obtener la ruta del directorio de inicio el nombre de usuario iNFORMACION Detallada
+Print_Style "================================================================================================" "$BLUE"
+Print_Style "" "$BLUE"
 SistemaOp=$(uname -s)
+SisKernel=$(uname -r)
+FecKernel=$(uname -v)
 ArquiSis=$(uname -m)
+InfoProc=$(uname -p)
+NameDist=$(uname -o)
 ArchOp=$(dpkg --print-architecture)
-Print_Style "Sistema Operativo: $BLUE $SistemaOp" "$NORMAL"
-Print_Style "Arquitectura: $BLUE $ArquiSis" "$NORMAL"
-Print_Style "Arquitectura: $BLUE $ArquiSis" "$NORMAL"
-Print_Style "Arquitectura: $BLUE $ArchOp" "$NORMAL"
-Print_Style "==================================================================================" "$YELLOW"
+NameRed=$(uname -n)
+InfoDet=$(uname -a)
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Sistema Operativo:       |$MAGENTA $SistemaOp $BLINK$BLUE<==                                 " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Versión del Kernel:      |$MAGENTA $SisKernel $BLINK$BLUE<==                                 " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Fecha del Kernel:        |$MAGENTA $FecKernel $BLINK$BLUE<==                                 " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Arquitectura Procesador: |$MAGENTA $ArquiSis $BLINK$BLUE<==                                  " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Información Procesador:  |$MAGENTA $InfoProc $BLINK$BLUE<==                                  " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Nombre de Distribución:  |$MAGENTA $NameDist $BLINK$BLUE<==                                  " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Arquitectura:            |$MAGENTA $ArchOp $BLINK$BLUE<==                                    " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+Print_Style "|  Nombre Red /etc/hostname |$MAGENTA $NameRed $BLINK$BLUE<==                                    " "$LIME_YELLOW"
+Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
+
+Print_Style "" "$BLUE"
+Print_Style "================================================================================================" "$BLUE"
+Print_Style "Información Detallada:$RED $InfoDet                                                             " "$YELLOW"
+Print_Style "================================================================================================" "$BLUE"
 
 Print_Style "==================================================================================" "$YELLOW"
 DirName=$(readlink -e ~)
