@@ -49,9 +49,9 @@ function read_with_prompt {
 }
 
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
-Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $BLINK ==== $REVERSE ==== $UNDERLINE ==== " "$NORMAL"
-Print_Style "$NORMAL 0000 $BLACK 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $BLINK 0000 $REVERSE 0000 $UNDERLINE 0000 " "$NORMAL"
-Print_Style "$NORMAL ==== $BLACK ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $BLINK ==== $REVERSE ==== $UNDERLINE ==== " "$NORMAL"
+Print_Style "$BLACK ==== $NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== " "$NORMAL"
+Print_Style "$BLACK 0000 $NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $REVERSE 0000 $UNDERLINE 0000 $BLINK 0000 " "$NORMAL"
+Print_Style "$BLACK ==== $NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== " "$NORMAL"
 
 cd ~
 
@@ -569,10 +569,6 @@ sudo service docker start
 sudo service docker compose start
 Print_Style "===================================== DESCARGAR =========================================" "$YELLOW"
 sudo docker compose pull
-Print_Style "==================================================================================" "$YELLOW"
-Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
-sudo docker compose up -d
-Print_Style "==================================================================================" "$YELLOW"
 
 
 echo "================================================================================="
@@ -580,7 +576,7 @@ echo "====================== Configurando transmission y flexget ===============
 echo "================================================================================="
 sleep 2s
 cd ~
-Print_Style "Deteniendo $REDtransmission y flexget" "$YELLOW"
+Print_Style "Deteniendo $RED transmission y flexget" "$YELLOW"
 sleep 2s
 sudo docker stop transmission
 sudo docker stop flexget
@@ -635,7 +631,7 @@ Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
 sleep 2s
 
 cd ~
-Print_Style "Iniciando $GREENtransmission y flexget" "$YELLOW"
+Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
 sleep 2s
 sudo docker start transmission
 sudo docker start flexget
@@ -644,6 +640,12 @@ cd ~
 
 sudo service docker compose restart
 sudo service docker restart
+
+Print_Style "==================================================================================" "$YELLOW"
+Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
+sudo docker compose up -d
+#     sudo docker compose up -d --force-recreate
+Print_Style "==================================================================================" "$YELLOW"
 
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
@@ -683,4 +685,4 @@ sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
 # LabelName=$(sudo lsblk -p -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINT -J | jq -r '.blockdevices[] | .children[] | select(.uuid == "E0FE6879FE684A3C")' | jq -r '.label')
 # echo "$LabelName"
 
-# magnet:?xt=urn:btih:88594aaacbde40ef3e2510c47374ec0aa396c08e&dn=Big%20Buck%20Bunny%20%282008%29.mp4&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&ws=http%3A%2F%2Fdistribution.bbb3d.renderfarming.net%2Fvideo%2Fmp4%2Fbbb%5Fsunflower%5F1080p%5F30fps%5Fnormal.mp4
+# magnet:?xt=urn:btih:88594AAACBDE40EF3E2510C47374EC0AA396C08E&dn=bbb_sunflower_1080p_30fps_normal.mp4&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.publicbt.com%3a80%2fannounce&ws=http%3a%2f%2fdistribution.bbb3d.renderfarming.net%2fvideo%2fmp4%2fbbb_sunflower_1080p_30fps_normal.mp4

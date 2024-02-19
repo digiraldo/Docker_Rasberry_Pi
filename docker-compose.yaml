@@ -6,7 +6,7 @@ services:
     image: dperson/samba # no hay tag con versiones, solo latest
     container_name: samba
     restart: always
-    command: '-u "${USERNAM};${PASSUSR}" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    command: '-u "${USERNAM};${PASSUSR}" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "externo;/externo;yes;no"'
     stdin_open: true
     tty: true
     environment:
@@ -16,7 +16,7 @@ services:
       - 445:445
     volumes:
       - ${MEDIA}:/media
-      - ${STORAGE}/torrents:/downloadsT
+      - ${STORAGE}/torrents:/downloads
       - ${DISCEXT}:/externo
 
   plex:
