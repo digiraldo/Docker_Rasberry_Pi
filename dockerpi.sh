@@ -615,19 +615,50 @@ sleep 2s
 sudo docker stop transmission
 sudo docker stop flexget
 
-cd ~
-cd transmission
-pwd
-sleep 2s
-Print_Style "Configurando settings.json de transmission" "$YELLOW"
-sleep 2s
-sudo cp settings.json settings.bak
-sudo rm -rf settings.json
-Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
 
-echo "Tomando settings.json del repositorio..."
-sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
-sudo chmod +x settings.json
+DIRTRNS=~/transmission
+echo "${DIRTRNS}"
+if [ -d "${DIRTRNS}" ]; then  #  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
+  Print_Style "$CYAN El directorio $GREEN ${DIRTRNS} $MAGENTA existe" "$REVERSE"
+  cd ~
+  cd transmission
+  cd ~/transmission
+  pwd
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+else  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
+  echo "El directorio ${DIRTRNS} no existe"
+  Print_Style "$CYAN El directorio $GREEN ${DIRTRNS} $YELLOW no existe" "$REVERSE"
+  cd ~
+  sudo mkdir transmission
+  sudo chmod -Rf 765 transmission
+  cd ~
+  cd transmission
+  cd ~/transmission
+  pwd
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+fi  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
+
+
+
+
 
 cd ~
 cd flexget
@@ -666,7 +697,7 @@ echo "Tomando mediainfo.sh del repositorio..."
 sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
 sudo chmod +x mediainfo.sh
 
-Print_Style "Password de flexget: $YELLOW d1g1r4ld0_g0r0b3t4" "$NORMAL"
+Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
 Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
 sleep 2s
 
