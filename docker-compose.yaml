@@ -52,8 +52,12 @@ services:
     restart: unless-stopped
 
   flexget:
-    image: wiserain/flexget:3.5
+    image: lscr.io/linuxserver/flexget:latest
     container_name: flexget
+    command:
+      - daemon
+      - start
+      - --autoreload-config
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
@@ -64,6 +68,7 @@ services:
     environment:
       - PUID=${UPUID}
       - PGID=${GPGID}
+      - TZ=${TIZO}
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=d1g1r4ld0_g0r0b3t4 # la puedes cambiar por la que quieras
     restart: unless-stopped

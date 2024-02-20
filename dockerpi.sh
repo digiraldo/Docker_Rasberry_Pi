@@ -639,6 +639,7 @@ sleep 2s
 sudo docker start transmission
 sudo docker start flexget
 
+docker exec flexget flexget web passwd d1g1r4ld0_g0r0b3t4
 cd ~
 
 sudo service docker compose restart
@@ -658,6 +659,7 @@ Print_Style "===================================================================
 # docker-compose down && docker-compose build --pull && docker-compose up -d
 # sudo service transmission-daemon stop
 # sudo service transmission-daemon start
+
 
 
 #       sudo docker stop transmission

@@ -100,17 +100,39 @@ sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sleep 2s
 
-Print_Style "Desinstalando o purgando $YELLOW docker $GREEN del Sistema" "$GREEN"
-sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
-sleep 2s
 
-Print_Style "Eliminando Librerias de: $YELLOW /var/lib/containerd $GREEN y $CYAN $YELLOW /var/lib/docker" "$GREEN"
-sudo rm -rf /var/lib/containerd                    
-sudo rm -rf /var/lib/docker
-sleep 2s
-
+echo "========================================================================="
+echo -n "¿Desea Desinstalar Docker? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+    echo "========================================================================="
+    Print_Style "Removiendo Docker" "$YELLOW"
+    echo "========================================================================="
+    sleep 3s
+    cd ~
+    Print_Style "Desinstalando o purgando $YELLOW docker $GREEN del Sistema" "$GREEN"
+    sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
+    sleep 2s
+    # sudo rm -rf remove.sh
+fi
 
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh docker-compose.bak flexget settings.json transmission  
+
+echo "========================================================================="
+echo -n "¿Desea Remover las librerias? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+    echo "========================================================================="
+    Print_Style "Removiendo Librerias" "$YELLOW"
+    echo "========================================================================="
+    sleep 3s
+    cd ~
+    Print_Style "Eliminando Librerias de: $YELLOW /var/lib/containerd $GREEN y $CYAN $YELLOW /var/lib/docker" "$GREEN"
+    sudo rm -rf /var/lib/containerd                    
+    sudo rm -rf /var/lib/docker
+    sleep 2s
+    # sudo rm -rf remove.sh
+fi
 
 echo "========================================================================="
 echo -n "¿Desea Instalar de Nuevo Docker Compose y archivos de configuración? (y/n)"

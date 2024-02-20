@@ -176,9 +176,9 @@ discover-series:
       on_output:
         for_entries: |
           if mediainfo "{{ location }}" | grep EAC3; then
-            mkdir -p "/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
+            mkdir -p "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
           else
-            mkdir -p "/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
+            mkdir -p "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
           fi
 
  sort_movies:
@@ -196,9 +196,9 @@ discover-series:
       on_output:
        for_entries: |
          if mediainfo "{{ location }}" | grep EAC3; then
-           mkdir -p "/Peliculas/{{ movie_name }} ({{ movie_year }})" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
+           mkdir -p "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
          else
-           mkdir -p "/Peliculas/{{ movie_name }} ({{ movie_year }})" && cp "{{ location }}" "/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
+           mkdir -p "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})" && cp "{{ location }}" "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
          fi
 # Limpiamos transmission
 

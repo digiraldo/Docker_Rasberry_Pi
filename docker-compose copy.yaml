@@ -260,3 +260,39 @@ services:
       MARIADB_AUTO_UPGRADE: '1'
     volumes:
       - ./mysql:/var/lib/mysql
+
+
+  flexget:
+    image: wiserain/flexget:3.5
+    container_name: flexget
+    volumes:
+      - ./flexget:/config
+      - ./flexget/custom-cont-init.d:/custom-cont-init.d
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/media
+    ports:
+      - 5050:5050
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TORRENT_PLUGIN=transmission
+      - FG_WEBUI_PASSWD=d1g1r4ld0_g0r0b3t4 # la puedes cambiar por la que quieras
+    restart: unless-stopped
+
+  flexget:
+    image: lscr.io/linuxserver/flexget:latest
+    container_name: flexget
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+      - TORRENT_PLUGIN=transmission
+      - FG_WEBUI_PASSWD=d1g1r4ld0_g0r0b3t4 # la puedes cambiar por la que quieras
+    volumes:
+      - ./flexget:/config
+      - ./flexget/custom-cont-init.d:/custom-cont-init.d
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/media
+    ports:
+      - 5050:5050
+    restart: unless-stopped
