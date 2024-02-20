@@ -468,39 +468,50 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       echo "Tomando .env del repositorio..."
       curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
       sudo chmod +x .env
-
+      
+      echo "=================================================================================="
       sleep 1s
-      Print_Style "Configurando Id de Usuario $GREEN PUID=$PUID ..." "$CYAN"
+      Print_Style "Configurando Id de Usuario        | $GREEN PUID=$PUID ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:usuarioid:$PUID:g" .env
 
       sleep 1s
-      Print_Style "Configurando Id de Grupo $GREEN PGID=$PGID ..." "$CYAN"
+      Print_Style "Configurando Id de Grupo          | $GREEN PGID=$PGID ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:grupoid:$PGID:g" .env
 
       sleep 1s
-      Print_Style "Configurando Zona Horaria $GREEN TZ=$TZ ..." "$CYAN"
+      Print_Style "Configurando Zona Horaria         | $GREEN TZ=$TZ ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:timezona:$TZ:g" .env
 
       sleep 1s
-      Print_Style "Configurando Nombre de Usuario a: $GREEN $UserName ..." "$CYAN"
+      Print_Style "Configurando Nombre de Usuario a: | $GREEN $UserName ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:usernaa:$UserName:g" .env
 
       sleep 1s
-      Print_Style "Configurando Disco Externo $GREEN ${DIRECTORIO} ..." "$CYAN"
+      Print_Style "Configurando Disco Externo        | $GREEN ${DIRECTORIO} ..." "$CYAN"
+      echo "=================================================================================="
       #sudo sed -i "s:discc:$Disco:g" .env
       sudo sed -i "s:discomontadoext:${DIRECTORIO}:g" .env
 
       sleep 1s
-      Print_Style "Configurando Password: $GREEN $PasUsrNow ..." "$CYAN"
+      Print_Style "Configurando Password:           | $GREEN $PasUsrNow ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:passwuser:$PasUsrNow:g" .env
       
       sleep 1s
-      Print_Style "Configurando Password: $GREEN flexget ..." "$CYAN"
+      Print_Style "Configurando Password:           | $GREEN flexget ..." "$CYAN"
+      echo "=================================================================================="
       sudo sed -i "s:passfleget:$PassFlexget:g" .env
-      sleep 1s
+      sleep 3s
+      echo ""
 
       Print_Style "mostrando cambios en .env..." "$BLUE"
+      echo "========================================================================="
       sudo cat .env
+      echo "=========================================================================" 
       sleep 3s
     fi  # MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
   else # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
@@ -541,39 +552,49 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   echo "Tomando .env del repositorio..."
   curl -H "Accept-Encoding: identity" -L -o .env https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/.env
   sudo chmod +x .env
-
+  echo "=================================================================================="
   sleep 1s
-  Print_Style "Configurando Id de Usuario $GREEN PUID=$PUID ..." "$CYAN"
+  Print_Style "Configurando Id de Usuario        | $GREEN PUID=$PUID" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:usuarioid:$PUID:g" .env
 
   sleep 1s
-  Print_Style "Configurando Id de Grupo $GREEN PGID=$PGID ..." "$CYAN"
+  Print_Style "Configurando Id de Grupo          | $GREEN PGID=$PGID" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:grupoid:$PGID:g" .env
 
   sleep 1s
-  Print_Style "Configurando Zona Horaria $GREEN TZ=$TZ ..." "$CYAN"
+  Print_Style "Configurando Zona Horaria         | $GREEN TZ=$TZ" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:timezona:$TZ:g" .env
 
   sleep 1s
-  Print_Style "Configurando Nombre de Usuario a: $GREEN $UserName ..." "$CYAN"
+  Print_Style "Configurando Nombre de Usuario a: | $GREEN $UserName" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:usernaa:$UserName:g" .env
 
   sleep 1s
-  Print_Style "Configurando Disco Externo $GREEN $DirName ..." "$CYAN"
+  Print_Style "Configurando Disco Externo        | $GREEN $DirName" "$CYAN"
+  echo "=================================================================================="
   #sudo sed -i "s:discc:$Disco:g" .env
   sudo sed -i "s:discomontadoext:$DirName:g" .env
 
   sleep 1s
-  Print_Style "Configurando Password: $GREEN $PasUsrNow ..." "$CYAN"
+  Print_Style "Configurando Password:            | $GREEN $PasUsrNow" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:passwuser:$PasUsrNow:g" .env
 
   sleep 1s
-  Print_Style "Configurando Password: $GREEN flexget ..." "$CYAN"
+  Print_Style "Configurando Password:            | $GREEN flexget" "$CYAN"
+  echo "=================================================================================="
   sudo sed -i "s:passfleget:$PassFlexget:g" .env
-  sleep 1s
+  sleep 3s
+  echo ""
 
-  Print_Style "mostrando cambios en .env..." "$BLUE"
+  Print_Style "mostrando cambios en .env" "$BLUE"
+  echo "========================================================================="
   sudo cat .env
+  echo "========================================================================="  
   sleep 3s
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
@@ -614,55 +635,67 @@ Print_Style "Deteniendo $RED transmission y flexget" "$YELLOW"
 sleep 2s
 sudo docker stop transmission
 sudo docker stop flexget
+echo "================================================================================="
+ls -l
+echo "================================================================================="
 
+echo "========================================================================="
+echo -n "¿Crear Directorio transmission? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+        Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
+else
+echo "============================== TRANSMISSION ====================================="
+ls transmission
+echo "================================================================================="
+sleep 3s
+fi
 
-DIRTRNS=~/transmission
-echo "${DIRTRNS}"
-if [ -d "${DIRTRNS}" ]; then  #  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
-  Print_Style "$CYAN El directorio $GREEN ${DIRTRNS} $MAGENTA existe" "$REVERSE"
-  cd ~
-  cd transmission
-  cd ~/transmission
-  pwd
-  sleep 2s
-  Print_Style "Configurando settings.json de transmission" "$YELLOW"
-  sleep 2s
-  sudo cp settings.json settings.bak
-  sudo rm -rf settings.json
-  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
-
-  echo "Tomando settings.json del repositorio..."
-  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
-  sudo chmod +x settings.json
-else  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
-  echo "El directorio ${DIRTRNS} no existe"
-  Print_Style "$CYAN El directorio $GREEN ${DIRTRNS} $YELLOW no existe" "$REVERSE"
-  cd ~
-  sudo mkdir transmission
-  sudo chmod -Rf 765 transmission
-  cd ~
-  cd transmission
-  cd ~/transmission
-  pwd
-  sleep 2s
-  Print_Style "Configurando settings.json de transmission" "$YELLOW"
-  sleep 2s
-  sudo cp settings.json settings.bak
-  sudo rm -rf settings.json
-  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
-
-  echo "Tomando settings.json del repositorio..."
-  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
-  sudo chmod +x settings.json
-fi  # CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Directorio Transmission
-
-
-
+echo "========================================================================="
+echo -n "¿Crear Directorio flexget? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+        Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir flexget
+    sudo chmod -Rf 765 flexget
+    sleep 2s
+    sudo ls -l
+else
+echo "================================== FLEXGET ======================================"
+ls flexget
+echo "================================================================================="
+sleep 3s
+fi
 
 
 cd ~
-cd flexget
+cd transmission
+cd ~/transmission
+echo "================================================================================="
 pwd
+echo "================================================================================="
+sleep 2s
+Print_Style "Configurando settings.json de transmission" "$YELLOW"
+sleep 2s
+sudo cp settings.json settings.bak
+sudo rm -rf settings.json
+Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+echo "Tomando settings.json del repositorio..."
+sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+sudo chmod +x settings.json
+
+cd ~
+cd flexget
+echo "================================================================================="
+pwd
+echo "================================================================================="
 sleep 2s
 Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
 sleep 2s
@@ -685,7 +718,10 @@ sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubuser
 sudo chmod +x config.yml
 
 cd custom-cont-init.d
+echo "================================================================================="
 pwd
+echo "================================================================================="
+sleep 2s
 sleep 2s
 Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
 sleep 2s
