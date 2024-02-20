@@ -49,9 +49,9 @@ function read_with_prompt {
 }
 
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
-Print_Style "$BLACK ==== $NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== " "$NORMAL"
-Print_Style "$BLACK 0000 $NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $REVERSE 0000 $UNDERLINE 0000 $BLINK 0000 " "$NORMAL"
-Print_Style "$BLACK ==== $NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== " "$NORMAL"
+Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
+Print_Style "$NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $REVERSE 0000 $UNDERLINE 0000 $BLINK 0000 $BLACK 0000" "$NORMAL"
+Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
 
 cd ~
 
@@ -586,6 +586,8 @@ sudo docker stop flexget
 
 cd ~
 cd transmission
+pwd
+sleep 2s
 Print_Style "Configurando settings.json de transmission" "$YELLOW"
 sleep 2s
 sudo cp settings.json settings.bak
@@ -598,6 +600,8 @@ sudo chmod +x settings.json
 
 cd ~
 cd flexget
+pwd
+sleep 2s
 Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
 sleep 2s
 sudo cp config-trakt.yml config-trakt.bak
@@ -619,6 +623,8 @@ sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubuser
 sudo chmod +x config.yml
 
 cd custom-cont-init.d
+pwd
+sleep 2s
 Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
 sleep 2s
 sudo cp mediainfo.sh mediainfo.bak
@@ -639,9 +645,13 @@ sleep 2s
 sudo docker start transmission
 sudo docker start flexget
 
+Print_Style "Configuranco Contraseña de flexger para interfaz web" "$YELLOW"
+sleep 2s
 docker exec flexget flexget web passwd d1g1r4ld0_g0r0b3t4
 cd ~
 
+Print_Style "Reiniciando Docker" "$YELLOW"
+sleep 2s
 sudo service docker compose restart
 sudo service docker restart
 
@@ -666,7 +676,7 @@ Print_Style "===================================================================
 #       sudo docker start transmission
 
 #docker system prune -a
-sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
+sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.json
 
 
 #   sudo find /mnt -name "Big Buck Bunny (2008).mp4"
