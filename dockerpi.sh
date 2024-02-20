@@ -304,6 +304,16 @@ sleep 3s
 echo "========================================================================="
 echo "========================================================================="
 
+# Contraseña del usuario que inicio seccion
+echo "========================================================================="
+Print_Style "Introduzca la contraseña del usuario: $CYAN flexget " "$MAGENTA"
+Print_Style "Contraseña predeterminada del usuario: $BLUE $PasUsrNow " "$RED"
+read_with_prompt PassFlexget "Password de usuario flexget" $PasUsrNow
+echo "========================================================================="
+sleep 3s
+echo "========================================================================="
+echo "========================================================================="
+
 Print_Style "Buscando discos y mostrando su UUID..." "$YELLOW"
 sleep 1s
 lsblk -o NAME,UUID,SIZE,FSTYPE,LABEL,MOUNTPOINT
@@ -466,6 +476,10 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sleep 1s
       Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
       sudo sed -i "s:passwuser:$PasUsrNow:g" .env
+      
+      sleep 1s
+      Print_Style "Configurando Password: flexget ..." "$CYAN"
+      sudo sed -i "s:passfleget:$PassFlexget:g" .env
       sleep 1s
 
       Print_Style "mostrando cambios en .env..." "$BLUE"
@@ -535,6 +549,10 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sleep 1s
   Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
   sudo sed -i "s:passwuser:$PasUsrNow:g" .env
+
+  sleep 1s
+  Print_Style "Configurando Password: flexget ..." "$CYAN"
+  sudo sed -i "s:passfleget:$PassFlexget:g" .env
   sleep 1s
 
   Print_Style "mostrando cambios en .env..." "$BLUE"
@@ -641,9 +659,9 @@ sleep 2s
 sudo docker start transmission
 sudo docker start flexget
 
-Print_Style "Configuranco Contraseña de flexger para interfaz web" "$YELLOW"
+Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
 sleep 2s
-docker exec flexget flexget web passwd d1g1r4ld0_g0r0b3t4
+docker exec flexget flexget web passwd $PassFlexget
 cd ~
 
 Print_Style "Reiniciando Docker" "$YELLOW"
