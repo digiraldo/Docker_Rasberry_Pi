@@ -58,7 +58,7 @@ services:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
-      - ${MEDIA}:/media
+      - ${MEDIA}:/storage
     ports:
       - 5050:5050
     environment:
