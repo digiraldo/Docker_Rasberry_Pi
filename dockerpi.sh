@@ -281,17 +281,13 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 # sudo apt-get update
 # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-echo "========================================================================="
-Print_Style "ACTUALIZACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
-echo "========================================================================="
-sleep 2s
-sudo apt update
-sudo apt install docker-compose-plugin
 
 echo "========================================================================="
 sudo docker --version
 echo "========================================================================="
+echo "*************************************************************************"
 sleep 2s
+echo "*************************************************************************"
 echo "========================================================================="
 sudo docker compose version
 echo "========================================================================="
