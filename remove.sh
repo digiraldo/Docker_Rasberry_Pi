@@ -61,7 +61,7 @@ echo "========================================================================="
 sudo service docker restart
 
 FicheroDocker=docker-compose.yaml
-echo "Buscando Fivhero: $FicheroDocker"
+echo "Buscando Fichero: $FicheroDocker"
 sleep 2s
 
 if [ -f $FicheroDocker ]
