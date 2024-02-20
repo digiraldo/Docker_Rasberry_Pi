@@ -76,24 +76,38 @@ else
   sleep 2s
 fi
 
+Print_Style "Desmontando MointPoint $YELLOW /dev/sda1 $CYAN como disco externo" "$GREEN"
 sudo umount /dev/sda1  
+sleep 2s
 
+Print_Style "Eliminando Linea $YELLOW /mnt/storage $GREEN de: $CYAN /etc/fstab" "$GREEN"
 sudo sed -n "/\/mnt\/storage/p" /etc/fstab
 sudo sed -i '/\/mnt\/storage/d' /etc/fstab
+sleep 2s
 
+Print_Style "Eliminando Linea $YELLOW mnt/storage/docker-tmp $GREEN de: $CYAN /etc/default/docker" "$GREEN"
 sudo sed -n "/\/mnt\/storage\/docker-tmp/p" /etc/default/docker
 sudo sed -i '/\/mnt\/storage\/docker-tmp/d' /etc/default/docker
+sleep 2s
 
+Print_Style "Eliminando Linea $YELLOW cem ALL=(ALL) NOPASSWD: ALL $GREEN de: $CYAN /etc/sudoers" "$GREEN"
 sudo sed -n "/cem ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
-sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
-
 sudo sed -i '/cem ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sleep 2s
+
+Print_Style "Eliminando Linea $YELLOW sudo ALL=(ALL) NOPASSWD: ALL $GREEN de: $CYAN /etc/sudoers" "$GREEN"
+sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
+sleep 2s
 
-
+Print_Style "Desinstalando o purgando $YELLOW docker $GREEN del: Sistema" "$GREEN"
 sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
+sleep 2s
+
+Print_Style "Eliminando Librerias de: $YELLOW /var/lib/containerd $GREEN y $CYAN $YELLOW /var/lib/docker" "$GREEN"
 sudo rm -rf /var/lib/containerd                    
 sudo rm -rf /var/lib/docker
+sleep 2s
 
 
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
