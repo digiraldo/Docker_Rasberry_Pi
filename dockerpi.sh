@@ -497,12 +497,12 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sudo sed -i "s:discomontadoext:${DIRECTORIO}:g" .env
 
       sleep 1s
-      Print_Style "Configurando Password:           | $GREEN $PasUsrNow ..." "$CYAN"
+      Print_Style "Configurando Password:            | $GREEN $PasUsrNow ..." "$CYAN"
       echo "=================================================================================="
       sudo sed -i "s:passwuser:$PasUsrNow:g" .env
       
       sleep 1s
-      Print_Style "Configurando Password:           | $GREEN flexget ..." "$CYAN"
+      Print_Style "Configurando Password:            | $GREEN flexget ..." "$CYAN"
       echo "=================================================================================="
       sudo sed -i "s:passfleget:$PassFlexget:g" .env
       sleep 3s
@@ -693,6 +693,7 @@ sudo chmod +x settings.json
 
 cd ~
 cd flexget
+cd ~/flexget
 echo "================================================================================="
 pwd
 echo "================================================================================="
@@ -717,11 +718,15 @@ echo "Tomando config.yml del repositorio..."
 sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
 sudo chmod +x config.yml
 
+cd ~
+cd flexget
+cd ~/flexget
+sudo mkdir custom-cont-init.d
+sudo chmod -Rf 765 custom-cont-init.d
 cd custom-cont-init.d
 echo "================================================================================="
 pwd
 echo "================================================================================="
-sleep 2s
 sleep 2s
 Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
 sleep 2s
