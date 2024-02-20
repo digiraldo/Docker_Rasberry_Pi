@@ -8,6 +8,13 @@ chmod +x dockerpi.sh
 ./dockerpi.sh
 ```
 
+Quitar o Desinstalar Docker con Archivos montados anteriormente
+```
+wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/remove.sh
+chmod +x remove.sh
+./remove.sh
+```
+
 Prueba de Configuracion de Archivo docker-compose.yaml
 ```
 wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dock.sh
