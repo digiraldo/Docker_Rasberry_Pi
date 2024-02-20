@@ -100,7 +100,7 @@ sudo sed -n "/sudo ALL=(ALL) NOPASSWD: ALL/p" /etc/sudoers
 sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sleep 2s
 
-Print_Style "Desinstalando o purgando $YELLOW docker $GREEN del: Sistema" "$GREEN"
+Print_Style "Desinstalando o purgando $YELLOW docker $GREEN del Sistema" "$GREEN"
 sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
 sleep 2s
 
@@ -113,7 +113,7 @@ sleep 2s
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh docker-compose.bak flexget settings.json transmission  
 
 echo "========================================================================="
-echo -n "¿Desea Instala de Nuevo Docker Compose y archivos de configuración? (y/n)"
+echo -n "¿Desea Instalar de Nuevo Docker Compose y archivos de configuración? (y/n)"
 read answer < /dev/tty
 if [ "$answer" != "${answer#[Yy]}" ]; then
     echo "========================================================================="
@@ -121,8 +121,9 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
     echo "========================================================================="
     sleep 3s
     cd ~
-    wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dockerpi.sh
-    chmod +x dockerpi.sh
+    echo "Tomando dockerpi.sh del repositorio..."
+    curl -H "Accept-Encoding: identity" -L -o dockerpi.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dockerpi.sh
+    sudo chmod +x dockerpi.sh
     /bin/bash ./dockerpi.sh
     # sudo rm -rf remove.sh
 fi
