@@ -91,7 +91,7 @@ sudo sed -i '/cem ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 sudo sed -i '/sudo ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers
 
 
-sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
 sudo rm -rf /var/lib/containerd                    
 sudo rm -rf /var/lib/docker
 
