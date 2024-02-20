@@ -110,7 +110,7 @@ sudo rm -rf /var/lib/docker
 sleep 2s
 
 
-sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh
+sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh docker-compose.bak flexget settings.json transmission  
 
 echo "========================================================================="
 echo -n "¿Desea Instala de Nuevo Docker Compose y archivos de configuración? (y/n)"
@@ -124,4 +124,7 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
     wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/dockerpi.sh
     chmod +x dockerpi.sh
     /bin/bash ./dockerpi.sh
+    # sudo rm -rf remove.sh
 fi
+
+sudo rm -rf remove.sh
