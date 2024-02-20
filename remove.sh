@@ -55,6 +55,10 @@ Print_Style "$NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $
 Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
 
 cd ~
+echo "========================================================================="
+echo "Deteniendo Docker"
+echo "========================================================================="
+sudo service docker restart
 
 FicheroDocker=docker-compose.yaml
 echo "Buscando Fivhero: $FicheroDocker"
