@@ -56,7 +56,7 @@ Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $
 cd ~
 
 FicheroDocker=docker-compose.yaml
-echo "Buscando Fivhero: $FicheroDocker"
+echo "Buscando Fichero: $FicheroDocker"
 sleep 2s
 
 if [ -f $FicheroDocker ]
@@ -224,7 +224,7 @@ if [ $VerGrupo == "docker" ]; then
 	echo "Exixte $VerGrupo"
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINKCtl+D" "$NORMAL"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINK Ctl+D" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 else
@@ -232,7 +232,7 @@ else
   sudo groupadd docker
   Print_Style "Agregando Usuario $YELLOW $UserName $CYAN al gruo docker y disk..." "$GREEN"
   sleep 1s
-  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINKCtl+D" "$NORMAL"
+  Print_Style "Presione: $LIME_YELLOW Ctl+D $CYAN para seguir si esta en $MAGENTA root $BLINK Ctl+D" "$NORMAL"
   sudo usermod -aG docker $UserNow
   sudo newgrp docker
 fi
@@ -242,56 +242,73 @@ fi
 
 sleep 2s
 
-Print_Style "============================================================================" "$NORMAL"
-Print_Style "================== INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE ==================" "$BLINK"
-Print_Style "============================================================================" "$NORMAL"
-cd ~
-sleep 2s
-
-echo "========================================================================="
-Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
-echo "========================================================================="
-sleep 2s
-
-# Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sleep 3s
-
-sudo apt-get update
-
-echo "========================================================================="
-Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
-echo "========================================================================="
-sleep 2s
-
-sleep 2s
-# sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-# sudo apt-get update
-# sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-
-echo "========================================================================="
+Print_Style "================= VERSIONES DE DOCKER Y DOCKER-COMPOSE  =================" "$BLINK"
+echo ""
+echo "*************************************************************************"
 sudo docker --version
-echo "========================================================================="
 echo "*************************************************************************"
-sleep 2s
-echo "*************************************************************************"
-echo "========================================================================="
 sudo docker compose version
-echo "========================================================================="
+echo "*************************************************************************"
 sleep 2s
+
+
+echo "========================================================================="
+echo -n "¿Desea Instalar Docker Y Docker Compose? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+  Print_Style "============================================================================" "$NORMAL"
+  Print_Style "================== INSTALACIÓN DE DOCKER Y DOCKER-COMPOSE ==================" "$BLINK"
+  Print_Style "============================================================================" "$NORMAL"
+  cd ~
+  sleep 2s
+
+  echo "========================================================================="
+  Print_Style "INSTALACIÓN DE DOCKER..." "$MAGENTA"
+  echo "========================================================================="
+  sleep 2s
+
+  # Add Docker's official GPG key:
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+  sleep 3s
+
+  sudo apt-get update
+
+  echo "========================================================================="
+  Print_Style "INSTALACIÓN DE DOCKER-COMPOSE..." "$MAGENTA"
+  echo "========================================================================="
+  sleep 2s
+
+  sleep 2s
+  # sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  # sudo apt-get update
+  # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  echo "*************************************************************************"
+  echo "========================================================================="
+  sudo docker --version
+  echo "========================================================================="
+  echo "*************************************************************************"
+  sleep 2s
+  echo "*************************************************************************"
+  echo "========================================================================="
+  sudo docker compose version
+  echo "========================================================================="
+  echo "*************************************************************************"
+  sleep 2s
+fi
+
+
 
 
 cd ~
@@ -307,7 +324,7 @@ echo "========================================================================="
 # Contraseña del usuario que inicio seccion
 echo "========================================================================="
 Print_Style "Introduzca la contraseña del usuario: $CYAN flexget " "$MAGENTA"
-Print_Style "Contraseña predeterminada del usuario: $BLUE $PasUsrNow " "$RED"
+Print_Style "Contraseña predeterminada: $BLUE $PasUsrNow $YELLOW Presionando: Enter" "$RED"
 read_with_prompt PassFlexget "Password de usuario flexget" $PasUsrNow
 echo "========================================================================="
 sleep 3s
@@ -453,32 +470,32 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sudo chmod +x .env
 
       sleep 1s
-      Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
+      Print_Style "Configurando Id de Usuario $GREEN PUID=$PUID ..." "$CYAN"
       sudo sed -i "s:usuarioid:$PUID:g" .env
 
       sleep 1s
-      Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
+      Print_Style "Configurando Id de Grupo $GREEN PGID=$PGID ..." "$CYAN"
       sudo sed -i "s:grupoid:$PGID:g" .env
 
       sleep 1s
-      Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
+      Print_Style "Configurando Zona Horaria $GREEN TZ=$TZ ..." "$CYAN"
       sudo sed -i "s:timezona:$TZ:g" .env
 
       sleep 1s
-      Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
+      Print_Style "Configurando Nombre de Usuario a: $GREEN $UserName ..." "$CYAN"
       sudo sed -i "s:usernaa:$UserName:g" .env
 
       sleep 1s
-      Print_Style "Configurando Disco Externo ${DIRECTORIO} ..." "$CYAN"
+      Print_Style "Configurando Disco Externo $GREEN ${DIRECTORIO} ..." "$CYAN"
       #sudo sed -i "s:discc:$Disco:g" .env
       sudo sed -i "s:discomontadoext:${DIRECTORIO}:g" .env
 
       sleep 1s
-      Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
+      Print_Style "Configurando Password: $GREEN $PasUsrNow ..." "$CYAN"
       sudo sed -i "s:passwuser:$PasUsrNow:g" .env
       
       sleep 1s
-      Print_Style "Configurando Password: flexget ..." "$CYAN"
+      Print_Style "Configurando Password: $GREEN flexget ..." "$CYAN"
       sudo sed -i "s:passfleget:$PassFlexget:g" .env
       sleep 1s
 
@@ -526,32 +543,32 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sudo chmod +x .env
 
   sleep 1s
-  Print_Style "Configurando Id de Usuario PUID=$PUID ..." "$CYAN"
+  Print_Style "Configurando Id de Usuario $GREEN PUID=$PUID ..." "$CYAN"
   sudo sed -i "s:usuarioid:$PUID:g" .env
 
   sleep 1s
-  Print_Style "Configurando Id de Grupo PGID=$PGID ..." "$CYAN"
+  Print_Style "Configurando Id de Grupo $GREEN PGID=$PGID ..." "$CYAN"
   sudo sed -i "s:grupoid:$PGID:g" .env
 
   sleep 1s
-  Print_Style "Configurando Zona Horaria TZ=$TZ ..." "$CYAN"
+  Print_Style "Configurando Zona Horaria $GREEN TZ=$TZ ..." "$CYAN"
   sudo sed -i "s:timezona:$TZ:g" .env
 
   sleep 1s
-  Print_Style "Configurando Nombre de Usuario a: $UserName ..." "$CYAN"
+  Print_Style "Configurando Nombre de Usuario a: $GREEN $UserName ..." "$CYAN"
   sudo sed -i "s:usernaa:$UserName:g" .env
 
   sleep 1s
-  Print_Style "Configurando Disco Externo $DirName ..." "$CYAN"
+  Print_Style "Configurando Disco Externo $GREEN $DirName ..." "$CYAN"
   #sudo sed -i "s:discc:$Disco:g" .env
   sudo sed -i "s:discomontadoext:$DirName:g" .env
 
   sleep 1s
-  Print_Style "Configurando Password: $PasUsrNow ..." "$CYAN"
+  Print_Style "Configurando Password: $GREEN $PasUsrNow ..." "$CYAN"
   sudo sed -i "s:passwuser:$PasUsrNow:g" .env
 
   sleep 1s
-  Print_Style "Configurando Password: flexget ..." "$CYAN"
+  Print_Style "Configurando Password: $GREEN flexget ..." "$CYAN"
   sudo sed -i "s:passfleget:$PassFlexget:g" .env
   sleep 1s
 
