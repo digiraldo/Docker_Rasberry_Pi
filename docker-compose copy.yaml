@@ -287,12 +287,12 @@ services:
       - PGID=${GPGID}
       - TZ=${TIZO}
       - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=d1g1r4ld0_g0r0b3t4 # la puedes cambiar por la que quieras
+      - FG_WEBUI_PASSWD=${PASFLEGE} # la puedes cambiar por la que quieras PASFLEGE
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
-      - ${MEDIA}:/media
+      - ${MEDIA}:/storage
     ports:
       - 5050:5050
     restart: unless-stopped

@@ -54,17 +54,21 @@ services:
   flexget:
     image: lscr.io/linuxserver/flexget:latest
     container_name: flexget
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+      - FG_LOG_LEVEL=info # New ====
+      - FG_LOG_FILE=/config/flexget.log # New ====
+      - FG_CONFIG_FILE=/config/.flexget/config.yml # New ====
+      - TORRENT_PLUGIN=transmission
+      - FG_WEBUI_PASSWORD=${PASFLEGE} # la puedes cambiar por la que quieras
     volumes:
       - ./flexget:/config
+      - ./flexget:/data #optional New
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/storage
     ports:
       - 5050:5050
-    environment:
-      - PUID=${UPUID}
-      - PGID=${GPGID}
-      - TZ=${TIZO}
-      - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=${PASFLEGE} # la puedes cambiar por la que quieras
     restart: unless-stopped
