@@ -626,137 +626,154 @@ sudo docker compose up -d
 #     sudo docker compose up -d --force-recreate
 Print_Style "==================================================================================" "$YELLOW"
 
-echo "================================================================================="
-echo "====================== Configurando transmission y flexget ======================"
-echo "================================================================================="
-sleep 2s
-cd ~
-Print_Style "Deteniendo $RED transmission y flexget" "$YELLOW"
-sleep 2s
-sudo docker stop transmission
-sudo docker stop flexget
-echo "================================================================================="
-ls -l
-echo "================================================================================="
+
 
 echo "========================================================================="
-echo -n "¿Crear Directorio transmission? (y/n)"
+echo -n "¿Configurar transmision y flexget moviendo archivos? (y/n)"
 read answer < /dev/tty
-if [ "$answer" != "${answer#[Yy]}" ]; then
-        Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
-    cd ~
-    sudo mkdir transmission
-    sudo chmod -Rf 765 transmission
-    sleep 2s
-    sudo ls -l
-else
-echo "============================== TRANSMISSION ====================================="
-ls transmission
-echo "================================================================================="
-sleep 3s
-fi
+if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexget =================================
+  echo "================================================================================="
+  echo "====================== Configurando transmission y flexget ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED transmission y flexget" "$YELLOW"
+  sleep 2s
+  sudo docker stop transmission
+  sudo docker stop flexget
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
 
-echo "========================================================================="
-echo -n "¿Crear Directorio flexget? (y/n)"
-read answer < /dev/tty
-if [ "$answer" != "${answer#[Yy]}" ]; then
-        Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
-    cd ~
-    sudo mkdir flexget
-    sudo chmod -Rf 765 flexget
-    sleep 2s
-    sudo ls -l
-else
-echo "================================== FLEXGET ======================================"
-ls flexget
-echo "================================================================================="
-sleep 3s
-fi
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+          Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+      cd ~
+      sudo mkdir transmission
+      sudo chmod -Rf 765 transmission
+      sleep 2s
+      sudo ls -l
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+  fi
 
+  echo "========================================================================="
+  echo -n "¿Crear Directorio flexget? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+          Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
+      cd ~
+      sudo mkdir flexget
+      sudo chmod -Rf 765 flexget
+      sleep 2s
+      sudo ls -l
+  else
+  echo "================================== FLEXGET ======================================"
+  ls flexget
+  echo "================================================================================="
+  sleep 3s
+  fi
 
-cd ~
-cd transmission
-cd ~/transmission
-echo "================================================================================="
-pwd
-echo "================================================================================="
-sleep 2s
-Print_Style "Configurando settings.json de transmission" "$YELLOW"
-sleep 2s
-sudo cp settings.json settings.bak
-sudo rm -rf settings.json
-Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
 
-echo "Tomando settings.json del repositorio..."
-sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
-sudo chmod +x settings.json
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
 
-cd ~
-cd flexget
-cd ~/flexget
-echo "================================================================================="
-pwd
-echo "================================================================================="
-sleep 2s
-Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
-sleep 2s
-sudo cp config-trakt.yml config-trakt.bak
-sudo rm -rf config-trakt.yml
-Print_Style "Se ha eliminado el fichero: $YELLOW config-trakt.yml" "$NORMAL"
+  cd ~
+  cd flexget
+  cd ~/flexget
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
+  sleep 2s
+  sudo cp config-trakt.yml config-trakt.bak
+  sudo rm -rf config-trakt.yml
+  Print_Style "Se ha eliminado el fichero: $YELLOW config-trakt.yml" "$NORMAL"
 
-echo "Tomando config-trakt.yml del repositorio..."
-sudo curl -H "Accept-Encoding: identity" -L -o config-trakt.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config-trakt.yml
-sudo chmod +x config-trakt.yml
+  echo "Tomando config-trakt.yml del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o config-trakt.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config-trakt.yml
+  sudo chmod +x config-trakt.yml
 
-Print_Style "Configurando config.yml de flexget" "$YELLOW"
-sleep 2s
-sudo cp config.yml config.bak
-sudo rm -rf config.yml
-Print_Style "Se ha eliminado el fichero: $YELLOW config.yml" "$NORMAL"
+  Print_Style "Configurando config.yml de flexget" "$YELLOW"
+  sleep 2s
+  sudo cp config.yml config.bak
+  sudo rm -rf config.yml
+  Print_Style "Se ha eliminado el fichero: $YELLOW config.yml" "$NORMAL"
 
-echo "Tomando config.yml del repositorio..."
-sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
-sudo chmod +x config.yml
+  echo "Tomando config.yml del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
+  sudo chmod +x config.yml
 
-cd ~
-cd flexget
-cd ~/flexget
-sudo mkdir custom-cont-init.d
-sudo chmod -Rf 765 custom-cont-init.d
-cd custom-cont-init.d
-echo "================================================================================="
-pwd
-echo "================================================================================="
-sleep 2s
-Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
-sleep 2s
-sudo cp mediainfo.sh mediainfo.bak
-sudo rm -rf mediainfo.sh
-Print_Style "Se ha eliminado el fichero: $YELLOW mediainfo.sh" "$NORMAL"
+  cd ~
+  cd flexget
+  cd ~/flexget
+  sudo mkdir custom-cont-init.d
+  sudo chmod -Rf 765 custom-cont-init.d
+  cd custom-cont-init.d
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
+  sleep 2s
+  sudo cp mediainfo.sh mediainfo.bak
+  sudo rm -rf mediainfo.sh
+  Print_Style "Se ha eliminado el fichero: $YELLOW mediainfo.sh" "$NORMAL"
 
-echo "Tomando mediainfo.sh del repositorio..."
-sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
-sudo chmod +x mediainfo.sh
+  echo "Tomando mediainfo.sh del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
+  sudo chmod +x mediainfo.sh
 
-Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
-Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
-sleep 2s
+  Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
+  Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
+  sleep 2s
 
-cd ~
-Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
-sleep 2s
-sudo docker start transmission
-sudo docker start flexget
+  cd ~
+  Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
+  sleep 2s
+  sudo docker start transmission
+  sudo docker start flexget
 
-Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
-sleep 2s
-docker exec flexget flexget web passwd $PassFlexget
-cd ~
+  Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+  sleep 2s
+  docker exec flexget flexget web passwd $PassFlexget
+  cd ~
 
-Print_Style "Reiniciando Docker" "$YELLOW"
-sleep 2s
-sudo service docker compose restart
-sudo service docker restart
+  Print_Style "Reiniciando Docker" "$YELLOW"
+  sleep 2s
+  sudo service docker compose restart
+  sudo service docker restart
+else  # Configuracion Transmision y Flexget =================================
+  Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+  sleep 2s
+  docker exec flexget flexget web passwd $PassFlexget
+  cd ~
+
+  Print_Style "Reiniciando Docker" "$YELLOW"
+  sleep 2s
+  sudo service docker compose restart
+  sudo service docker restart
+fi  # Configuracion Transmision y Flexget =================================
+
 
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
