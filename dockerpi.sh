@@ -508,11 +508,13 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sleep 3s
       echo ""
 
-      Print_Style "mostrando cambios en .env..." "$BLUE"
-      echo "========================================================================="
-      sudo cat .env
-      echo "=========================================================================" 
-      sleep 3s
+  Print_Style "mostrando cambios en .env" "$BLUE"
+  echo "========================================================================="
+  echo ""
+  sudo cat .env
+  echo ""
+  echo "========================================================================="  
+  sleep 3s
     fi  # MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MountPoint Null
   else # DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD Discoexterno null
     Print_Style "Disco Externo = $DiscoExterno" "$GREEN"
@@ -593,7 +595,9 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
 
   Print_Style "mostrando cambios en .env" "$BLUE"
   echo "========================================================================="
+  echo ""
   sudo cat .env
+  echo ""
   echo "========================================================================="  
   sleep 3s
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
@@ -753,7 +757,7 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   sudo docker start transmission
   sudo docker start flexget
 
-  Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+  Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
   sleep 2s
   docker exec flexget flexget web passwd $PassFlexget
   cd ~
@@ -763,7 +767,46 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   sudo service docker compose restart
   sudo service docker restart
 else  # Configuracion Transmision y Flexget =================================
-  Print_Style "Configuranco Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+
+  sudo docker stop transmission
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+          Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+      cd ~
+      sudo mkdir transmission
+      sudo chmod -Rf 765 transmission
+      sleep 2s
+      ls
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+
+  Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
   sleep 2s
   docker exec flexget flexget web passwd $PassFlexget
   cd ~

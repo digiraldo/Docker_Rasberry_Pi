@@ -65,7 +65,7 @@ services:
       - FG_WEBUI_PASSWORD=${PASFLEGE} # la puedes cambiar por la que quieras
     volumes:
       - ./flexget:/config
-      - ./flexget:/data #optional New
+      - ./flexget:/data # New ====optional
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/storage
