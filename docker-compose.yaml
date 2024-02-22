@@ -60,7 +60,7 @@ services:
       - TZ=${TIZO}
       - FG_LOG_LEVEL=info # New ====
       - FG_LOG_FILE=/config/flexget.log # New ====
-      - FG_CONFIG_FILE=/config/.flexget/config.yml # New ====
+      - FG_CONFIG_FILE=/config/config.yml # New ====
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWORD=${PASFLEGE} # la puedes cambiar por la que quieras
     volumes:
