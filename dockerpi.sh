@@ -162,7 +162,7 @@ InfoDet=$(uname -a)
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
 Print_Style "|  Sistema Operativo:       |$MAGENTA $SistemaOp $BLINK$BLUE<==                                 " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
-Print_Style "|  Distribución Linux:      |$MAGENTA $$linuxsistem $BLINK$BLUE<==                              " "$LIME_YELLOW"
+Print_Style "|  Distribución Linux:      |$MAGENTA $linuxsistem $BLINK$BLUE<==                              " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
 Print_Style "|  Versión del Kernel:      |$MAGENTA $SisKernel $BLINK$BLUE<==                                 " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
