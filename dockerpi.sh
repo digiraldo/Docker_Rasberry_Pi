@@ -145,7 +145,8 @@ fi
 SistemaLin=$(lsb_release -i)
 var1="$SistemaLin"
 RecorLin=${var1#Distributor ID\:}
-linuxsistem=$(echo "$RecorLin" | tr -d '[[:space:]]' | awk '{print tolower($0)}')
+LinuxSistemInstall=$(echo "$RecorLin" | tr -d '[[:space:]]' | awk '{print tolower($0)}')
+
 
 # Obtener la ruta del directorio de inicio el nombre de usuario iNFORMACION Detallada
 Print_Style "================================================================================================" "$BLUE"
@@ -162,7 +163,7 @@ InfoDet=$(uname -a)
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
 Print_Style "|  Sistema Operativo:       |$MAGENTA $SistemaOp $BLINK$BLUE<==                                 " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
-Print_Style "|  Distribución Linux:      |$MAGENTA $linuxsistem $BLINK$BLUE<==                              " "$LIME_YELLOW"
+Print_Style "|  Distribución Linux:      |$MAGENTA $LinuxSistemInstall $BLINK$BLUE<==                              " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
 Print_Style "|  Versión del Kernel:      |$MAGENTA $SisKernel $BLINK$BLUE<==                                 " "$LIME_YELLOW"
 Print_Style "------------------------------------------------------------------------------------------------" "$NORMAL"
@@ -279,12 +280,12 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   sudo apt-get update
   sudo apt-get install ca-certificates curl
   sudo install -m 0755 -d /etc/apt/keyrings
-  sudo curl -fsSL https://download.docker.com/linux/$linuxsistem/gpg -o /etc/apt/keyrings/docker.asc
+  sudo curl -fsSL https://download.docker.com/linux/$LinuxSistemInstall/gpg -o /etc/apt/keyrings/docker.asc
   sudo chmod a+r /etc/apt/keyrings/docker.asc
 
   # Add the repository to Apt sources:
   echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$linuxsistem \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$LinuxSistemInstall \
     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get update
