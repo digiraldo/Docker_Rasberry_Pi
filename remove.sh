@@ -50,7 +50,16 @@ function read_with_prompt {
 cd ~
 
 Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
-Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "RED ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
+Print_Style "NORMAL ==== " "$NORMAL"
 Print_Style "$NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $REVERSE 0000 $UNDERLINE 0000 $BLINK 0000 $BLACK 0000" "$NORMAL"
 Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
 
