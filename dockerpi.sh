@@ -308,9 +308,6 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   sleep 2s
 fi
 
-
-
-
 cd ~
 # Contraseña del usuario que inicio seccion
 echo "========================================================================="
@@ -631,74 +628,38 @@ sudo docker compose up -d
 Print_Style "==================================================================================" "$YELLOW"
 
 
-
 echo "========================================================================="
-echo -n "¿Configurar transmision y flexget moviendo archivos? (y/n)"
+echo -n "¿Configurar flexget moviendo archivos? (y/n)"
 read answer < /dev/tty
 if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexget =================================
   echo "================================================================================="
-  echo "====================== Configurando transmission y flexget ======================"
+  echo "====================== Configurando Flexget ======================"
   echo "================================================================================="
   sleep 2s
   cd ~
-  Print_Style "Deteniendo $RED transmission y flexget" "$YELLOW"
+  Print_Style "Deteniendo $RED Flexget" "$YELLOW"
   sleep 2s
-  sudo docker stop transmission
   sudo docker stop flexget
   echo "================================================================================="
   ls -l
   echo "================================================================================="
 
   echo "========================================================================="
-  echo -n "¿Crear Directorio transmission? (y/n)"
-  read answer < /dev/tty
-  if [ "$answer" != "${answer#[Yy]}" ]; then
-          Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
-      cd ~
-      sudo mkdir transmission
-      sudo chmod -Rf 765 transmission
-      sleep 2s
-      sudo ls -l
-  else
-  echo "============================== TRANSMISSION ====================================="
-  ls transmission
-  echo "================================================================================="
-  sleep 3s
-  fi
-
-  echo "========================================================================="
   echo -n "¿Crear Directorio flexget? (y/n)"
   read answer < /dev/tty
   if [ "$answer" != "${answer#[Yy]}" ]; then
-          Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
-      cd ~
-      sudo mkdir flexget
-      sudo chmod -Rf 765 flexget
-      sleep 2s
-      sudo ls -l
+    Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir flexget
+    sudo chmod -Rf 765 flexget
+    sleep 2s
+    sudo ls -l
   else
   echo "================================== FLEXGET ======================================"
   ls flexget
   echo "================================================================================="
   sleep 3s
   fi
-
-  cd ~
-  cd transmission
-  cd ~/transmission
-  echo "================================================================================="
-  pwd
-  echo "================================================================================="
-  sleep 2s
-  Print_Style "Configurando settings.json de transmission" "$YELLOW"
-  sleep 2s
-  sudo cp settings.json settings.bak
-  sudo rm -rf settings.json
-  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
-
-  echo "Tomando settings.json del repositorio..."
-  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
-  sudo chmod +x settings.json
 
   cd ~
   cd flexget
@@ -747,27 +708,13 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
   sudo chmod +x mediainfo.sh
 
-  Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
-  Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
+  echo "================================================================================="
+  echo "====================== Configurando Transmission ======================"
+  echo "================================================================================="
   sleep 2s
-
   cd ~
-  Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
+  Print_Style "Deteniendo $RED Transmission" "$YELLOW"
   sleep 2s
-  sudo docker start transmission
-  sudo docker start flexget
-
-  Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
-  sleep 2s
-  docker exec flexget flexget web passwd $PassFlexget
-  cd ~
-
-  Print_Style "Reiniciando Docker" "$YELLOW"
-  sleep 2s
-  sudo service docker compose restart
-  sudo service docker restart
-else  # Configuracion Transmision y Flexget =================================
-
   sudo docker stop transmission
   echo "================================================================================="
   ls -l
@@ -777,17 +724,18 @@ else  # Configuracion Transmision y Flexget =================================
   echo -n "¿Crear Directorio transmission? (y/n)"
   read answer < /dev/tty
   if [ "$answer" != "${answer#[Yy]}" ]; then
-          Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
-      cd ~
-      sudo mkdir transmission
-      sudo chmod -Rf 765 transmission
-      sleep 2s
-      ls
+    Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
   else
   echo "============================== TRANSMISSION ====================================="
   ls transmission
   echo "================================================================================="
   sleep 3s
+  fi
 
   cd ~
   cd transmission
@@ -806,17 +754,75 @@ else  # Configuracion Transmision y Flexget =================================
   sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
   sudo chmod +x settings.json
 
-  Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+  Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
+  Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
   sleep 2s
-  docker exec flexget flexget web passwd $PassFlexget
-  cd ~
 
-  Print_Style "Reiniciando Docker" "$YELLOW"
+  cd ~
+  Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
   sleep 2s
-  sudo service docker compose restart
-  sudo service docker restart
+  sudo docker start transmission
+  sudo docker start flexget
+else  # Configuracion Transmision y Flexget =================================
+
+  echo "================================================================================="
+  echo "====================== Configurando Transmission ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED Transmission" "$YELLOW"
+  sleep 2s
+  sudo docker stop transmission
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+    Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+  fi
+
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+
 fi  # Configuracion Transmision y Flexget =================================
 
+
+Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+sleep 2s
+docker exec flexget flexget web passwd $PassFlexget
+cd ~
+
+Print_Style "Reiniciando Docker" "$YELLOW"
+sleep 2s
+sudo service docker compose restart
+sudo service docker restart
 
 Print_Style "==================================================================================" "$YELLOW"
 sudo docker ps -a
@@ -832,8 +838,6 @@ Print_Style "===================================================================
 # docker-compose down && docker-compose build --pull && docker-compose up -d
 # sudo service transmission-daemon stop
 # sudo service transmission-daemon start
-
-
 
 #       sudo docker stop transmission
 #       sudo docker start transmission
