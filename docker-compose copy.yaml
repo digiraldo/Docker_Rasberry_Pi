@@ -300,3 +300,58 @@ services:
       - daemon
       - start
       - --autoreload-config
+
+  emby:
+    image: lscr.io/linuxserver/emby:latest
+    container_name: emby
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+    volumes:
+      - ${STORAGE}:/config
+      - ${MEDIA}:/media/Series
+      - ${MEDIA}:/media/Peliculas
+      - ${MEDIA}:/media/Cristiana-128
+      - ${MEDIA}:/media/Gospel
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    hostname: plex
+    volumes:
+      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - ${MEDIA}:/media
+      - ${STORAGE}/tmp:/tmp
+    restart: unless-stopped
+
+  jellyfin:
+    image: linuxserver/jellyfin:nightly
+    container_name: jellyfin
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+      - UMASK_SET=022 #optional
+    volumes:
+      - ${STORAGE}:/config
+      - ${MEDIA}:/media
+      - ${STORAGE}/srv/cache:/cache
+      - ${STORAGE}/srv/log:/log
+      - ${STORAGE}/srv/lib/metadata:/metadata
+      - ${STORAGE}/srv/lib/transcodes:/transcodes
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped

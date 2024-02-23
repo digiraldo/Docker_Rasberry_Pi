@@ -508,7 +508,7 @@ then # Si XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
       sudo sed -i "s:passwuser:$PasUsrNow:g" .env
       
       sleep 1s
-      Print_Style "Configurando Password:            | $GREEN flexget ..." "$CYAN"
+      Print_Style "Configurando Password:            | $GREEN $PassFlexget ..." "$CYAN"
       echo "=================================================================================="
       sudo sed -i "s:passfleget:$PassFlexget:g" .env
       sleep 3s
@@ -593,7 +593,7 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sudo sed -i "s:passwuser:$PasUsrNow:g" .env
 
   sleep 1s
-  Print_Style "Configurando Password:            | $GREEN flexget" "$CYAN"
+  Print_Style "Configurando Password:            | $GREEN $PassFlexget" "$CYAN"
   echo "=================================================================================="
   sudo sed -i "s:passfleget:$PassFlexget:g" .env
   sleep 3s
@@ -634,6 +634,7 @@ Print_Style "===================================================================
 Print_Style "Construye, crea e inicia los servicios definidos en un archivo Docker Compose" "$CYAN"
 sudo docker compose up -d
 #     sudo docker compose up -d --force-recreate
+#     sudo docker compose ps
 Print_Style "==================================================================================" "$YELLOW"
 
 
@@ -850,6 +851,7 @@ Print_Style "===================================================================
 
 #       sudo docker stop transmission
 #       sudo docker start transmission
+#       sudo docker restart transmission
 
 #docker system prune -a
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.json
@@ -857,6 +859,7 @@ sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.jso
 
 #   sudo find /mnt -name "Big Buck Bunny (2008).mp4"
 #   sudo find . -name "Big Buck Bunny (2008).mp4"
+#   sudo find . -name "config.yml"
 
 # Desmontar disco
 #            sudo umount /dev/sda1

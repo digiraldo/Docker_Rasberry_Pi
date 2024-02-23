@@ -19,6 +19,7 @@ services:
       - ${STORAGE}/torrents:/downloads
       - ${DISCEXT}:/externo
       - ./:/home
+      
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
