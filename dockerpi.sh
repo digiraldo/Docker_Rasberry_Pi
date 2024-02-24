@@ -856,6 +856,10 @@ Print_Style "===================================================================
 #       sudo docker restart flexget
 #       sudo docker compose ps
 
+#     sudo docker compose up -d --force-recreate
+#     sudo docker compose ps
+#     sudo service docker restart
+
 #docker system prune -a
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.json
 
