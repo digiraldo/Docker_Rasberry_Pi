@@ -853,6 +853,8 @@ Print_Style "===================================================================
 #       sudo docker stop transmission
 #       sudo docker start transmission
 #       sudo docker restart transmission
+#       sudo docker restart flexget
+#       sudo docker compose ps
 
 #docker system prune -a
 sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.json

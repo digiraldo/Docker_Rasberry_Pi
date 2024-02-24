@@ -6,25 +6,10 @@ web_server:
 tasks:
   eztvrss:
     rss: ttps://eztv.ag/ezrss.xml
-    download: /data
+    download: /downloads/complete
     series:
-        settings:
-        tv:
-        exact: yes
-        propers: 12 hours
-        quality: 720p
       - See
       - Halo
       - Echo
-      - Percy Jackson y los dioses del Olimpo
-    regexp:
-      reject:
-        - x265: { from: title }
-    transmission:
-      host: transmission
-      port: 9091
-      username: admin
-      password: "123456"
-    
 
 schedules: no
