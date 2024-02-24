@@ -1,91 +1,30 @@
-web_server: yes
+web_server:
+  bind: 0.0.0.0
+  port: 5050
+  web_ui: yes
 
-schedules:
-  - tasks: "*"
-    interval:
-      minutes: 30
-
-templates:
-  tv:
-    regexp:
-      reject:
-        - x265: { from: title }
+tasks:
+  eztvrss:
+    rss: ttps://eztv.ag/ezrss.xml
+    download: /data
     series:
-      settings:
+        settings:
         tv:
         exact: yes
         propers: 12 hours
         quality: 720p
-      tv:
-        - See
-        - Halo
+      - See
+      - Halo
+      - Echo
+      - Percy Jackson y los dioses del Olimpo
+    regexp:
+      reject:
+        - x265: { from: title }
     transmission:
       host: transmission
       port: 9091
       username: admin
       password: "123456"
+    
 
-tasks:
-  eztvrss:
-    rss: https://eztv.ag/ezrss.xml
-    template: tv
-    priority: 2
-  sort_tv:
-    priority: 2
-    no_entries_ok: yes
-    parsing:
-      series: guessit
-    filesystem:
-      path: /downloads/complete
-      regexp: '.*\.(avi|mkv|mp4)$'
-      recursive: yes
-    accept_all: yes
-    thetvdb_lookup: yes
-    require_field: series_name
-    all_series:
-      parse_only: yes
-    exec:
-      auto_escape: yes
-      on_output:
-        for_entries: |
-          if mediainfo "{{ location }}" | grep EAC3; then
-            mkdir -p "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
-          else
-            mkdir -p "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/storage/Series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
-          fi
-  sort_movies:
-    priority: 2
-    no_entries_ok: yes
-    filesystem:
-      path: /downloads/complete
-      regexp: '.*\.(avi|mkv|mp4)$'
-      recursive: yes
-    accept_all: yes
-    require_field: movie_name
-    tmdb_lookup: yes
-    exec:
-      auto_escape: yes
-      on_output:
-      for_entries: |
-        if mediainfo "{{ location }}" | grep EAC3; then
-          mkdir -p "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
-        else
-          mkdir -p "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})" && cp "{{ location }}" "/storage/Peliculas/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
-        fi
-  remove_stale_torrents:
-    from_transmission:
-      host: transmission
-      port: 9091
-      username: admin
-      password: "123456"
-    disable: [seen, seen_info_hash]
-    if:
-      - transmission_progress == 100: accept
-      - not transmission_seed_ratio_ok: reject
-      - not transmission_idle_limit_ok: reject
-    transmission:
-      host: transmission
-      port: 9091
-      username: admin
-      password: "123456"
-      action: purge
+schedules: no
