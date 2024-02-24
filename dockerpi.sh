@@ -823,6 +823,7 @@ else  # Configuracion Transmision y Flexget =================================
 
 fi  # Configuracion Transmision y Flexget =================================
 
+sudo chmod -Rf 765 $DirName
 
 Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
 sleep 2s
