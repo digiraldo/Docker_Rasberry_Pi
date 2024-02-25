@@ -637,6 +637,54 @@ sudo docker compose up -d
 #     sudo docker compose ps
 Print_Style "==================================================================================" "$YELLOW"
 
+
+echo "================================================================================="
+  echo "====================== Configurando Transmission ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED Transmission" "$YELLOW"
+  sleep 2s
+  sudo docker stop transmission
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+    Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+  fi
+
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+
+
 Print_Style "Reiniciando Docker" "$YELLOW"
 sleep 2s
 sudo service docker compose restart

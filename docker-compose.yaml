@@ -59,6 +59,7 @@ services:
       - PUID=${UPUID}
       - PGID=${GPGID}
       - TZ=${TIZO}
+      - AUTO_UPDATE=true 
     volumes:
       - ./jackett/config:/config
       - ${STORAGE}/torrents:/downloads
@@ -75,7 +76,7 @@ services:
       - PGID=${GPGID}
       - TZ=${TIZO}
     volumes:
-      - /sonarr/data:/config
+      - .config/sonarr:/config
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/storage
     ports:
