@@ -609,7 +609,6 @@ else # No XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX re
   sleep 3s
 fi # Fin XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX response
 
-sudo chmod -Rf 765 $DirName
 
 echo "========================================================================="
 Print_Style "Validando y Mostrando Configuracion del archivo yaml" "$CYAN"
@@ -617,11 +616,13 @@ sudo docker compose config
 sleep 4s
 echo "========================================================================="
 
+
 Print_Style "================================ PROBANDO DOCKER COMPOSE ================================" "$RED"
 sleep 1s
 # crear
 Print_Style "======================================= CREAR ===========================================" "$YELLOW"
 sudo docker compose build
+
 
 Print_Style "desplegar la aplicación docker-compose.yaml..." "$BLUE"
 sleep 1s
@@ -636,6 +637,199 @@ sudo docker compose up -d
 #     sudo docker compose up -d --force-recreate
 #     sudo docker compose ps
 Print_Style "==================================================================================" "$YELLOW"
+
+
+echo "========================================================================="
+echo -n "¿Configurar flexget moviendo archivos? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexget =================================
+  echo "================================================================================="
+  echo "====================== Configurando Flexget ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED Flexget" "$YELLOW"
+  sleep 2s
+  sudo docker stop flexget
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio flexget? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+    Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir flexget
+    sudo chmod -Rf 765 flexget
+    sleep 2s
+    sudo ls -l
+  else
+  echo "================================== FLEXGET ======================================"
+  ls flexget
+  echo "================================================================================="
+  sleep 3s
+  fi
+
+  cd ~
+  cd flexget
+  cd ~/flexget
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando config-trakt.yml de flexget" "$YELLOW"
+  sleep 2s
+  sudo cp config-trakt.yml config-trakt.bak
+  sudo rm -rf config-trakt.yml
+  Print_Style "Se ha eliminado el fichero: $YELLOW config-trakt.yml" "$NORMAL"
+
+  echo "Tomando config-trakt.yml del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o config-trakt.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config-trakt.yml
+  sudo chmod +x config-trakt.yml
+
+  Print_Style "Configurando config.yml de flexget" "$YELLOW"
+  sleep 2s
+  sudo cp config.yml config.bak
+  sudo rm -rf config.yml
+  Print_Style "Se ha eliminado el fichero: $YELLOW config.yml" "$NORMAL"
+
+  echo "Tomando config.yml del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
+  sudo chmod +x config.yml
+
+  cd ~
+  cd flexget
+  cd ~/flexget
+  sudo mkdir custom-cont-init.d
+  sudo chmod -Rf 765 custom-cont-init.d
+  cd custom-cont-init.d
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando mediainfo.sh de flexget/custom-cont-init.d" "$YELLOW"
+  sleep 2s
+  sudo cp mediainfo.sh mediainfo.bak
+  sudo rm -rf mediainfo.sh
+  Print_Style "Se ha eliminado el fichero: $YELLOW mediainfo.sh" "$NORMAL"
+
+  echo "Tomando mediainfo.sh del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o mediainfo.sh https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/custom-cont-init.d/mediainfo.sh
+  sudo chmod +x mediainfo.sh
+
+  echo "================================================================================="
+  echo "====================== Configurando Transmission ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED Transmission" "$YELLOW"
+  sleep 2s
+  sudo docker stop transmission
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+    Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+  fi
+
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+
+  Print_Style "Password de flexget: $YELLOW $PassFlexget" "$NORMAL"
+  Print_Style "Password de transmission: $YELLOW 123456" "$NORMAL"
+  sleep 2s
+
+  cd ~
+  Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
+  sleep 2s
+  sudo docker start transmission
+  sudo docker start flexget
+else  # Configuracion Transmision y Flexget =================================
+
+  echo "================================================================================="
+  echo "====================== Configurando Transmission ======================"
+  echo "================================================================================="
+  sleep 2s
+  cd ~
+  Print_Style "Deteniendo $RED Transmission" "$YELLOW"
+  sleep 2s
+  sudo docker stop transmission
+  echo "================================================================================="
+  ls -l
+  echo "================================================================================="
+
+  echo "========================================================================="
+  echo -n "¿Crear Directorio transmission? (y/n)"
+  read answer < /dev/tty
+  if [ "$answer" != "${answer#[Yy]}" ]; then
+    Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
+    cd ~
+    sudo mkdir transmission
+    sudo chmod -Rf 765 transmission
+    sleep 2s
+    sudo ls -l
+  else
+  echo "============================== TRANSMISSION ====================================="
+  ls transmission
+  echo "================================================================================="
+  sleep 3s
+  fi
+
+  cd ~
+  cd transmission
+  cd ~/transmission
+  echo "================================================================================="
+  pwd
+  echo "================================================================================="
+  sleep 2s
+  Print_Style "Configurando settings.json de transmission" "$YELLOW"
+  sleep 2s
+  sudo cp settings.json settings.bak
+  sudo rm -rf settings.json
+  Print_Style "Se ha eliminado el fichero: $YELLOW settings.json" "$NORMAL"
+
+  echo "Tomando settings.json del repositorio..."
+  sudo curl -H "Accept-Encoding: identity" -L -o settings.json https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmission/settings.json
+  sudo chmod +x settings.json
+
+fi  # Configuracion Transmision y Flexget =================================
+
+sudo chmod -Rf 765 $DirName
+
+Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
+sleep 2s
+docker exec flexget flexget web passwd $PassFlexget
+cd ~
 
 Print_Style "Reiniciando Docker" "$YELLOW"
 sleep 2s

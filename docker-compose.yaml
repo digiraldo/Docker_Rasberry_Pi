@@ -51,25 +51,33 @@ services:
     expose:
       - 9091
     restart: unless-stopped
-
-  flexget:
-    image: lscr.io/linuxserver/flexget:latest
-    container_name: flexget
+  
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
     environment:
       - PUID=${UPUID}
       - PGID=${GPGID}
       - TZ=${TIZO}
-      - FG_LOG_LEVEL=info # New ====
-      - FG_LOG_FILE=/config/flexget.log # New ====
-      - FG_CONFIG_FILE=/config/config.yml # New ====
-      - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWORD=${PASFLEGE} # la puedes cambiar por la que quieras
     volumes:
-      - ./flexget:/config
-      - ./flexget:/data # New ====optional
-      - ./flexget/custom-cont-init.d:/custom-cont-init.d
+      - ./jackett/config:/config
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/storage
     ports:
-      - 5050:5050
+      - 9117:9117
+    restart: unless-stopped
+  
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TZ=${TIZO}
+    volumes:
+      - /sonarr/data:/config
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/storage
+    ports:
+      - 8989:8989
     restart: unless-stopped
