@@ -16,3 +16,14 @@ USERNAM=usernaa
 PASSUSR=passwuser
 #Contraseña de usuario actual
 PASFLEGE=passfleget
+
+PUID=1000
+PGID=1000
+TZ=America/Mexico_City
+STORAGE=/srv/dev-disk-by-uuid-E0FE6879FE684A3C/compose
+MEDIA=/srv/dev-disk-by-uuid-E0FE6879FE684A3C/media
+
+/srv/dev-disk-by-uuid-E0FE6879FE684A3C/backup
+/srv/dev-disk-by-uuid-E0FE6879FE684A3C/compose
+/srv/dev-disk-by-uuid-E0FE6879FE684A3C/docker
+/srv/dev-disk-by-uuid-E0FE6879FE684A3C/media

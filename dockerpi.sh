@@ -248,6 +248,27 @@ fi
 # sudo usermod -a -G disk $UserName
 # sudo newgrp docker
 
+
+echo "========================================================================="
+echo -n "¿Desea Instalar Open Media Vault? (y/n)"
+read answer < /dev/tty
+if [ "$answer" != "${answer#[Yy]}" ]; then
+  sudo apt-get update
+  sudo apt-get upgrade -y
+
+  sudo rm -f /etc/systemd/network/99-default.link
+  wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
+
+  # sudo omv-salt deploy run compose
+  # sudo rm -f /etc/apt/sources.list.d/docker.list
+  # sudo omv-aptclean
+
+fi
+
+
+ 
+
+
 sleep 2s
 
 Print_Style "================= VERSIONES DE DOCKER Y DOCKER-COMPOSE  =================" "$BLINK"

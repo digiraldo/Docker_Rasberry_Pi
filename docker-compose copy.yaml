@@ -299,7 +299,7 @@ services:
     command: # Opcional
       - daemon
       - start
-      - --autoreload-config
+      - autoreload-config
 
   emby:
     image: lscr.io/linuxserver/emby:latest
@@ -340,9 +340,9 @@ services:
     image: linuxserver/jellyfin:nightly
     container_name: jellyfin
     environment:
-      - PUID=${UPUID}
-      - PGID=${GPGID}
-      - TZ=${TIZO}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - UMASK_SET=022 #optional
     volumes:
       - ${STORAGE}:/config
@@ -377,3 +377,21 @@ services:
     ports:
       - 5050:5050
     restart: unless-stopped
+
+  samba:
+    image: dperson/samba # no hay tag con versiones, solo latest
+    container_name: samba
+    restart: always
+    command: '-u "${USERNAM};${PASSUSR}" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "externo;/externo;yes;no" -s "home;/home;yes;no"'
+    stdin_open: true
+    tty: true
+    environment:
+      - TZ=${TIZO}
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - ${MEDIA}:/media
+      - ${STORAGE}/torrents:/downloads
+      - ${DISCEXT}:/externo
+      - ./:/hom
