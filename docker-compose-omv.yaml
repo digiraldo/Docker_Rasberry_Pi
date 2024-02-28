@@ -64,3 +64,20 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+
+  flexget:
+    image: wiserain/flexget:3.5
+    container_name: flexget
+    volumes:
+      - ./flexget:/config
+      - ./custom-cont-init.d:/custom-cont-init.d
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/media
+    ports:
+      - 5050:5050
+    environment:
+      - PUID=${UPUID}
+      - PGID=${GPGID}
+      - TORRENT_PLUGIN=transmission
+      - FG_WEBUI_PASSWD=${PASFLEGE} # la puedes cambiar por la que quieras
+    restart: unless-stopped

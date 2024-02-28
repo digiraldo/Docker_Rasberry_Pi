@@ -20,6 +20,7 @@ PASFLEGE=passfleget
 PUID=1000
 PGID=1000
 TZ=America/Mexico_City
+PASFLEGE=d1g1r4ld0
 STORAGE=/srv/dev-disk-by-uuid-E0FE6879FE684A3C/compose
 MEDIA=/srv/dev-disk-by-uuid-E0FE6879FE684A3C/media
 
