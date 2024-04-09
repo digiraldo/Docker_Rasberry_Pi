@@ -1,7 +1,5 @@
 version: "3.7"
-
 services:
-
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -12,19 +10,69 @@ services:
       - TZ=${TZ}
       - VERSION=docker
       - PLEX_CLAIM= #optional
-    hostname: plex
+    hostname: digiraldo
     volumes:
       - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
       - ${MEDIA}:/media
       - ${STORAGE}/tmp:/tmp
     restart: unless-stopped
 
+version: "3.7"
+services:
+  emby:
+    image: emby/embyserver_arm64v8
+    container_name: emby
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${STORAGE}:/config
+      - ${MEDIA}/Series:/Series
+      - ${MEDIA}/Peliculas:/Peliculas
+      - ${MEDIA}/Cristiana-128:/Cristiana-128
+      - ${MEDIA}/Gospel:/Gospel
+      - ${MEDIA}/Documentales:/Documentales
+      - ${MEDIA}:/media
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped
+
+
+
+version: "3.7"
+services:
+  emby:
+    image: emby/embyserver_arm64v8
+    container_name: emby
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${STORAGE}:/config
+      - ${MEDIA}/Series:/Series
+      - ${MEDIA}/Peliculas:/Peliculas
+      - ${MEDIA}/Cristiana-128:/Cristiana-128
+      - ${MEDIA}/Gospel:/Gospel
+      - ${MEDIA}/Documentales:/Documentales
+      - ${MEDIA}:/media
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped
+
+
+version: "3.7"
+services:
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
     container_name: transmission
     command: transmission-daemon -f -g /config
     volumes:
-      - ./transmission:/config
+      - ./:/config
       - ${STORAGE}/torrents:/downloads
     ports:
       - 9091:9091
@@ -65,19 +113,23 @@ services:
       - 8989:8989
     restart: unless-stopped
 
+
+version: "3.7"
+services:
   flexget:
     image: wiserain/flexget:3.5
     container_name: flexget
     volumes:
-      - ./flexget:/config
+      - ./:/config
       - ./custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/media
     ports:
       - 5050:5050
     environment:
-      - PUID=${UPUID}
-      - PGID=${GPGID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=${PASFLEGE} # la puedes cambiar por la que quieras
     restart: unless-stopped
+

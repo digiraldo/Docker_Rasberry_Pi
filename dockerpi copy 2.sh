@@ -829,6 +829,7 @@ sudo chmod -Rf 765 $DirName
 Print_Style "Configurando Contraseña de flexger: $PassFlexget para interfaz web" "$YELLOW"
 sleep 2s
 docker exec flexget flexget web passwd $PassFlexget
+
 cd ~
 
 Print_Style "Reiniciando Docker" "$YELLOW"

@@ -360,9 +360,9 @@ services:
     image: lscr.io/linuxserver/flexget:latest
     container_name: flexget
     environment:
-      - PUID=${UPUID}
-      - PGID=${GPGID}
-      - TZ=${TIZO}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - FG_LOG_LEVEL=info # New ====
       - FG_LOG_FILE=/config/flexget.log # New ====
       - FG_CONFIG_FILE=/config/config.yml # New ====
@@ -395,3 +395,76 @@ services:
       - ${STORAGE}/torrents:/downloads
       - ${DISCEXT}:/externo
       - ./:/hom
+
+
+
+
+##### abril 2024 ===================================
+
+
+version: "3.7"
+
+services:
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    hostname: plex
+    volumes:
+      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - ${MEDIA}:/media
+      - ${STORAGE}/tmp:/tmp
+    restart: unless-stopped
+
+  transmission:
+    image : jaymoulin/transmission:3.00-1.6.1
+    container_name: transmission
+    command: transmission-daemon -f -g /config
+    volumes:
+      - ./transmission:/config
+      - ${STORAGE}/torrents:/downloads
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    expose:
+      - 9091
+    restart: unless-stopped
+  
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - AUTO_UPDATE=true 
+    volumes:
+      - ./jackett/config:/config
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/storage
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+  
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - .config/sonarr:/config
+      - ${STORAGE}/torrents:/downloads
+      - ${MEDIA}:/storage
+    ports:
+      - 8989:8989
+    restart: unless-stopped

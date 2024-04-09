@@ -2,6 +2,26 @@ version: "3.7"
 
 services:
 
+  samba:
+    image: dperson/samba # no hay tag con versiones, solo latest
+    container_name: samba
+    restart: always
+    command: '-u "${USERNAM};${PASSUSR}" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "externo;/externo;yes;no" -s "home;/home;yes;no"'
+    stdin_open: true
+    tty: true
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - ${MEDIA}:/media
+      - ${STORAGE}/torrents:/downloads
+      - ${DISCEXT}:/externo
+      - ./:/hom
+
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -34,33 +54,24 @@ services:
       - 9091
     restart: unless-stopped
   
-  jackett:
-    image: linuxserver/jackett
-    container_name: jackett
+  flexget:
+    image: lscr.io/linuxserver/flexget:latest
+    container_name: flexget
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - AUTO_UPDATE=true 
+      - FG_LOG_LEVEL=info # New ====
+      - FG_LOG_FILE=/config/flexget.log # New ====
+      - FG_CONFIG_FILE=/config/config.yml # New ====
+      - TORRENT_PLUGIN=transmission
+      - FG_WEBUI_PASSWORD=${PASFLEGE} # la puedes cambiar por la que quieras
     volumes:
-      - ./jackett/config:/config
+      - ./flexget:/config
+      - ./flexget:/data # New ====optional
+      - ./flexget/custom-cont-init.d:/custom-cont-init.d
       - ${STORAGE}/torrents:/downloads
       - ${MEDIA}:/storage
     ports:
-      - 9117:9117
-    restart: unless-stopped
-  
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - .config/sonarr:/config
-      - ${STORAGE}/torrents:/downloads
-      - ${MEDIA}:/storage
-    ports:
-      - 8989:8989
+      - 5050:5050
     restart: unless-stopped

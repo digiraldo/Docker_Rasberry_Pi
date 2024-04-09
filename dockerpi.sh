@@ -743,6 +743,10 @@ sudo rm -rf dockerpi.sh  dockerpi.sh.1  dockerpi.sh.2 get-docker.sh settings.jso
 #   sudo find /mnt -name "Big Buck Bunny (2008).mp4"
 #   sudo find . -name "Big Buck Bunny (2008).mp4"
 #   sudo find . -name "config.yml"
+#   sudo find . -name "Preferences.xml"
+
+
+#     docker exec flexget flexget web passwd d1g1r4ld0
 
 # Desmontar disco
 #            sudo umount /dev/sda1
