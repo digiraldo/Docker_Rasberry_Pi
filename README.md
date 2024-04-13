@@ -57,6 +57,8 @@ Las raspberry son computadoras excelentes pero no muy potentes, y plex por defec
 editar archivo sudo nano /etc/systemd/logind.conf
 Y modificar las siguientes entradas asegurando que "ignore" se la configuración en cada una de ellas. 
 
+```
   HandleLidSwitch:ignore
   HandleLidSwitchExternalPoweroutlet:ignore
   HandleLidSwitchDocked:ignore
+```
