@@ -72,6 +72,8 @@ echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 sleep 2s
 
+cd ~
+sudo chown -hR root:users compose
 
 cd ~
 echo "================================================================================="
