@@ -43,6 +43,13 @@ chmod +x transmision.sh
 ./transmision.sh
 ```
 
+Configurar FlexGet y Transmision en OMV Debian
+```
+wget https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/transmissionopv.sh
+chmod +x transmissionopv.sh
+./transmissionopv.sh
+```
+
 ## IMPORTANTE
 
 Las raspberry son computadoras excelentes pero no muy potentes, y plex por defecto intenta transcodear los videos para ahorrar ancho de banda (en mi opinión, una HORRIBLE idea), y la chiquita raspberry no se aguanta este transcodeo "al vuelo", entonces hay que configurar los CLIENTES de plex (si, hay que hacerlo en cada cliente) para que intente reproducir el video en la máxima calidad posible, evitando transcodear y pasando el video derecho a tu tele o Chromecast sin procesar nada, de esta forma, yo he tenido 3 reproducciones concurrentes sin ningún problema. En android y iphone las opciones son muy similares, dejo un screenshot de Android acá:
