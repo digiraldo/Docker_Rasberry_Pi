@@ -53,6 +53,26 @@ Print_Style "Detectando Los Colores del Texto:" "$NORMAL"
 Print_Style "$NORMAL 0000 $RED 0000 $GREEN 0000 $YELLOW 0000 $LIME_YELLOW 0000 $BLUE 0000 $MAGENTA 0000 $CYAN 0000 $WHITE 0000 $BRIGHT 0000 $REVERSE 0000 $UNDERLINE 0000 $BLINK 0000 $BLACK 0000" "$NORMAL"
 Print_Style "$NORMAL ==== $RED ==== $GREEN ==== $YELLOW ==== $LIME_YELLOW ==== $BLUE ==== $MAGENTA ==== $CYAN ==== $WHITE ==== $BRIGHT ==== $REVERSE ==== $UNDERLINE ==== $BLINK ==== $BLACK ====" "$NORMAL"
 
+Print_Style "==================================================================================" "$YELLOW"
+DirName=$(readlink -e ~)
+UserName=$(whoami)
+UserNow=$(users)
+Print_Style "Nombre del Directorio: $GREEN $DirName" "$NORMAL"
+Print_Style "Nombre de Usuario: $GREEN $UserName" "$NORMAL"
+Print_Style "Nombre Usuario Actual: $GREEN $UserNow" "$NORMAL"
+Print_Style "==================================================================================" "$YELLOW"
+
+
+echo "========================================================================="
+Print_Style "Configurando Permisos..." "$YELLOW"
+cd ~
+# UserName=$(whoami)
+sudo useradd $UserName -G sudo
+echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+sleep 2s
+
+
 cd ~
 echo "================================================================================="
 ls -l ./compose
