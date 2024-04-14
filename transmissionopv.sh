@@ -66,7 +66,8 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   Print_Style "Deteniendo $RED Flexget" "$YELLOW"
   sleep 2s
   sudo docker stop flexget
-  cd ~/compose
+  cd ~
+  cd compose
   echo "================================================================================="
   ls -l
   echo "================================================================================="
@@ -76,7 +77,8 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   read answer < /dev/tty
   if [ "$answer" != "${answer#[Yy]}" ]; then
     Print_Style "Creando Directorio $YELLOW flexget $GREEN del Sistema" "$GREEN"
-    cd ~/compose
+    cd ~
+    cd compose
     sudo mkdir flexget
     sudo chmod -Rf 765 flexget
     sleep 2s
@@ -89,7 +91,8 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   sleep 3s
   fi
 
-  cd ~/compose/flexget
+  cd ~
+  cd compose/flexget
   echo "================================================================================="
   pwd
   echo "================================================================================="
@@ -114,7 +117,8 @@ if [ "$answer" != "${answer#[Yy]}" ]; then  # Configuracion Transmision y Flexge
   sudo curl -H "Accept-Encoding: identity" -L -o config.yml https://raw.githubusercontent.com/digiraldo/Docker_Rasberry_Pi/main/flexget/config.yml
   sudo chmod +x config.yml
 
-  cd ~/compose/flexget
+  cd ~
+  cd compose/flexget
   sudo mkdir custom-cont-init.d
   sudo chmod -Rf 765 custom-cont-init.d
   cd custom-cont-init.d
@@ -142,7 +146,8 @@ cd ~
 Print_Style "Deteniendo $RED Transmission" "$YELLOW"
 sleep 2s
 sudo docker stop transmission
-cd ~/compose
+cd ~
+cd compose
 echo "================================================================================="
 ls -l
 echo "================================================================================="
@@ -152,13 +157,15 @@ echo -n "¿Crear Directorio transmission? (y/n)"
 read answer < /dev/tty
 if [ "$answer" != "${answer#[Yy]}" ]; then
 Print_Style "Creando Directorio $YELLOW transmission $GREEN del Sistema" "$GREEN"
-cd ~/compose
+cd ~
+cd compose
 sudo mkdir transmission
 sudo chmod -Rf 765 transmission
 sleep 2s
 sudo ls -l
 else
-cd ~/compose
+cd ~
+cd compose
 echo "============================== TRANSMISSION ====================================="
 sudo chmod -Rf 765 transmission
 ls transmission
@@ -166,9 +173,11 @@ echo "==========================================================================
 sleep 3s
 fi
 
-cd ~/compose/transmission
+cd ~
+cd compose/transmission
 # Buscar archivo don de se instal el json ================================================================================================================== OJO
-cd ~/compose/transmission
+cd ~
+cd compose/transmission
 echo "================================================================================="
 pwd
 echo "================================================================================="
