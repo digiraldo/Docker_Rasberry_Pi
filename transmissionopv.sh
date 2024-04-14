@@ -66,14 +66,14 @@ Print_Style "===================================================================
 echo "========================================================================="
 Print_Style "Configurando Permisos..." "$YELLOW"
 cd ~
-# UserName=$(whoami)
-sudo useradd $UserName -G sudo
-echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
-echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+#       UserName=$(whoami)
+# sudo useradd $UserName -G sudo
+# echo "$UserName ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+# echo "sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 sleep 2s
 
 cd ~
-sudo chown -hR root:users compose
+sudo chown -hR $UserName:users compose
 
 cd ~
 echo "================================================================================="
