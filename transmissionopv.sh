@@ -201,3 +201,5 @@ cd ~
 Print_Style "Iniciando $GREEN transmission y flexget" "$YELLOW"
 sleep 2s
 sudo docker start transmission
+
+sudo rm -rf transmissionopv.sh
