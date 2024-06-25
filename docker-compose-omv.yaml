@@ -133,3 +133,59 @@ services:
       - FG_WEBUI_PASSWD=${PASFLEGE} # la puedes cambiar por la que quieras
     restart: unless-stopped
 
+
+
+
+casaos
+
+
+version: "3.7"
+services:
+  transmission:
+    image : jaymoulin/transmission:3.00-1.6.1
+    container_name: transmission
+    command: transmission-daemon -f -g /config
+    volumes:
+    environment:
+      - PASS=casaos
+      - PEERPORT=51413
+      - PGID=1000
+      - PUID=1000
+      - TRANSMISSION_WEB_HOME= #/config/foold-for-transmission
+      - TZ=America/Mexico_City
+      - USER=casaos
+    volumes:
+      - /DATA/AppData/transmission/config:/config
+      - /DATA/Downloads:/downloads
+      - /DATA/Downloads/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    expose:
+      - 9091
+    restart: unless-stopped
+
+
+
+  web_server:
+  bind: 0.0.0.0
+  port: 5050
+  web_ui: yes
+
+tasks:
+  showrss:
+    rss: https://showrss.info/user/281965.rss?magnets=true&namespaces=true&name=null&quality=null&re=null
+    download: /data
+    series:
+      - See
+      - Echo
+
+    transmission:
+      host: transmission
+      port: 9091
+      username: admin
+      password: "123456"
+      path: /downloads/complete
+
+schedules: no

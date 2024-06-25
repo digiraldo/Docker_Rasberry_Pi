@@ -69,3 +69,13 @@ Y modificar las siguientes entradas asegurando que "ignore" se la configuración
   HandleLidSwitchExternalPoweroutlet:ignore
   HandleLidSwitchDocked:ignore
 ```
+
+
+Utilizar sudo en usuario (ejemplo usuario: di) en Debian 
+
+```
+su -
+apt-get install sudo -y
+usermod -aG sudo di
+id di
+```

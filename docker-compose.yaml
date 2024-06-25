@@ -75,3 +75,20 @@ services:
     ports:
       - 5050:5050
     restart: unless-stopped
+
+
+version: "3.7"
+services:
+  legendary-bedrock-container:
+    image: 05jchambers/legendary-bedrock-container:latest
+    container_name: minecraft-be
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/minecraft
+    ports:
+      - 19132:19132/udp
+      - 19132:19132
+      - 19133:19133/udp
+      - 19133:19133
+    restart: unless-stopped
