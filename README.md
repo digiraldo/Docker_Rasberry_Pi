@@ -58,24 +58,36 @@ Las raspberry son computadoras excelentes pero no muy potentes, y plex por defec
 
 
 
+### Utilizar sudo en usuario (ejemplo usuario: di) en Debian 
+
+```
+su -
+```
+```
+apt-get install sudo -y
+```
+```
+usermod -aG sudo di
+```
+```
+id di
+```
 
 ### Como evitar que se suspenda o apague una notebook para poder utilizarla como servidor y aprovechar un equipo en desuso. 
 
 editar archivo sudo nano /etc/systemd/logind.conf
 Y modificar las siguientes entradas asegurando que "ignore" se la configuración en cada una de ellas. 
-
+```
+sudo nano /etc/systemd/logind.conf
+```
 ```
   HandleLidSwitch:ignore
   HandleLidSwitchExternalPoweroutlet:ignore
   HandleLidSwitchDocked:ignore
 ```
-
-
-Utilizar sudo en usuario (ejemplo usuario: di) en Debian 
-
 ```
-su -
-apt-get install sudo -y
-usermod -aG sudo di
-id di
+  HandleLidSwitch=ignore
+  HandleLidSwitchExternalPoweroutlet=ignore
+  HandleLidSwitchDocked=ignore
 ```
+
