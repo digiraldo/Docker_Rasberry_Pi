@@ -91,3 +91,13 @@ sudo nano /etc/systemd/logind.conf
   HandleLidSwitchDocked=ignore
 ```
 
+Mensaje
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+```
+ssh-keygen -R <host>
+```
+```
+ssh-keygen -R diserver
+```
